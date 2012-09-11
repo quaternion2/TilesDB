@@ -35,6 +35,7 @@
     <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
     
     <bean id="qualService" class="org.kenmcwilliams.employmentsystem.impl.QualServiceImpl"/>
+    <bean id="crudService" class="org.kenmcwilliams.employmentsystem.impl.CrudServiceImpl"/>
     <tx:annotation-driven  transaction-manager="transactionManager"/>
     
    <!-- <aop:config>
