@@ -6,10 +6,9 @@ package com.kenmcwilliams.employmentsystem.action.crud;
 
 import com.kenmcwilliams.employmentsystem.service.CrudService;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.beanutils.BeanUtils;
@@ -25,12 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ken
  */
 @ParentPackage("json-default")
-@Namespace("/crud/{Name}")
+@Namespace("/crud/{name}")
 //@Result(location="/WEB-INF/content/test/named-test.jsp")
 @Action(results = {
-    @Result(name = "success", type = "json", params = {"root", "model"}),
+    @Result(name = "success", type = "json", params = {"root", "model", "excludeProperties", "${excludeProperties}"}),
     @Result(name = "input", type = "json", params = {"root", "fieldErrors"}),})
-public class ReadAction extends ActionSupport {
+public class ReadAction extends ActionSupport implements Preparable {
 
     private static final Logger log = Logger.getLogger(ReadAction.class.getName());
     @Autowired
@@ -40,6 +39,19 @@ public class ReadAction extends ActionSupport {
     private Class clazz;
     private Object model;
     private Object entity;
+    private String excludeProperties = "qualLineCollection";
+    //private ArrayList<String> excludeProperties = new ArrayList<String>();
+
+    @Override
+    public void prepare() throws Exception {
+        //excludeProperties.add("qualLineCollection");
+    }
+    
+    public String getExcludeProperties(){
+        //log.log(Level.INFO, "excludeProperties String: {0}", excludeProperties.toString());
+        //return excludeProperties.toString();
+        return "qualLineCollection";
+    }
 
     @Override
     //@Transactional //<-THIS ANNOTATION CAUSES EVERYTHING TO GO TO HELL (named variables don't work)
@@ -50,7 +62,7 @@ public class ReadAction extends ActionSupport {
         Map modelDescription;
         model = crudService.read(clazz, id);
         Hibernate.getClass(model);
-       
+
         try {
             log.info("after crudService.read");
             modelDescription = BeanUtils.describe(model);
@@ -70,10 +82,10 @@ public class ReadAction extends ActionSupport {
             log.warning("caught InvocationTargetException");
         } catch (NoSuchMethodException ex) {
             log.warning("caught NoSuchMethodException");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-          
+
         return SUCCESS;
     }
 
