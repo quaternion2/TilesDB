@@ -5,8 +5,25 @@
     Description:
         Purpose of the stylesheet follows.
 */
+h1{
+    color: red;
+    
+}
+div.siteHeader {
+    border-radius: 5px 5px 5px 5px;
+    border: 1px solid transparent;
+    height: 50px;
 
+    background: -moz-linear-gradient(#EAF5FA, #C5E8F1) repeat scroll 0 0 transparent;
+    border-color: #C4DCE2;
+}
+    
+}
+p.siteFooter {
+    text-align: center; 
+    border-top: thin solid #777777; 
+    color: #777777;
+}
 root { 
     display: block;
 }
-

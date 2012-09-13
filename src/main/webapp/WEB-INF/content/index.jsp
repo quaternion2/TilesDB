@@ -8,11 +8,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Index Action</title>
+        <link href="./style/main.css" rel="stylesheet" type="text/css">
+        <title>Employment System</title>
     </head>
     <body>
-        <h1>Index Action!</h1>
+        <div class="siteHeader">
+            Employment System
+            
+        </div>
+        
         <h1>Qual Services</h1>
         <ul>
             <li><s:a namespace="/qual" action="list-quals">List Qualification Forms</s:a></li>
@@ -26,7 +32,7 @@
         <h1>Enochs Stuff</h1>
         <ul>
             <li><s:a value="/enoch/qualificationFormEntry7.jsp">qualificationFormEntry7</s:a></li>
-            <li></li>
+            <li><s:a value="/enoch/resumeEntry005.jsp">resumeEntry005</s:a></li>
             <li></li>
         </ul>
         <h2>TTD</h2>
@@ -35,4 +41,10 @@
             <li>Edit qualification form description</li>
         </ul>
     </body>
+    <div>
+        <p class="siteFooter">
+            <br>© 2012, Scrotum Solutions Inc.<br>
+            All Rights Reserved.
+        </p>
+    </div>
 </html>
