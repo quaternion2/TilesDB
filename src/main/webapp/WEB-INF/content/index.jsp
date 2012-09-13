@@ -23,6 +23,10 @@
             <li><s:a namespace="/resume" action="list-resumes">List Qualification Forms</s:a></li>
             <li><s:a namespace="/resume" action="new-resume-input">New Qualification Form</s:a></li>
         </ul>
+        <h1>New/In Testing</h1>
+        <ul>
+            <li><s:a value="/crud/qual/read.action?id=9">Crud - qual - id 9</s:a></li>
+        </ul>
         <h1>Enochs Stuff</h1>
         <ul>
             <li><s:a value="/enoch/qualificationFormEntry7.jsp">qualificationFormEntry7</s:a></li>

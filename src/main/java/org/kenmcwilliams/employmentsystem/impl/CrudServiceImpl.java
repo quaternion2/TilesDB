@@ -16,11 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
  * @author ken
  */
 @Transactional
-public class CrudServiceImpl implements CrudService{
-    private static final Logger log = Logger.getLogger(QualServiceImpl.class.getName());
+public class CrudServiceImpl implements CrudService {
+
+    private static final Logger log = Logger.getLogger(CrudServiceImpl.class.getName());
     @PersistenceContext
     private EntityManager em;
-    
+
     @Override
     public Integer create(Class clazz, Object entity) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -30,8 +31,15 @@ public class CrudServiceImpl implements CrudService{
     public Object read(Class clazz, Integer id) {
         log.log(Level.INFO, "clazz name: {0} id: {1}", new Object[]{clazz.getName(), id});
         Object entity = em.find(clazz, id);
+        Object entity2 = em.find(com.kenmcwilliams.employmentsystem.orm.Qual.class, 3);
         //em.detach(entity);
-        log.info(entity.toString());
+        if (entity == null) {
+            log.warning("em.find v1 returned null object");
+        }
+        if (entity2 == null) {
+            log.warning("em.find v2 returned null object");
+        }
+        log.info("");
         em.detach(entity);
         return entity;
     }
@@ -45,5 +53,4 @@ public class CrudServiceImpl implements CrudService{
     public void delete(Class clazz, Integer id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }

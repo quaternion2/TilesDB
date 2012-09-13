@@ -6,12 +6,18 @@ package com.kenmcwilliams.employmentsystem.action.crud;
 
 import com.kenmcwilliams.employmentsystem.service.CrudService;
 import com.opensymphony.xwork2.ActionSupport;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -25,8 +31,10 @@ import org.springframework.beans.factory.annotation.Autowired;
     @Result(name = "success", type = "json", params = {"root", "model"}),
     @Result(name = "input", type = "json", params = {"root", "fieldErrors"}),})
 public class ReadAction extends ActionSupport {
+
     private static final Logger log = Logger.getLogger(ReadAction.class.getName());
-    @Autowired private CrudService crudService;
+    @Autowired
+    private CrudService crudService;
     private String name;
     private Integer id;
     private Class clazz;
@@ -39,7 +47,33 @@ public class ReadAction extends ActionSupport {
         log.info("Read execute");
         log.log(Level.INFO, "param entityName : {0}", name);
         initModel();
+        Map modelDescription;
         model = crudService.read(clazz, id);
+        Hibernate.getClass(model);
+       
+        try {
+            log.info("after crudService.read");
+            modelDescription = BeanUtils.describe(model);
+            log.info("after describe");
+            Set keys = modelDescription.keySet();
+            log.info("after keyset");
+            log.info("key set");
+            for (Object k : keys) {
+                log.info(k.toString());
+            }
+            Collection values = modelDescription.values();
+            log.info("key set");
+            for (Object v : values) {
+                log.info(v.toString());
+            }
+        } catch (InvocationTargetException ex) {
+            log.warning("caught InvocationTargetException");
+        } catch (NoSuchMethodException ex) {
+            log.warning("caught NoSuchMethodException");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+          
         return SUCCESS;
     }
 
@@ -63,7 +97,7 @@ public class ReadAction extends ActionSupport {
     }
 
     public Object getModel() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return model;
     }
 
     /**
