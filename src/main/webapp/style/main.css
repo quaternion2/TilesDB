@@ -5,9 +5,13 @@
     Description:
         Purpose of the stylesheet follows.
 */
+.outer{
+    margin: auto; /* center in viewport */
+    width: 960px;
+}
 h1{
     color: red;
-    
+
 }
 div.siteHeader {
     border-radius: 5px 5px 5px 5px;
@@ -17,7 +21,17 @@ div.siteHeader {
     background: -moz-linear-gradient(#EAF5FA, #C5E8F1) repeat scroll 0 0 transparent;
     border-color: #C4DCE2;
 }
-    
+div.enoch{
+    background: -moz-linear-gradient(#F1FEF4, #C4E6BD) repeat scroll 0 0 transparent;
+    border-color: #C7E2C4;
+    border-radius: 5px 5px 5px 5px;
+    border: 1px solid transparent;
+    float: left;
+    margin-left: 25px;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+    width: 268px;
+
+}    
 }
 p.siteFooter {
     text-align: center; 

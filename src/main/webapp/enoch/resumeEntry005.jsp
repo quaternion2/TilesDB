@@ -5,9 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="./style/main.css" rel="stylesheet" type="text/css">
         <title>Resume Entry</title>
-        <script src="./script/jquery-1.7.2.min.js"></script>
-        <script src="./script/jquery-ui-1.8.20.custom/js/jquery-ui-1.8.20.custom.min.js"></script>
-        <script src="./script/jquery.sort.js"></script>
+        <script src="../script/jquery/1.8.1/jquery.min.js"></script>
         <style>
             .hidden{
                 display: none;
