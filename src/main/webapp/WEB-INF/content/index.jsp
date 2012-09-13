@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 23-Aug-2012, 10:54:20 PM
-    Author     : ken
+    Author     : ken, enoch
 --%>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
