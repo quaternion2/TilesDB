@@ -14,12 +14,13 @@ h1{
 
 }
 div.siteHeader {
-    border-radius: 5px 5px 5px 5px;
-    border: 1px solid transparent;
-    height: 50px;
-
-    background: -moz-linear-gradient(#EAF5FA, #C5E8F1) repeat scroll 0 0 transparent;
-    border-color: #C4DCE2;
+    background-color: #2D2D2D;
+    border-bottom: thin solid;
+    border-color: #EEEEEE;
+    border-bottom-width: 2px;
+    min-width: 980px;
+    opacity: 1;
+    height: 38px;
 }
 div.enoch{
     background: -moz-linear-gradient(#F1FEF4, #C4E6BD) repeat scroll 0 0 transparent;
@@ -31,7 +32,50 @@ div.enoch{
     text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
     width: 268px;
 
-}    
+}  
+div.siteHeaderName{
+    color:#CCCCCC;
+    font-size: 30px;
+    onmouseover: style.color='#FFFFFF';
+    onmouseout: style.color='#DDDDDD';
+    float: left;
+    width: 25%;
+}
+div.searchBar{
+    float: left;
+    width: 13%;   
+}
+div.resumeLink{
+    color:#CCCCCC;
+    font-size: 20px;
+    onmouseover: style.color='#FFFFFF';
+    onmouseout: style.color='#DDDDDD';
+    float: left;
+    width: 8%; 
+}
+div.qualificationLink{
+    color:#CCCCCC;
+    font-size: 20px;
+    onmouseover: style.color='#FFFFFF';
+    onmouseout: style.color='#DDDDDD';
+    float: left;
+    width: 10%; 
+}
+div.date{
+      color:#CCCCCC;
+    font-size: 20px;
+    onmouseover: style.color='#FFFFFF';
+    onmouseout: style.color='#DDDDDD';
+    float: right;
+    width: 30%;   
+}
+div.loginName{
+    color:#CCCCCC;
+    font-size: 20px;
+    onmouseover: style.color='#FFFFFF';
+    onmouseout: style.color='#DDDDDD';
+    float: left;
+    width: 10%;   
 }
 p.siteFooter {
     text-align: center; 
