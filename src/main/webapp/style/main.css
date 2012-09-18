@@ -14,14 +14,33 @@ h1{
 
 }
 div.siteHeader {
-    border-radius: 5px 5px 5px 5px;
-    border: 1px solid transparent;
-    height: 50px;
-
-    background: -moz-linear-gradient(#EAF5FA, #C5E8F1) repeat scroll 0 0 transparent;
-    border-color: #C4DCE2;
+    background: -moz-linear-gradient(#2D2D2D, #404040) repeat scroll 0 0 transparent;
+    background-color: #2D2D2D;
+    border-bottom: thin solid;
+    border-color: #EEEEEE;
+    border-bottom-width: 2px;
+    min-width: 980px;
+    opacity: 1;
+    height: 26px;
 }
-div.enoch{
+span.menuItem{
+    color:#DDDDDD;
+    font-size: 20px;
+    font-weight: bold;
+    width: 10%;  
+    text-shadow: grey -1px -1px 0.5em;
+}
+span.menuItem:hover,span.menuItem:active {color:white;}
+a.noUnderlineNoColor{  
+    text-decoration:none;
+    color:inherit;
+}
+s:a.noUnderlineNoColor{  
+    text-decoration:none;
+    color:inherit;
+}
+
+/*div.enoch{
     background: -moz-linear-gradient(#F1FEF4, #C4E6BD) repeat scroll 0 0 transparent;
     border-color: #C7E2C4;
     border-radius: 5px 5px 5px 5px;
@@ -29,10 +48,17 @@ div.enoch{
     float: left;
     margin-left: 25px;
     text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
-    width: 268px;
+    width: 268px;-->
 
-}    
+} */ 
+
+div.dateItem{
+    color:#DDDDDD;
+    font-size: 20px;
+    float: right;
+    width: 20%;   
 }
+
 p.siteFooter {
     text-align: center; 
     border-top: thin solid #777777; 
