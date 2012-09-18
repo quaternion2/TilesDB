@@ -8,9 +8,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Scrotum Solutions - Qualification Form Entry</title>
-
+        <link href="./style/cssreset-min.css" rel="stylesheet" type="text/css">
+        <link href="./style/cssbase-min.css" rel="stylesheet" type="text/css">
+        <link href="./style/cssfonts-min.css" rel="stylesheet" type="text/css">
+        <link href="./style/grids-min.css" rel="stylesheet" type="text/css">
+        <link href="./../style/main.css" rel="stylesheet" type="text/css">
         <script src="./../script/jquery/1.8.1/jquery.min.js"></script>
+                <title>Employment System - Qualification Form Entry</title>
         <script>
             //set global variables
             var formArray = []; //array used to hold all of the entered data
@@ -84,6 +88,30 @@
         </script>
     </head>
     <body>
+        <%--  website header --%>
+        <div class="siteHeader">
+            <span class ="menuItem">&nbsp Employment System &nbsp &nbsp</span>
+            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/resumeEntry005.jsp">Resume</s:a> &nbsp</span>
+            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/qualificationFormEntry7.jsp">Qualification</s:a> &nbsp</span>
+                <span class ="menuItem">&nbsp Other &nbsp</span>
+                <div class ="dateItem">
+                    <script type="text/javascript">
+                        var mydate=new Date()
+                        var year=mydate.getFullYear()
+                        var day=mydate.getDay()
+                        var month=mydate.getMonth()
+                        var daym=mydate.getDate()
+                        //if the current date is less than 10, pad it.
+                        if (daym<10)
+                            daym="0"+daym
+                        var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+                        var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
+                        //write out the final results
+                        document.write("<b>"+dayarray[day]+", "+montharray[month]+" "+daym+", "+year+"</b>")
+                    </script>
+                </div>
+            </div>
+        <%--  website main page --%>
         <h1>Qualification Form Entry version 7</h1>
 
         <table id ="qualificationFormEntryTable" cellspacing="0"  border="1">

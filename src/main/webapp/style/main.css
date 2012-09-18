@@ -40,17 +40,41 @@ s:a.noUnderlineNoColor{
     color:inherit;
 }
 
-/*div.enoch{
-    background: -moz-linear-gradient(#F1FEF4, #C4E6BD) repeat scroll 0 0 transparent;
-    border-color: #C7E2C4;
+div.enoch{
+    background: -moz-linear-gradient(#63FCFF, #C4FEFF) repeat scroll 0 0 transparent;
+    border-color: #63FCFF;
     border-radius: 5px 5px 5px 5px;
     border: 1px solid transparent;
-    float: left;
+    /*float: left;*/
     margin-left: 25px;
+    margin: 20px 0;
     text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
-    width: 268px;-->
+    width: 800px;
+    height: 400px;
+    padding: 10px; 
 
-} */ 
+}
+div.enoch2{
+height: 200px;
+width: 400px; 
+padding: 20px;
+background-color: white; 
+
+/* outer shadows  (note the rgba is red, green, blue, alpha) */
+-webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4); 
+-moz-box-shadow: 0px 1px 6px rgba(23, 69, 88, .5);
+
+/* rounded corners */
+-webkit-border-radius: 12px;
+-moz-border-radius: 7px; 
+border-radius: 7px;
+
+/* gradients */
+background: -webkit-gradient(linear, left top, left bottom, 
+color-stop(0%, white), color-stop(15%, white), color-stop(100%, #D7E9F5)); 
+background: -moz-linear-gradient(top, white 0%, white 55%, #D5E4F3 130%);  
+}
+
 
 div.dateItem{
     color:#DDDDDD;
