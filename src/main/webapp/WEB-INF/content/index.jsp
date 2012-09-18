@@ -21,8 +21,8 @@
         <%--  website header --%>
         <div class="siteHeader">
             <span class ="menuItem">&nbsp Employment System &nbsp &nbsp</span>
-            <span class ="menuItem">&nbsp <s:a class ="noUnderlineNoColor" value="/enoch/resumeEntry005.jsp">Resume</s:a> &nbsp</span>
-            <span class ="menuItem">&nbsp <a class ="noUnderlineNoColor"href="http://www.w3schools.com">Qualification</a> &nbsp</span>
+            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/resumeEntry005.jsp">Resume</s:a> &nbsp</span>
+            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/qualificationFormEntry7.jsp">Qualification</s:a> &nbsp</span>
             <span class ="menuItem">&nbsp Other &nbsp</span>
             <div class ="dateItem">
                 <script type="text/javascript">
@@ -78,9 +78,9 @@
                     <ul>
                         <li>Delete qualification lines</li>
                         <li>Edit qualification form description</li>
-                        <li>make thin nice professional gradient toolbar in style of ubuntu</li>
-                        <li>make text in header bar bold white and highlight when you go over it</li>
-                        <li>make links work to go to main pages in site</li>
+                        <li><strike>make thin nice professional gradient toolbar in style of ubuntu</strike></li>
+                        <li><strike>make text in header bar bold white and highlight when you go over it</strike></li>
+                        <li><strike>make links work to go to main pages in site</strike></li>
                     </ul>
                 </div>
                 <div class="yui3-u-1-2">
