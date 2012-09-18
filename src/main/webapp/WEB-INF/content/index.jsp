@@ -24,6 +24,7 @@
             <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/resumeEntry005.jsp">Resume</s:a> &nbsp</span>
             <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/qualificationFormEntry7.jsp">Qualification</s:a> &nbsp</span>
             <span class ="menuItem">&nbsp Other &nbsp</span>
+
             <div class ="dateItem">
                 <script type="text/javascript">
                     var mydate=new Date()
@@ -48,12 +49,12 @@
             <div class="yui3-g">
 
                 <div class="yui3-u-1-2">
-                        <h2>Qualification Form Services</h2>
-                        <ul>
-                            <li><s:a cssClass="group" value="/enoch/qualificationFormEntry008.jsp">Enter New Qualification Form</s:a></li>
-                            <li><s:a cssClass="group" namespace="/qual" action="list-quals">List Qualification Forms</s:a></li>
-                            <li><s:a cssClass="group" namespace="/qual" action="new-qual-input">Ken's New Qualification Form</s:a></li>
-                        </ul>
+                    <h2>Qualification Form Services</h2>
+                    <ul>
+                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry008.jsp">Enter New Qualification Form</s:a></li>
+                        <li><s:a cssClass="group" namespace="/qual" action="list-quals">List Qualification Forms</s:a></li>
+                        <li><s:a cssClass="group" namespace="/qual" action="new-qual-input">Ken's New Qualification Form</s:a></li>
+                    </ul>
                 </div>
 
 
@@ -65,7 +66,7 @@
                         <li><s:a cssClass="group" namespace="/resume" action="new-resume-input">Ken's New Resume</s:a></li>
                     </ul>
                 </div>
-                    <br><br><br>
+                <br><br><br>
                 <div class="yui3-u-1-2">
                     <h2>Ken's Stuff</h2>
                     <ul>
@@ -79,25 +80,51 @@
                         <li><s:a cssClass="group" value="/enoch/resumeEntry005.jsp">resumeEntry005</s:a></li>
                     </ul>
                 </div>
-                    
+
                 <br><br><br>  
                 <div class="yui3-u-1-2">
+
+                    <h2>Design Document</h2>
                     
-                    <h2>To Do List</h2>
+                    <h3>To Implement for Version 0.5</h3>
+                    
+                    <h4>General</h4>
                     <ul>
-                        <li>Delete qualification lines</li>
-                        <li>Edit qualification form description</li>
+                        <li>ensure same look and feel on every page</li>
                         <li><strike>make thin nice professional gradient toolbar in style of ubuntu</strike></li>
                         <li><strike>make text in header bar bold white and highlight when you go over it</strike></li>
                         <li><strike>make links work to go to main pages in site</strike></li>
                         <li>fix date glitch when shrinking window</li>
-                        <li>make a login system</li>
-                        <li>make a qualification form to resume matching page</li>
+                    </ul>
+                    
+                    <h4>Qualification Form Entry System</h4>
+                    <ul>
+                        <li>Ability to C.R.U.D.</li>
+                        <li>Ability to drag and move items around (use JQuery)</li>
+                    </ul>
+                    
+                    <h4>Resume Entry System</h4>
+                    <ul>
+                        <li>Ability to C.R.U.D.</li>
+                        <li>Ability to drag and move items around (use JQuery)</li>
+                    </ul>
+                    
+                    <h4>Qualification+Resume System</h4>
+                    <ul>
+                        <li>Ability to select the parts of the resume to match up with the item in the qualification form</li>
+                        <li>resume is in accordion form and can select to automatically fill out the qualification form using check boxes in front of the line</li>
                         <li>make a save to PDF option</li>
-                        <li>make the ability to move around objects by dragging and dropping them</li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                    </ul>
+                    
+                    <h3>To Implement for Version 1.0</h3>
+                    <ul>
+                        <li>make a login system</li>
+                        <li>need tagging system for job roles that are universal so its easy to compare them</li>
+                        <li>search function</li>
+                    </ul>
+                    <h3>To Implement for Version 2.0</h3>
+                    <ul>
+                        <li>enter ideas here</li> 
                     </ul>
                 </div>
             </div>
