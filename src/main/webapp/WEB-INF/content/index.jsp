@@ -24,27 +24,10 @@
             <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/resumeEntry005.jsp">Resume</s:a> &nbsp</span>
             <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/qualificationFormEntry7.jsp">Qualification</s:a> &nbsp</span>
             <span class ="menuItem">&nbsp Other &nbsp</span>
-
-            <div class ="dateItem">
-                <script type="text/javascript">
-                    var mydate=new Date()
-                    var year=mydate.getFullYear()
-                    var day=mydate.getDay()
-                    var month=mydate.getMonth()
-                    var daym=mydate.getDate()
-                    //if the current date is less than 10, pad it.
-                    if (daym<10)
-                        daym="0"+daym
-                    var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
-                    var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
-                    //write out the final results
-                    document.write("<b>"+dayarray[day]+", "+montharray[month]+" "+daym+", "+year+"</b>")
-                </script>
-            </div>
         </div>
         <%--  website main page --%>
         <div class ="outer">
-            <br><br><h1>Test Programs & To Do List</h1><br><br>
+            <br><br><h1>Test Programs & Design Documents</h1><br><br>
 
             <div class="yui3-g">
 
@@ -82,12 +65,16 @@
                 </div>
 
                 <br><br><br>  
-                <div class="yui3-u-1-2">
 
+                <div class="yui3-u-1-2">
+                    <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
+                    
+                    <p style="color:#FF0000">enter problems here</p>
+                    <br><br><br>
                     <h2>Design Document</h2>
-                    
+
                     <h3>To Implement for Version 0.5</h3>
-                    
+
                     <h4>General</h4>
                     <ul>
                         <li>ensure same look and feel on every page</li>
@@ -96,26 +83,26 @@
                         <li><strike>make links work to go to main pages in site</strike></li>
                         <li>fix date glitch when shrinking window</li>
                     </ul>
-                    
+
                     <h4>Qualification Form Entry System</h4>
                     <ul>
                         <li>Ability to C.R.U.D.</li>
                         <li>Ability to drag and move items around (use JQuery)</li>
                     </ul>
-                    
+
                     <h4>Resume Entry System</h4>
                     <ul>
                         <li>Ability to C.R.U.D.</li>
                         <li>Ability to drag and move items around (use JQuery)</li>
                     </ul>
-                    
+
                     <h4>Qualification+Resume System</h4>
                     <ul>
                         <li>Ability to select the parts of the resume to match up with the item in the qualification form</li>
                         <li>resume is in accordion form and can select to automatically fill out the qualification form using check boxes in front of the line</li>
                         <li>make a save to PDF option</li>
                     </ul>
-                    
+
                     <h3>To Implement for Version 1.0</h3>
                     <ul>
                         <li>make a login system</li>
