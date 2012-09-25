@@ -8,4 +8,14 @@
     <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
     <constant name="struts.patternMatcher" value="namedVariable" />
+    
+    <package name="package-kjson" extends="struts-default">
+        <result-types>
+            <result-type name="kjson" class="com.kenmcwilliams.employmentsystem.result.Kjson"/>
+        </result-types>
+        
+        <action name="/crud/magic" class="com.kenmcwilliams.employmentsystem.s2.Magic">
+            <result type="kjson">root</result>
+        </action>
+    </package> 
 </struts>

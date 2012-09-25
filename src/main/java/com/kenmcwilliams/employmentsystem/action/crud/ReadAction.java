@@ -5,14 +5,12 @@
 package com.kenmcwilliams.employmentsystem.action.crud;
 
 import com.kenmcwilliams.employmentsystem.service.CrudService;
+import com.kenmcwilliams.employmentsystem.util.ActionUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -24,12 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author ken
  */
-@ParentPackage("json-default")
+@ParentPackage("package-kjson")
 @Namespace("/crud/{name}")
+@Result(type="kjson")
 //@Result(location="/WEB-INF/content/test/named-test.jsp")
-@Action(results = {
-    @Result(name = "success", type = "json", params = {"root", "model", "excludeProperties", "%{excludeProperties}"}),
-    @Result(name = "input", type = "json", params = {"root", "fieldErrors"}),})
+//@Action(results = {
+//    @Result(name = "success", type = "json", params = {"root", "model", "excludeProperties", "%{excludeProperties}"}),
+//    @Result(name = "input", type = "json", params = {"root", "fieldErrors"}),})
 public class ReadAction extends ActionSupport implements Preparable, RequestAware{
 
     private static final Logger log = Logger.getLogger(ReadAction.class.getName());
@@ -38,7 +37,7 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
     private String name;
     private Integer id;
     private Class clazz;
-    private Object model;
+    private Object jsonModel;
     private Object entity;
     private String excludeProperties = "qualLineCollection";
     private Map<String, Object> request;
@@ -61,10 +60,10 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
         //request.put("excludeProperties", "qualLineCollection")
         log.info("Read execute");
         log.log(Level.INFO, "param entityName : {0}", name);
-        initModel();
-        Map modelDescription;
-        model = crudService.read(clazz, id);
-        Hibernate.getClass(model);
+        clazz = ActionUtils.initClazz(name);
+        //Map modelDescription;
+        jsonModel = crudService.read(clazz, id);
+        //Class aClass = Hibernate.getClass(jsonModel);
 /*
         try {
             log.info("after crudService.read");
@@ -92,15 +91,16 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
         return SUCCESS;
     }
 
-    public void initModel() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    //TODO: extract this into util method
+    public void initClazz() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         //sets the model
         //look up enity by name
         setName(getName().toLowerCase());
         setName(Character.toUpperCase(getName().charAt(0)) + getName().substring(1));
         log.log(Level.INFO, "after setting string to: {0}", name);
         clazz = Class.forName("com.kenmcwilliams.employmentsystem.orm." + getName());
-        entity = clazz.newInstance();
-        model = clazz.newInstance();
+        //entity = clazz.newInstance();
+        //jsonModel = clazz.newInstance();
     }
 
     //@Override
@@ -111,8 +111,8 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
         //replace model with errors
     }
 
-    public Object getModel() {
-        return model;
+    public Object getJsonModel() {
+        return jsonModel;
     }
 
     /**
