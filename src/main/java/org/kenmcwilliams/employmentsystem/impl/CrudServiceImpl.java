@@ -5,10 +5,12 @@
 package org.kenmcwilliams.employmentsystem.impl;
 
 import com.kenmcwilliams.employmentsystem.service.CrudService;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -52,5 +54,15 @@ public class CrudServiceImpl implements CrudService {
     @Override
     public void delete(Class clazz, Integer id) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Object> page(Class clazz, Integer start, Integer size) {
+        String simpleClassName = clazz.getSimpleName();
+        String queryString = "select o from " + simpleClassName + " o";
+        TypedQuery createQuery = em.createQuery(queryString, clazz);
+        createQuery.setFirstResult(start);
+        createQuery.setMaxResults(size);
+        return createQuery.getResultList();
     }
 }
