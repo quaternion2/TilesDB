@@ -14,17 +14,48 @@
         <link href="./style/cssfonts-min.css" rel="stylesheet" type="text/css">
         <link href="./style/grids-min.css" rel="stylesheet" type="text/css">
         <link href="./style/main.css" rel="stylesheet" type="text/css">
+        <link href="./style/style.css" rel="stylesheet" type="text/css">
         <title>Employment System</title>
     </head>
-    <body bgcolor="#DDDDDD">
+    <body>
 
         <%--  website header --%>
-        <div class="siteHeader">
+        <%--<div class="siteHeader">
             <span class ="menuItem">&nbsp Employment System &nbsp &nbsp</span>
-            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/resumeEntry005.jsp">Resume</s:a> &nbsp</span>
-            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/qualificationFormEntry7.jsp">Qualification</s:a> &nbsp</span>
+            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/resumeEntry006.jsp">Resume</s:a> &nbsp</span>
+            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/qualificationFormEntry008.jsp">Qualification</s:a> &nbsp</span>
             <span class ="menuItem">&nbsp Other &nbsp</span>
         </div>
+        <%--  end website header --%>
+        <%--  website header --%>
+        <div id="wrapper">
+            <div id="content">
+
+                <nav>
+                    <ul id="navBar">
+                        <li><a href="http://EmploymentSystem.com" title="main menu">Employment System</a></li>
+                        <li><a href="http://EmploymentSystem.com/resume" title="resume">Resume</a></li>
+                        <li><a href="http://EmploymentSystem.com/qualification" title="qualification">Qualification</a></li>
+                        <li><a href="http://EmploymentSystem.com/other" title="other">Other</a></li>              
+                        <li><a href="http://EmploymentSystem.com/support" title="time">
+                                <script type="text/javascript">
+                                    var mydate=new Date()
+                                    var year=mydate.getFullYear()
+                                    var day=mydate.getDay()
+                                    var month=mydate.getMonth()
+                                    var daym=mydate.getDate()
+                                    //if the current date is less than 10, pad it.
+                                    if (daym<10)
+                                        daym="0"+daym
+                                    var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+                                    var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
+                                    //write out the final results
+                                    document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
+                                </script>  </a></li>
+                    </ul>
+                </nav>
+                <%--  end website header --%>
+        
         <%--  website main page --%>
         <div class ="outer">
             <br><br><h1>Test Programs & Design Documents</h1><br><br>
@@ -34,7 +65,9 @@
                 <div class="yui3-u-1-2">
                     <h2>Qualification Form Services</h2>
                     <ul>
-                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry008.jsp">Enter New Qualification Form</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry009.jsp">Enter New Qualification Form (Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/listQualificationForms001.jsp">List Qualification Forms (Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/viewQualificationForm.jsp">View Qualification Form (Enoch)</s:a></li>
                         <li><s:a cssClass="group" namespace="/qual" action="list-quals">List Qualification Forms</s:a></li>
                         <li><s:a cssClass="group" namespace="/qual" action="new-qual-input">Ken's New Qualification Form</s:a></li>
                     </ul>
@@ -44,8 +77,10 @@
                 <div class="yui3-u-1-2">
                     <h2>Resume Services</h2>
                     <ul>
-                        <li><s:a cssClass="group" value="/enoch/resumeEntry006.jsp">Enter New Resume</s:a></li>
-                        <li><s:a cssClass="group" namespace="/resume" action="list-resumes">List Resumes</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/resumeEntry007.jsp">Enter New Resume(Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/listResumes001.jsp">List Resumes(Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/viewResume.jsp">View Resume(Enoch)</s:a></li>
+                        <li><s:a cssClass="group" namespace="/resume" action="list-resumes">List Resumes(Ken)</s:a></li>
                         <li><s:a cssClass="group" namespace="/resume" action="new-resume-input">Ken's New Resume</s:a></li>
                     </ul>
                 </div>
@@ -61,6 +96,7 @@
                     <ul>
                         <li><s:a cssClass="group" value="/enoch/qualificationFormEntry7.jsp">qualificationFormEntry7</s:a></li>
                         <li><s:a cssClass="group" value="/enoch/resumeEntry005.jsp">resumeEntry005</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/test.jsp">test</s:a></li>
                     </ul>
                 </div>
 
@@ -68,8 +104,8 @@
 
                 <div class="yui3-u-1-2">
                     <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
-                    
-                    <p style="color:#FF0000">enter problems here</p>
+
+                    <p style="color:#FF0000">HOW DO I ADD PICTURES TO THE WEBSITE...HOW DO I ADD PICTURES TO THE PROJECT?!?</p>
                     <br><br><br>
                     <h2>Design Document</h2>
 
@@ -114,12 +150,14 @@
                         <li>enter ideas here</li> 
                     </ul>
                 </div>
-            </div>
-            <div>
-                <p class="siteFooter">
-                    <br>© 2012, Scrotum Solutions Inc.<br>
-                    All Rights Reserved.
-                </p>
+                <%--  website footer --%>
+                <div>
+                    <p class="siteFooter">
+                        <br>© 2012, Scrotum Solutions Inc.<br>
+                        All Rights Reserved.
+                    </p>
+                </div>
+                <%--  end website footer --%>
             </div>
         </div>
     </body>
