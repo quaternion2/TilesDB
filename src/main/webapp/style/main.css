@@ -23,13 +23,13 @@ div.siteHeader {
     height: 26px;
 }
 span.menuItem{
-    color:#DDDDDD;
+    color:#D9E9F1;
     font-size: 20px;
     font-weight: bold;
     width: 10%;  
-    text-shadow: grey -1px -1px 0.5em;
+    /*text-shadow: #666666 -1px -1px 0.5em;*/
 }
-span.menuItem:hover,span.menuItem:active {color:white;}
+span.menuItem:hover,span.menuItem:active {color:#FFFFFF;}
 a.noUnderlineNoColor{  
     text-decoration:none;
     color:inherit;
@@ -38,6 +38,10 @@ s:a.noUnderlineNoColor{
     text-decoration:none;
     color:inherit;
 }
+/*body{
+  background-color: #F3F4F5;  
+    
+}*/
 h1{
     color: #495961;
     font-size: 30px;
@@ -68,10 +72,35 @@ div.groupBox{
     border-color: #000000;
     border-radius: 10px 10px 10px 10px;
     background: -moz-linear-gradient(#EAF5FA, #C5E8F1) repeat scroll 0 0 transparent;
-    border: 1px solid transparent;
-    width: 400px;
-    height: 200px;
-    padding: 20px; 
+    border: 1px solid;
+    margin: 20px; 
+    padding: 20px;
+    
+}
+div.groupBox2{
+    background: #888888;
+    border-radius: 3px 3px 3px 3px;
+    margin: 20px; 
+    padding: 20px;
+}
+div.groupBox3{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #394951;
+   /* background-image: url("../../rel/oocss/common/objects/img/boxes/h2.png");*/
+    background-origin: padding-box;
+    background-position: left top;
+    background-repeat: repeat;
+    background-size: 1px 50px;
+    color: white;
+    padding-top: 5px;    
+    
+}
+div.groupBox4{
+    background-color: #FFFFFF;  
+    border-color: #394951;
+    border-radius:  4px 4px;
+    border: 1px solid;
 }
 p.siteFooter {
     text-align: center; 

@@ -3,69 +3,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="./../style/cssreset-min.css" rel="stylesheet" type="text/css">
-        <link href="./../style/cssbase-min.css" rel="stylesheet" type="text/css">
-        <link href="./../style/cssfonts-min.css" rel="stylesheet" type="text/css">
-        <link href="./../style/grids-min.css" rel="stylesheet" type="text/css">
-        <link href="./../style/main.css" rel="stylesheet" type="text/css">
+        <link href="./../style/style.css" rel="stylesheet" type="text/css">
         <script src="../script/jquery/1.8.1/jquery.min.js"></script>
 
         <title>Employment System - Resume Entry</title>
-        <style>
-            .hidden{
-                display: none;
-            }
 
-            .templates{
-
-            }
-
-            .resumeUtil{
-            }
-            .companyEntry{
-
-            }
-            .companyHeader{
-                width: 950px;
-                background-color: steelblue;
-                margin-top: 0.5em;
-                margin-bottom: 0.5em;
-            }
-            .companyName{
-
-            }
-            .companyDate{
-                float: right;
-            }
-            .details{
-
-            }
-            .detail{
-                width: 950px;
-                overflow:hidden;
-                background-color: beige;
-            }
-            .detail input{
-                width: 650px;
-            }
-            .right{
-                float: right;
-            }
-            .isDetailSelected{
-                display: none;
-            }
-
-            .strike{
-                text-decoration: line-through;
-            }
-            .field input{
-                width: 15em;                
-            }
-            .label {
-                width: 15em;    
-                display: inline-block;
-            }
-        </style>
         <script> 
             var dateRangeRegex = /\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W+\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W*/i;
             var toServer = [];
@@ -412,97 +354,139 @@
     <body>
 
         <%--  website header --%>
-        <div class="siteHeader">
-            <span class ="menuItem">&nbsp Employment System &nbsp &nbsp</span>
-            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/resumeEntry006.jsp">Resume</s:a> &nbsp</span>
-            <span class ="menuItem">&nbsp <s:a cssClass="noUnderlineNoColor" value="/enoch/qualificationFormEntry008.jsp">Qualification</s:a> &nbsp</span>
-            <span class ="menuItem">&nbsp Other &nbsp</span>
-        </div>
-        <%--  end website header --%>
-        <div class ="outer">
+        <div id="wrapper">
+            <div id="content">
 
-            <%--  website main page --%>
-            <br><br>
-            <h1>Resume Entry</h1>  
+                <nav>
+                    <ul id="navBar">
+                        <li><a href="http://EmploymentSystem.com" title="main menu">Employment System</a></li>
+                        <li><a href="http://EmploymentSystem.com/resume" title="resume">Resume</a></li>
+                        <li><a href="http://EmploymentSystem.com/qualification" title="qualification">Qualification</a></li>
+                        <li><a href="http://EmploymentSystem.com/other" title="other">Other</a></li>              
+                        <li><a href="http://EmploymentSystem.com/support" title="time">
+                                <script type="text/javascript">
+                                    var mydate=new Date()
+                                    var year=mydate.getFullYear()
+                                    var day=mydate.getDay()
+                                    var month=mydate.getMonth()
+                                    var daym=mydate.getDate()
+                                    //if the current date is less than 10, pad it.
+                                    if (daym<10)
+                                        daym="0"+daym
+                                    var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+                                    var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
+                                    //write out the final results
+                                    document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
+                                </script>  </a></li>
+                    </ul>
+                </nav>
+                <%--  end website header --%>
 
-            <br><br>
-            <%--  Contact Info --%>
-            <div class="groupBox"><strong>Contact Info</strong>
-                <div class="groupBox2">
-                    <form>
-                        <input class="label" type="text" placeholder="First Name" id="firstName">
-                        <input class="label" type="text" placeholder="Last Name" id="lastName">
-                        <input class="label" type="text" placeholder="Street Address" id="streetAddress">
-                        <input class="label" type="text" placeholder="City" id="city" >
-                        <input class="label" type="text" placeholder="Province"  id="province">
-                        <input class="label" type="text" placeholder="Postal Code" id="postalCode" >
-                        <input class="label" type="text" placeholder="Phone"  id="phone">
-                        <input class="label" type="text" placeholder="Email" id="email" >
-                        <%-- <span class ="label">First Name: </span><span class="field"><input type="text" id="firstName" /></span> 
-                         <span class ="label">Last Name: </span><span class="field"><input type="text" id="lastName" /></span>
-                         <span class ="label">Street Address: </span><span class="field"><input type="text" id="streetAddress" /></span><br>
-                         <span class ="label">City: </span><span class="field"><input type="text" id="city" /></span>
-                         <span class ="label">Province: <input type="text" id="province" /></span>
-                         Postal Code: <input type="text" id="postalCode" /><br>
-                         Phone: <input type="text" id="phone" /><br>
-                         Email: <input type="text" id="email" /><br>--%>
-                        <button id="saveResumeButton" type="button">SAVE RESUME CONTACTS + JSON</button>
-                    </form><br>
-                </div>
-            </div>
-            <%--  Experience --%>
-            <br>
-            <div class="groupBox"><strong>Experience</strong>
-                <div class="templates hidden">
-                    <div id="companyTemplate">
-                        <div class="companyEntry">           
-                            <div class="companyHeader">
-                                <button class="expand" title="Expand/Collapse">&gt;</button>
-                                <button class="deleteButton" title="Delete Company">X</button>
-                                <input class="companyName" type="text" placeholder="Company Name">
-                                <input class="companyRole" type="text" placeholder="Role">
-                                <input class="companyDate" type="text" placeholder="MMM YY - MMM YY">
+                <div><%-- website body --%>
+                    <br>
+                    <h1>Resume Entry</h1>  
+                    <br>
+                    <%--  Contact Info --%>
+                    <div class="boxHeader"><h2 class="boxHeader">Contact Info</h2></div>
+                    <div class="boxBody">
+                        <div class="boxInterior"> 
+                            <form>
+                                <div class ="inputLine"><label class="labelLine">First Name:</label><input class="inputLine" type="text" placeholder="First Name" id="firstName"></div>
+                                <div class ="inputLine"><label class="labelLine">Last Name:</label><input class="inputLine" type="text" placeholder="Last Name" id="lastName"></div>
+                                <div class ="inputLine"><label class="labelLine">Street Address:</label><input class="inputLine" type="text" placeholder="Street Address" id="streetAddress"></div>
+                                <div class ="inputLine"><label class="labelLine">City:</label><input class="inputLine" type="text" placeholder="City" id="city" ></div>
+                                <div class ="inputLine"><label class="labelLine">Province:</label><input class="inputLine" type="text" placeholder="Province"  id="province"></div>
+                                <div class ="inputLine"><label class="labelLine">Postal Code:</label><input class="inputLine" type="text" placeholder="Postal Code" id="postalCode" ></div>
+                                <div class ="inputLine"><label class="labelLine">Phone:</label><input class="inputLine" type="text" placeholder="Phone"  id="phone"></div>
+                                <div class ="inputLine"><label class="labelLine">Email:</label><input class="inputLine" type="text" placeholder="Email" id="email" ></div>
+                                <button id="saveResumeButton" type="button">SAVE RESUME CONTACTS + JSON</button>
+                            </form><br>
+                        </div>
+                    </div>
+                    <br>
+                    <%--  Experience --%>
+                    <br>
+                    <div class="boxHeader"><h2 class="boxHeader">Experience</h2></div>
+                    <div class="boxBody">
+                        <div class="boxInterior"> 
+                            <div class="templates hidden">
+                                <div id="companyTemplate">
+                                    <div class="companyEntry">           
+                                        <div class="companyHeader">
+                                            <button class="expand" title="Expand/Collapse">&gt;</button>
+                                            <button class="deleteButton" title="Delete Company">X</button>
+                                            <input class="companyName" type="text" placeholder="Company Name">
+                                            <input class="companyRole" type="text" placeholder="Role">
+                                            <input class="companyDate" type="text" placeholder="MMM YY - MMM YY">
+                                        </div>
+                                        <div class="details hidden">
+                                            <div class="detail">
+                                                <input  class="isDetailSelected" type="checkbox"/>
+                                                <button class="deleteDetail">Del</button>
+                                                <span class="detailNumber"></span>
+                                                <span class="right">
+                                                    <input class="line" type="text" placeholder="Details">
+                                                    <button class="addDetail">New Detail</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
-                            <div class="details hidden">
-                                <div class="detail">
-                                    <input  class="isDetailSelected" type="checkbox"/>
-                                    <button class="deleteDetail">Del</button>
-                                    <span class="detailNumber"></span>
-                                    <span class="right">
-                                        <input class="line" type="text" placeholder="Details">
-                                        <button class="addDetail">New Detail</button>
-                                    </span>
+                            <div id="resume">
+                                <div id="companies">
                                 </div>
+                                <div class="companyHeader">
+                                    <button id="addCompanyButton">New Company</button>
+                                    <input contenteditable="false" id="total" class="right" type="text" value="" placeholder="Total Time">
+                                </div>
+                                <br><button id="saveWorkHistoryButton" type="button">SAVE WORK HISTORY + JSON</button>
                             </div>
                         </div>
-                    </div> 
-                </div>
-                <div id="resume">
-                    <div id="companies">
                     </div>
-                    <div class="companyHeader">
-                        <button id="addCompanyButton">New Company</button>
-                        <input contenteditable="false" id="total" class="right" type="text" value="" placeholder="Total Time">
-                    </div>
-                    <br><button id="saveWorkHistoryButton" type="button">SAVE WORK HISTORY + JSON</button>
                 </div>
+                <br>
+                <%--  Education --%>
+                <br>
+                <div class="boxHeader"><h2 class="boxHeader">Education</h2></div>
+                <div class="boxBody">
+                    <div class="boxInterior"> 
+                        <form>
+                            <div class ="inputLine"><label class="labelLine">School Name:</label><input class="inputLine" type="text" placeholder="School Name" ></div>
+                            <div class ="inputLine"><label class="labelLine">School City:</label><input class="inputLine" type="text" placeholder="School City"></div>
+                            <div class ="inputLine"><label class="labelLine">School Province:</label><input class="inputLine" type="text" placeholder="School Province"></div>
+                            <div class ="inputLine"><label class="labelLine">School Country:</label><input class="inputLine" type="text" placeholder="School Country"></div>
+                            <div class ="inputLine"><label class="labelLine">Degree/Program:</label><input class="inputLine" type="text" placeholder="Degree/Program"></div>
+                            <div class ="inputLine"><label class="labelLine">Presently Enrolled:</label><input class="inputLine" type="text" placeholder="Enrolled?"></div>
+                            <button type="button">SAVE EDUCATION + JSON</button>
+                        </form><br>
+                    </div>
+                </div>
+                <br>
+                <%--  Extra Skills --%>
+                <br>
+                <div class="boxHeader"><h2 class="boxHeader">Extra Skills</h2></div>
+                <div class="boxBody">
+                    <div class="boxInterior"> 
+                        <form>
+                            <div class ="inputLine"><label class="labelLine">Extra Skill:</label><input class="inputLine" type="text" placeholder="Extra Skill" ></div>
+                            <button type="button">SAVE EXTRA SKILL + JSON</button>
+                        </form><br>
+                    </div>
+                </div>
+                <br>
             </div>
-            <%--  Education --%>
+
+
+        </div><%-- end website body --%>
+
+        <div> <%--  website footer --%>
             <br>
-        <div class="groupBox"><strong>Education</strong></div>
-        <%--  Extra Skills --%>
-        <br>
-        <div class="groupBox"><strong>Extra Skills</strong></div>
-        </div>
-        
-        <%--  website footer --%>
-        <br>
-        <div>
             <p class="siteFooter">
                 <br>© 2012, Scrotum Solutions Inc.<br>
                 All Rights Reserved.
             </p>
-        </div>
-        <%--  end website footer --%>
-    </body>
+        </div> <%--  end website footer --%>
+    </div>
+</body>
 </html>
