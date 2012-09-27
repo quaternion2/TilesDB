@@ -53,7 +53,8 @@
                 <div class="yui3-u-1-2">
                     <h2>Ken's Stuff</h2>
                     <ul>
-                        <li><s:a cssClass="group" value="/crud/qual/read.action?id=9">Crud - qual - id 9</s:a></li>
+                        <li><s:a cssClass="group" value="/crud/qual/read.action?id=9">Crud- Read - qual - id 9</s:a></li>
+                        <li><s:a cssClass="group" value="/crud/qual/page?start=0&count=10">Crud- Paged Read - qual - start 0, count 10</s:a></li>
                     </ul>
                 </div>
                 <div class="yui3-u-1-2">
@@ -68,7 +69,7 @@
 
                 <div class="yui3-u-1-2">
                     <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
-                    
+
                     <p style="color:#FF0000">enter problems here</p>
                     <br><br><br>
                     <h2>Design Document</h2>
@@ -77,22 +78,29 @@
 
                     <h4>General</h4>
                     <ul>
-                        <li>ensure same look and feel on every page</li>
+                        <li>ensure same look and feel on every page (best effort until Apache Tiles is implemented)</li>
                         <li><strike>make thin nice professional gradient toolbar in style of ubuntu</strike></li>
                         <li><strike>make text in header bar bold white and highlight when you go over it</strike></li>
                         <li><strike>make links work to go to main pages in site</strike></li>
                         <li>fix date glitch when shrinking window</li>
                     </ul>
-
+                    <h4>Kens Generic CRUD Progress</h4>
+                    Note: with the addition of this heading some of the following points are obsolete. That is crud which is directed at a particular entity. 
+                    <ul>
+                        <li>Create - class, parameters (use paramsPrepareParamsStack, fish out type construct entity, nest all properties under "entity" property)-> return object with id</li>
+                        <li><strike>Read - Both single read and paging have been implemented</strike></li>
+                        <li>Update - by id (use paramsPrepareParamsStack)</li>
+                        <li>Delete - by id</li>
+                    </ul>
                     <h4>Qualification Form Entry System</h4>
                     <ul>
-                        <li>Ability to C.R.U.D.</li>
+                        <li>Ability to C.<strike>R</strike>.U.D.</li>
                         <li>Ability to drag and move items around (use JQuery)</li>
                     </ul>
 
                     <h4>Resume Entry System</h4>
                     <ul>
-                        <li>Ability to C.R.U.D.</li>
+                        <li>Ability to C.<strike>R</strike>.U.D.</li>
                         <li>Ability to drag and move items around (use JQuery)</li>
                     </ul>
 
@@ -108,6 +116,7 @@
                         <li>make a login system</li>
                         <li>need tagging system for job roles that are universal so its easy to compare them</li>
                         <li>search function</li>
+                        <li>make a save to PDF option (deferred from version 0.5)</li>
                     </ul>
                     <h3>To Implement for Version 2.0</h3>
                     <ul>
