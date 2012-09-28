@@ -71,11 +71,12 @@
                                     <td>Sept 11, 2012 9:11AM EST</td>
                                     <td>
                                         <button>Rename</button>
-                                        <button>Edit</button>
-                                        <button>Copy</button>
-                                        <button>Delete</button>
-                                        <button>Export</button>
-                                        <button>Send</button>
+                                        <img src="../image/edit.png"/>
+                                        <img src="../image/copy.png"/>
+                                        <img src="../image/delete.png"/>
+                                        <img src="../image/mail.png"/>
+                                        <img src="../image/print.png"/>
+                                      
                                     </td>
                                 </tr>
                             </table>

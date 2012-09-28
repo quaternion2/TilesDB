@@ -1,7 +1,9 @@
+package old;
+
 /*
  * Purpose to provide generic CRUD for entity classes
  */
-package com.kenmcwilliams.employmentsystem.action;
+
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
