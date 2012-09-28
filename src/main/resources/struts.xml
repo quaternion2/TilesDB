@@ -8,6 +8,7 @@
     <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
     <constant name="struts.patternMatcher" value="namedVariable" />
+    <constant name="struts.freemarker.wrapper.altMap" value="false" />
     
     <package name="package-kjson" extends="struts-default">
         <result-types>

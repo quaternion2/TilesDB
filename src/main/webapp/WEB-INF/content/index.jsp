@@ -17,7 +17,7 @@
         <link href="./style/style.css" rel="stylesheet" type="text/css">
         <title>Employment System</title>
     </head>
-    <body>
+    <body bgcolor="#DDDDDD">
 
         <%--  website header --%>
         <%--<div class="siteHeader">
