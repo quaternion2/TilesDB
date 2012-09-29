@@ -23,10 +23,12 @@ public class CrudServiceImpl implements CrudService {
     private static final Logger log = Logger.getLogger(CrudServiceImpl.class.getName());
     @PersistenceContext
     private EntityManager em;
+    private int start;
 
     @Override
-    public Integer create(Class clazz, Object entity) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object create(Class clazz, Object entity) {
+        //TODO: consider use of clazz which is not being used at all
+        return em.merge(entity);
     }
 
     @Override

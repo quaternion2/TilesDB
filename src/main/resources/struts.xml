@@ -12,11 +12,45 @@
     
     <package name="package-kjson" extends="struts-default">
         <result-types>
-            <result-type name="kjson" class="com.kenmcwilliams.employmentsystem.result.Kjson"/>
+            <result-type name="kjson" default="true" class="com.kenmcwilliams.employmentsystem.result.Kjson"/>
         </result-types>
         
         <action name="/crud/magic" class="com.kenmcwilliams.employmentsystem.s2.Magic">
             <result type="kjson">root</result>
         </action>
+    </package>
+    <package name="staticParams-prepare-parms" extends="struts-default">
+        <result-types>
+            <result-type name="kjson" default="true" class="com.kenmcwilliams.employmentsystem.result.Kjson"/>
+        </result-types>
+        <interceptors>
+            <interceptor-stack name="staticParamsPrepareParamsStack">
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="multiselect"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="staticParamsPrepareParamsStack"/>
     </package> 
 </struts>
