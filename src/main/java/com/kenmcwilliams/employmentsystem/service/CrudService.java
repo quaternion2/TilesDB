@@ -13,7 +13,7 @@ import java.util.List;
  * @author ken
  */
 public interface CrudService {
-    Integer create(Class clazz, Object entity);
+    Object create(Class clazz, Object entity); //return the created object from database with id
     Object read(Class clazz, Integer id);
     void update(Class clazz, Object entity);
     void delete(Class clazz, Integer id);
