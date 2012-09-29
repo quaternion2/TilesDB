@@ -13,7 +13,6 @@
         <link href="./style/cssbase-min.css" rel="stylesheet" type="text/css">
         <link href="./style/cssfonts-min.css" rel="stylesheet" type="text/css">
         <link href="./style/grids-min.css" rel="stylesheet" type="text/css">
-        <link href="./style/main.css" rel="stylesheet" type="text/css">
         <link href="./style/style.css" rel="stylesheet" type="text/css">
         <title>Employment System</title>
     </head>
@@ -92,7 +91,7 @@
 
                 <div class="yui3-u-1-2">
                     <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
-
+                    <h1 style="color:#FF0000">fix fucked up footer at bottom of page...related to those yahoo css files being called...also fix footer on resume list page</h1>
                     <p style="color:#FF0000">all crud read operations should only return records from that table(don't recursively descend)</p>
                     <p style="color:#FF0000">read operations should only return lines from the table</p>
                     <p style="color:#FF0000">include parameters should only return associated collections</p>
