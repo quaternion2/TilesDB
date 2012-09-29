@@ -65,4 +65,11 @@ public class CrudServiceImpl implements CrudService {
         createQuery.setMaxResults(size);
         return createQuery.getResultList();
     }
+
+    @Override
+    public Long count(Class clazz) {
+        String simpleClassName = clazz.getSimpleName();
+        TypedQuery query = em.createQuery("select count(o) from " + simpleClassName + " o", Long.class);
+        return (Long) query.getSingleResult();
+    }
 }
