@@ -88,8 +88,12 @@
                 <div class="yui3-u-1-2">
                     <h2>Ken's Stuff</h2>
                     <ul>
+                        
+                        <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
                         <li><s:a cssClass="group" value="/crud/qual/read.action?id=9">Crud- Read - qual - id 9</s:a></li>
                         <li><s:a cssClass="group" value="/crud/qual/page?start=0&count=10">Crud- Paged Read - qual - start 0, count 10</s:a></li>
+                        <li><s:a cssClass="group" value="/crud/qual/count">Crud - count - total quals</s:a></li>
+                        <li><s:a cssClass="group" value="/crud/qual/add.action?description=the description&name=the name&role=the role">Crud - write - add new qual header</s:a></li>
                     </ul>
                 </div>
                 <div class="yui3-u-1-2">
