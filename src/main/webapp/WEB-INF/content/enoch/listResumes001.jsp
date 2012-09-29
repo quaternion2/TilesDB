@@ -14,14 +14,13 @@
         <%--  website header --%>
         <div id="wrapper">
             <div id="content">
-
                 <nav>
                     <ul id="navBar">
-                        <li><a href="http://EmploymentSystem.com" title="main menu">Employment System</a></li>
-                        <li><a href="http://EmploymentSystem.com/resume" title="resume">Resume</a></li>
-                        <li><a href="http://EmploymentSystem.com/qualification" title="qualification">Qualification</a></li>
-                        <li><a href="http://EmploymentSystem.com/other" title="other">Other</a></li>              
-                        <li><a href="http://EmploymentSystem.com/support" title="time">
+                        <li><s:a cssClass="group" value="/index">Employment System</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/listResumes001">Resume</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/listQualificationForms002">Qualification</s:a></li>                       
+                        <li><s:a cssClass="group" value="/enoch/designDocument">Design</s:a></li>              
+                        <li><s:a cssClass="group" value="/index" title="time">
                                 <script type="text/javascript">
                                     var mydate=new Date()
                                     var year=mydate.getFullYear()
@@ -35,7 +34,8 @@
                                     var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
                                     //write out the final results
                                     document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
-                                </script>  </a></li>
+                                </script>  
+                         </s:a></li>
                     </ul>
                 </nav>
                 <%--  end website header --%>
