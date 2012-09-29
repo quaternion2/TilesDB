@@ -34,9 +34,6 @@ public class Kjson implements Result {
         ValueStack valueStack = invocation.getStack();
         Object jsonModel = valueStack.findValue("jsonModel");
         //create json and put it into response stream
-        
-        JSONSerializer jserializer = new JSONSerializer();
-        
-        responseStream.println(jserializer.serialize(jsonModel));
+        responseStream.println(new JSONSerializer().exclude("class").serialize(jsonModel));
     }
 }
