@@ -92,14 +92,13 @@
         <%--  website header --%>
         <div id="wrapper">
             <div id="content">
-
                 <nav>
                     <ul id="navBar">
-                        <li><a href="http://EmploymentSystem.com" title="main menu">Employment System</a></li>
-                        <li><a href="http://EmploymentSystem.com/resume" title="resume">Resume</a></li>
-                        <li><a href="http://EmploymentSystem.com/qualification" title="qualification">Qualification</a></li>
-                        <li><a href="http://EmploymentSystem.com/other" title="other">Other</a></li>              
-                        <li><a href="http://EmploymentSystem.com/support" title="time">
+                        <li><s:a cssClass="group" value="/index">Employment System</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/listResumes001">Resume</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/listQualificationForms002">Qualification</s:a></li>                       
+                        <li><s:a cssClass="group" value="/enoch/designDocument">Design</s:a></li>              
+                        <li><s:a cssClass="group" value="/index" title="time">
                                 <script type="text/javascript">
                                     var mydate=new Date()
                                     var year=mydate.getFullYear()
@@ -113,7 +112,8 @@
                                     var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
                                     //write out the final results
                                     document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
-                                </script>  </a></li>
+                                </script>  
+                         </s:a></li>
                     </ul>
                 </nav>
                 <%--  end website header --%>
@@ -131,19 +131,26 @@
                                 <th>EXPERIENCE REQUIRED</th>
                                 <th>CREDIT FOR ADDITIONAL EXPERIENCE</th>
                             </tr>
+                            
                         </table> 
+                        <table>
+                            <tr>
+                                <td><input id="lineItem1" type="text" size="25" value="field-1"></td>
+                                <td><input id="lineItem2" type="text" size="25" value="field-2"></td>
+                                <td><input id="lineItem3" type="text" size="25" value="field-3"></td>
+                                <td><input id="lineItem4" type="text" size="25" value="field-4"></td>
+                                <td>
+                                    <button id="saveAddLineButton">SAVE + ADD LINE</button>
+                                </td>
+                            <tr>
+                            
+                        </table>
                     </div>
                 </div>
 
 
 
-                <input id="lineItem1" type="text" size="25" value="">
-                <input id="lineItem2" type="text" size="25" value="default">
-                <input id="lineItem3" type="text" size="25" value="default">
-                <input id="lineItem4" type="text" size="25" value="default">
-                <br>
-                <button id="saveAddLineButton">SAVE + ADD LINE</button>
-                <br>
+
                 <button id="displayArrayButton">DISPLAY ARRAY</button>
                 <p id="arrayText"><br>Array Contents:<br></p>
                 <ul>
