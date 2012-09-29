@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ken
  */
 @ParentPackage("package-kjson")
-@Namespace("/crud/{name}")
+@Namespace("/crud/{entityName}")
 @Result(type="kjson")
 //@Result(location="/WEB-INF/content/test/named-test.jsp")
 //@Action(results = {
@@ -33,7 +33,7 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
     private static final Logger log = Logger.getLogger(ReadAction.class.getName());
     @Autowired
     private CrudService crudService;
-    private String name;
+    private String entityName;
     private Integer id;
     private Class clazz;
     private Object jsonModel;
@@ -58,8 +58,8 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
     public String execute() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         //request.put("excludeProperties", "qualLineCollection")
         log.info("Read execute");
-        log.log(Level.INFO, "param entityName : {0}", name);
-        clazz = ActionUtils.initClazz(name);
+        log.log(Level.INFO, "param entityName : {0}", entityName);
+        clazz = ActionUtils.initClazz(entityName);
         //Map modelDescription;
         jsonModel = crudService.read(clazz, id);
         //Class aClass = Hibernate.getClass(jsonModel);
@@ -94,10 +94,10 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
     public void initClazz() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         //sets the model
         //look up enity by name
-        setName(getName().toLowerCase());
-        setName(Character.toUpperCase(getName().charAt(0)) + getName().substring(1));
-        log.log(Level.INFO, "after setting string to: {0}", name);
-        clazz = Class.forName("com.kenmcwilliams.employmentsystem.orm." + getName());
+        setEntityName(getEntityName().toLowerCase());
+        setEntityName(Character.toUpperCase(getEntityName().charAt(0)) + getEntityName().substring(1));
+        log.log(Level.INFO, "after setting string to: {0}", entityName);
+        clazz = Class.forName("com.kenmcwilliams.employmentsystem.orm." + getEntityName());
         //entity = clazz.newInstance();
         //jsonModel = clazz.newInstance();
     }
@@ -131,15 +131,15 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
     /**
      * @return the entityName
      */
-    public String getName() {
-        return name;
+    public String getEntityName() {
+        return entityName;
     }
 
     /**
      * @param entityName the entityName to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     /**

@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ken
  */
 @ParentPackage("package-kjson")
-@Namespace("/crud/{name}")
+@Namespace("/crud/{entityName}")
 @Result(type = "kjson")
 public class PageAction extends ActionSupport {
 
@@ -26,12 +26,12 @@ public class PageAction extends ActionSupport {
     private Integer count;
     private Integer start;
     private Object jsonModel;
-    private String name;
+    private String entityName;
     private Class clazz;
 
     @Override
     public String execute() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        setClazz(ActionUtils.initClazz(getName()));
+        setClazz(ActionUtils.initClazz(getEntityName()));
         jsonModel = crudService.page(clazz, start, count);
         return SUCCESS;
     }
@@ -81,15 +81,15 @@ public class PageAction extends ActionSupport {
     /**
      * @return the name
      */
-    public String getName() {
-        return name;
+    public String getEntityName() {
+        return entityName;
     }
 
     /**
      * @param name the name to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     /**

@@ -17,19 +17,19 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ken
  */
 @ParentPackage("package-kjson")
-@Namespace("/crud/{name}")
+@Namespace("/crud/{entityName}")
 @Result(type = "kjson")
 public class CountAction extends ActionSupport {
 
     @Autowired
     private CrudService crudService;
-    private String name; //entity name
+    private String entityName; //entity name
     private Object jsonModel;
     private Long count;
     
     @Override
     public String execute() throws ClassNotFoundException, InstantiationException, IllegalAccessException{
-        Class clazz = ActionUtils.initClazz(getName());
+        Class clazz = ActionUtils.initClazz(getEntityName());
         jsonModel = crudService.count(clazz);
         return SUCCESS;
     }
@@ -37,15 +37,15 @@ public class CountAction extends ActionSupport {
     /**
      * @return the name
      */
-    public String getName() {
-        return name;
+    public String getEntityName() {
+        return entityName;
     }
 
     /**
      * @param name the name to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     /**
