@@ -15,15 +15,58 @@
 
         <title>JSP Page</title>
 
-        <s:url var="pageUrl" escapeAmp="false"  namespace="/crud/qual" action="page">
-            <s:param name="start" value="0"/>
-            <s:param name="count" value="10"/>
-        </s:url>
+        <s:url var="pageUrl" escapeAmp="false"  namespace="/crud/qual" action="page"/>
+        <s:url var="countUrl" escapeAmp="false"  namespace="/crud/qual" action="count"/>
+
         <script>
+            var totalEntryCount = 0;
+            var start = 0; //first line number on page
+            var count = 2; //number of lines per page display
+            var end = count; //last line number on page
             
             $(document).ready(function(){
-       
-                $.getJSON('<s:property escape="false" value="pageUrl"/>', function(data){
+                
+                $.getJSON('<s:property escape="false" value="countUrl"/>', function(data){
+                    totalEntryCount = data;
+                    //alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                    //test if catches error properly
+                    if(totalEntryCount==0){
+                        //should print table empty in results
+                        alert("empty table");
+                        end = 0;
+                        // alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                    }
+                    if(totalEntryCount<count){
+                        //figure out what to do
+                        end = totalEntryCount;
+                        //alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                    }
+                    
+                    $("#tableStartNumber").text(start+1); //to convert array to line number
+                    $("#tableEndNumber").text(end);
+                    $("#totalEntryCount").text(totalEntryCount);
+                        
+                    // alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                        
+                    
+                    
+                });
+                
+                
+                buildTable();
+                
+                $("#goToNext").click(goToNext); //function declaration
+                $("#goToEnd").click(goToEnd); //function declaration
+                $("#goToPrevious").click(goToPrevious); //function declaration
+                $("#goToStart").click(goToStart); //function declaration
+
+            })
+            
+            var buildTable = function(){
+                $.getJSON('<s:property escape="false" value="pageUrl"/>'+"?start="+start+"&count="+count, function(data){
+                    
+                    $("#testTable").html('');
+                    
                     var nRows = data.length;
                     
                     //TODO: check data and data[0] are greater than 0
@@ -55,15 +98,82 @@
                     }
                     $("#testTable").append(jTable);
                 });
-                
-                $("#goToNext").click(goToNext);
-
-            })
-            
-            
+            };
             var goToNext = function(){
-                alert("balls deep");      
+                //should print table empty in results 
+                if(((start + count) < totalEntryCount)){
+                    
+                    start += count; //check if not going past end
+                    end += count; //check if not going past end
+                }
+                
+                
+                if(end>totalEntryCount){                  
+                    end = totalEntryCount;
+                    start = end - (end%count);
+                    //alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                    
+                }
+                //set table display
+                $("#tableStartNumber").text(start+1); //to convert array to line number
+                $("#tableEndNumber").text(end);
+                $("#totalEntryCount").text(totalEntryCount);
+                
+                buildTable();
             }
+            var goToPrevious = function(){
+                //should print table empty in results 
+                start -= count; //check if not going past start
+                end -= count; //check if not going past start
+                
+                //check to see if end is smaller that the number of lines per page
+                if(start<=0){
+                    start = 0; 
+                    //check for if end is bigger than count
+                    end = count;
+                    if(end>totalEntryCount){                  
+                        end = totalEntryCount;
+                    }
+                }
+                
+                //set table display
+                $("#tableStartNumber").text(start+1); //to convert array to line number
+                $("#tableEndNumber").text(end);
+                $("#totalEntryCount").text(totalEntryCount);     
+                
+                buildTable();
+            }
+            var goToStart = function(){
+                start = 0;
+                end = count;
+                if(end>totalEntryCount){                  
+                    end = totalEntryCount;
+                }
+                //set table display
+                $("#tableStartNumber").text(start+1); //to convert array to line number
+                $("#tableEndNumber").text(end);
+                $("#totalEntryCount").text(totalEntryCount);     
+                
+                buildTable();
+            }
+            var goToEnd = function(){
+                
+                
+               
+                end = totalEntryCount;
+                if(end-count < 0){
+                    start = 0;
+                }else{
+                    start = end - count;
+                }
+                //alert("after...start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                //set table display
+                $("#tableStartNumber").text(start+1); //to convert array to line number
+                $("#tableEndNumber").text(end);
+                $("#totalEntryCount").text(totalEntryCount);     
+                
+                buildTable();
+            }    
             
         </script>
         <style>
@@ -114,7 +224,7 @@
                             <div id="pageBar">
                                 <table>
                                     <tr>
-                                        <td>table records 1 to 5 of 231</td>
+                                        <td>table records <span id="tableStartNumber"></span> to <span id="tableEndNumber"></span> of <span id="totalEntryCount"></span></td>
                                         <td><button type="button" id="goToStart">|&lt;</button></td>
                                         <td><button type="button" id="goToPrevious">&lt;</button></td>
                                         <td><button type="button" id="goToNext">&gt;</button></td>
@@ -122,15 +232,13 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div id="testTable">
-
-                            </div>
+                            <div id="testTable"></div>
                             <br>
                         </div>
                     </div>
                     <br>
                 </div><%-- end website body --%>
-                dd
+
                 <div> <%--  website footer --%>
                     <br>
                     <p class="siteFooter">
