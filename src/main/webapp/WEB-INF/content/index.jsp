@@ -65,9 +65,9 @@
                 <div class="yui3-u-1-2">
                     <h2>Qualification Form Services</h2>
                     <ul>
-                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry009.jsp">Enter New Qualification Form (Enoch)</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/listQualificationForms001.jsp">List Qualification Forms (Enoch)</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/viewQualificationForm.jsp">View Qualification Form (Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry009">Enter New Qualification Form (Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/listQualificationForms001">List Qualification Forms (Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/viewQualificationForm">View Qualification Form (Enoch)</s:a></li>
                         <li><s:a cssClass="group" namespace="/qual" action="list-quals">List Qualification Forms</s:a></li>
                         <li><s:a cssClass="group" namespace="/qual" action="new-qual-input">Ken's New Qualification Form</s:a></li>
                     </ul>
@@ -77,9 +77,9 @@
                 <div class="yui3-u-1-2">
                     <h2>Resume Services</h2>
                     <ul>
-                        <li><s:a cssClass="group" value="/enoch/resumeEntry007.jsp">Enter New Resume(Enoch)</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/listResumes001.jsp">List Resumes(Enoch)</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/viewResume.jsp">View Resume(Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/resumeEntry007">Enter New Resume(Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/listResumes001">List Resumes(Enoch)</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/viewResume">View Resume(Enoch)</s:a></li>
                         <li><s:a cssClass="group" namespace="/resume" action="list-resumes">List Resumes(Ken)</s:a></li>
                         <li><s:a cssClass="group" namespace="/resume" action="new-resume-input">Ken's New Resume</s:a></li>
                     </ul>
@@ -95,9 +95,10 @@
                 <div class="yui3-u-1-2">
                     <h2>Enoch's Stuff</h2>
                     <ul>
-                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry7.jsp">qualificationFormEntry7</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/resumeEntry005.jsp">resumeEntry005</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/test.jsp">test</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry7">qualificationFormEntry7</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/resumeEntry005">resumeEntry005</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/test">test</s:a></li>
+                        <li><s:a cssClass="group" value="/enoch/pager">pager</s:a></li>
                     </ul>
                 </div>
 
