@@ -6,6 +6,7 @@ package org.kenmcwilliams.employmentsystem.impl;
 
 import com.kenmcwilliams.employmentsystem.service.CrudService;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -49,13 +50,15 @@ public class CrudServiceImpl implements CrudService {
     }
 
     @Override
-    public void update(Class clazz, Object entity) {
+    public void update(Class clazz, Map map) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void delete(Class clazz, Integer id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void delete(Class clazz, Long id) {
+        //String simpleClassName = clazz.getSimpleName();
+        Object found = em.getReference(clazz, id);
+        em.remove(found);
     }
 
     @Override
