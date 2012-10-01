@@ -18,13 +18,13 @@
     </head>
      <%--  website header --%>
         <div id="wrapper">
-            <div id="content">
+            <div>
                 <nav>
                     <ul id="navBar">
                         <li><s:a cssClass="group" value="/index">Employment System</s:a></li>
                         <li><s:a cssClass="group" value="/enoch/listResumes001">Resume</s:a></li>
                         <li><s:a cssClass="group" value="/enoch/listQualificationForms002">Qualification</s:a></li>                       
-                        <li><s:a cssClass="group" value="/enoch/designDocument">Design</s:a></li>              
+                        <li><s:a cssClass="group" namespace="" value="/design/index">Design</s:a></li>              
                         <li><s:a cssClass="group" value="/index" title="time">
                                 <script type="text/javascript">
                                     var mydate=new Date()
@@ -46,7 +46,7 @@
                 <%--  end website header --%>
         
         <%--  website main page --%>
-        <div class ="outer">
+        <div class ="outer content">
             <br><br><h1>Main Menu</h1><br><br>
 
             <div class="yui3-g">
