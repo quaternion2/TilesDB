@@ -22,11 +22,11 @@
         <p><strong>Note:</strong> the red points are to attract attention, remove the attention classes after reading.</p>
         
         <ul>
-            <li class="attention">JSPs: use design-document.jsp and not designDocument.jsp</li>
+            <li>JSPs: use design-document.jsp and not designDocument.jsp</li>
             <li>JAVA: Follow java style guidelines within Java: All ways use camel case (jsps are not java), classes always start with a capital, variables are always lower case, packages are always lowercase.</li>
             <li>HTML: always use lowercase letters in tags</li>
             <li>FOLDERS: use lowercase to start, use camel case, but try to stick to single words</li>
-            <li class="attention">DB: We need to establish formal conventions for DB, most notably not using reserved SQL works for tables (which I have a bad tendency of doing)</li> 
+            <li>DB: We need to establish formal conventions for DB, most notably not using reserved SQL works for tables (which I have a bad tendency of doing)</li> 
             
         </ul>
         <div ></div>
