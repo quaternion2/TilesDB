@@ -16,92 +16,100 @@
         <link href="./style/style.css" rel="stylesheet" type="text/css">
         <title>Employment System</title>
     </head>
-     <%--  website header --%>
-        <div id="wrapper">
-            <div>
-                <nav>
-                    <ul id="navBar">
-                        <li><s:a cssClass="group" value="/index">Employment System</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/listResumes001">Resume</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/listQualificationForms002">Qualification</s:a></li>                       
-                        <li><s:a cssClass="group" namespace="" value="/design/index">Design</s:a></li>              
-                        <li><s:a cssClass="group" value="/index" title="time">
-                                <script type="text/javascript">
-                                    var mydate=new Date()
-                                    var year=mydate.getFullYear()
-                                    var day=mydate.getDay()
-                                    var month=mydate.getMonth()
-                                    var daym=mydate.getDate()
-                                    //if the current date is less than 10, pad it.
-                                    if (daym<10)
-                                        daym="0"+daym
-                                    var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
-                                    var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
-                                    //write out the final results
-                                    document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
-                                </script>  
-                         </s:a></li>
-                    </ul>
-                </nav>
-                <%--  end website header --%>
-        
-        <%--  website main page --%>
-        <div class ="outer content">
-            <br><br><h1>Main Menu</h1><br><br>
+    <%--  website header --%>
+    <div id="wrapper">
+        <div>
+            <nav>
+                <ul id="navBar">
+                    <li><s:a cssClass="group" value="/index">Employment System</s:a></li>
+                    <li><s:a cssClass="group" value="/enoch/listResumes001">Resume</s:a></li>
+                    <li><s:a cssClass="group" value="/enoch/listQualificationForms002">Qualification</s:a></li>                       
+                    <li><s:a cssClass="group" value="/design/design-document">Design</s:a></li>              
+                    <li><s:a cssClass="group" value="/index" title="time">
+                            <script type="text/javascript">
+                                var mydate=new Date()
+                                var year=mydate.getFullYear()
+                                var day=mydate.getDay()
+                                var month=mydate.getMonth()
+                                var daym=mydate.getDate()
+                                //if the current date is less than 10, pad it.
+                                if (daym<10)
+                                    daym="0"+daym
+                                var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+                                var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
+                                //write out the final results
+                                document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
+                            </script>  
+                        </s:a></li>
+                </ul>
+            </nav>
+            <%--  end website header --%>
 
-            <div class="yui3-g">
+            <%--  website main page --%>
+            <div class ="outer content">
+                <br><br><h1>Main Menu</h1><br><br>
 
-                <div class="yui3-u-1-2">
-                    <h2>Qualification Form Services</h2>
-                    <ul>
-                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry009">Enter New Qualification Form</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/listQualificationForms002">List Qualification Forms</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/viewQualificationForm">View Qualification Form</s:a></li>
-                    </ul>
-                </div>
+                <div class="yui3-g">
+
+                    <div class="yui3-u-1-2">
+                        <h2>Qualification Form Services</h2>
+                        <ul>
+                            <li><s:a cssClass="group" value="/enoch/qualificationFormEntry009">Enter New Qualification Form</s:a></li>
+                            <li><s:a cssClass="group" value="/enoch/listQualificationForms003">List Qualification Forms</s:a></li>
+                            <li><s:a cssClass="group" value="/enoch/viewQualificationForm">View Qualification Form</s:a></li>
+                        </ul>
+                    </div>
 
 
-                <div class="yui3-u-1-2">
-                    <h2>Resume Services</h2>
-                    <ul>
-                        <li><s:a cssClass="group" value="/enoch/resumeEntry007">Enter New Resume</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/listResumes001">List Resumes</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/viewResume">View Resume</s:a></li>
-                    </ul>
-                </div>
-                <br><br><br>
-                <div class="yui3-u-1-2">
-                    <h2>Ken's Stuff</h2>
-                    <ul>
-                        
-                        <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
-                        <li><s:a cssClass="group" value="/crud/qual/read.action?id=9">Crud- Read - qual - id 9</s:a></li>
-                        <li><s:a cssClass="group" value="/crud/qual/page?start=0&count=10">Crud- Paged Read - qual - start 0, count 10</s:a></li>
-                        <li><s:a cssClass="group" value="/crud/qual/count">Crud - count - total quals</s:a></li>
-                        <li><s:a cssClass="group" value="/crud/qual/add.action?description=the description&name=the name&role=the role">Crud - write - add new qual header</s:a></li>
-                    </ul>
-                </div>
-                <div class="yui3-u-1-2">
-                    <h2>Enoch's Stuff</h2>
-                    <ul>
-                        <li><s:a cssClass="group" value="/enoch/qualificationFormEntry7">qualificationFormEntry7</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/resumeEntry005">resumeEntry005</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/test">test</s:a></li>
-                        <li><s:a cssClass="group" value="/enoch/pager">pager</s:a></li>
-                    </ul>
-                </div>
-
-                <br><br><br>  
-
-                <div class="yui3-u-1-2">
-                    <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
-                    <h1 style="color:#FF0000">fix fucked up footer at bottom of page...related to those yahoo css files being called...also fix footer on resume list page</h1>
-                    <p style="color:#FF0000">all crud read operations should only return records from that table(don't recursively descend)</p>
-                    <p style="color:#FF0000">read operations should only return lines from the table</p>
-                    <p style="color:#FF0000">include parameters should only return associated collections</p>
-                    <p style="color:#FF0000">exclude parameters should work on individual fields</p>
+                    <div class="yui3-u-1-2">
+                        <h2>Resume Services</h2>
+                        <ul>
+                            <li><s:a cssClass="group" value="/enoch/resumeEntry007">Enter New Resume</s:a></li>
+                            <li><s:a cssClass="group" value="/enoch/listResumes001">List Resumes</s:a></li>
+                            <li><s:a cssClass="group" value="/enoch/viewResume">View Resume</s:a></li>
+                        </ul>
+                    </div>
                     <br><br><br>
-                    
+                    <div class="yui3-u-1-2">
+                        <h2>Ken's Stuff</h2>
+                        <ul>
+
+                            <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
+                            <li><s:a cssClass="group" value="/crud/qual/read.action?id=9">Crud- Read - qual - id 9</s:a></li>
+                            <li><s:a cssClass="group" value="/crud/qual/page?start=0&count=10">Crud- Paged Read - qual - start 0, count 10</s:a></li>
+                            <li><s:a cssClass="group" value="/crud/qual/count">Crud - count - total quals</s:a></li>
+                            <li><s:a cssClass="group" value="/crud/qual/add.action?description=the description&name=the name&role=the role">Crud - write - add new qual header</s:a></li>
+                        </ul>
+                    </div>
+                    <div class="yui3-u-1-2">
+                        <h2>Enoch's Stuff</h2>
+                        <ul>
+                            <li><s:a cssClass="group" value="/enoch/qualificationFormEntry7">qualificationFormEntry7</s:a></li>
+                            <li><s:a cssClass="group" value="/enoch/resumeEntry005">resumeEntry005</s:a></li>
+                            <li><s:a cssClass="group" value="/enoch/test">test</s:a></li>
+                            <li><s:a cssClass="group" value="/enoch/pager">pager</s:a></li>
+                        </ul>
+                    </div>
+
+                    <br><br><br>  
+
+                    <div class="yui3-u-1-2">
+                        <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
+                        <ul>
+                            <li style="color:#FF0000">I cannot get a jQuery tab example to work...all it displays is basic html without the tabbing functionality</li>
+                            <li style="color:#FF0000">struts-2 problem with design button in header link bar</li>
+                            <li style="color:#FF0000">fix resizing glitch with header link bar</li>    
+                            <li style="color:#FF0000">all crud read operations should only return records from that table(don't recursively descend)</li>
+                            <li style="color:#FF0000">read operations should only return lines from the table</li>
+                            <li style="color:#FF0000">include parameters should only return associated collections</li>
+                            <li style="color:#FF0000">exclude parameters should work on individual fields</li>
+
+                        </ul>
+
+                        <br><br><br>
+
+                    </div>
+
                 </div>
                 <%--  website footer --%>
                 <div>
@@ -112,6 +120,5 @@
                 </div>
                 <%--  end website footer --%>
             </div>
-        </div>
-    </body>
-</html>
+            </body>
+            </html>
