@@ -95,11 +95,7 @@
 
                 <div class="yui3-u-1-2">
                     <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
-                    <h1 style="color:#FF0000">fix fucked up footer at bottom of page...related to those yahoo css files being called...also fix footer on resume list page</h1>
-                    <p style="color:#FF0000">all crud read operations should only return records from that table(don't recursively descend)</p>
-                    <p style="color:#FF0000">read operations should only return lines from the table</p>
-                    <p style="color:#FF0000">include parameters should only return associated collections</p>
-                    <p style="color:#FF0000">exclude parameters should work on individual fields</p>
+                        This section will be deleted (Now under design section[link at top of page])
                     <br><br><br>
                     
                 </div>

@@ -16,9 +16,11 @@
         <h1>CRUD</h1>
         <ul>
             <li>Update - by id (use paramsPrepareParamsStack)</li>
-            <li>Delete - by id</li>
-            <li>include parameters should only return associated collections</li>
-            <li>exclude parameters should work on individual fields</li>
+            <li>Delete - by id (need to test)</li>
+            <li>implement dashes in entity names</li>
+            <li>Set up programming environment on laptop</li>
+            <li>?include parameters should only return associated collections</li>
+            <li>?exclude parameters should work on individual fields</li>
         </ul>
         <h1>View Related Stuff</h1>
         <ul>
