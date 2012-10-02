@@ -94,13 +94,14 @@
 
                 </div><%-- end website body --%>
 
-                <div> <%--  website footer --%>
+                
+            </div>
+                                    <div> <%--  website footer --%>
                     <br>
                     <p class="siteFooter">
                         <br>© 2012, Scrotum Solutions Inc.<br>
                         All Rights Reserved.
                     </p>
                 </div> <%--  end website footer --%>
-            </div>
     </body>
 </html>

@@ -6,6 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="./../style/style.css" rel="stylesheet" type="text/css">
         <script src="../script/jquery/1.8.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 
         <title>Employment System - List Resume</title>
     </head>

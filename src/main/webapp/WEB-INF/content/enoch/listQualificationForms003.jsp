@@ -212,7 +212,7 @@
                                     //write out the final results
                                     document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
                                 </script>  
-                         </s:a></li>
+                            </s:a></li>
                     </ul>
                 </nav>
                 <%--  end website header --%>
@@ -222,20 +222,18 @@
                     <p> <button>New Qualification Form</button></p>
                     <br>
                     <%--  Contact Info --%>
-                    <div class="boxHeader"><h2 class="boxHeader">Qualification Forms</h2></div>
+                    <div class="boxHeader">
+                        <h2 class="boxHeader">Qualification Forms: 
+                            <span id="tableStartNumber"></span> to <span id="tableEndNumber"></span> of <span id="totalEntryCount"></span>
+                            <button type="button" id="goToStart">|&lt;</button>
+                            <button type="button" id="goToPrevious">&lt;</button>
+                            <button type="button" id="goToNext">&gt;</button>
+                            <button type="button" id="goToEnd">&gt;|</button>
+
+                        </h2>
+                    </div>
                     <div class="boxBody">
                         <div class="boxInterior"> 
-                            <div id="pageBar">
-                                <table>
-                                    <tr>
-                                        <td>table records <span id="tableStartNumber"></span> to <span id="tableEndNumber"></span> of <span id="totalEntryCount"></span></td>
-                                        <td><button type="button" id="goToStart">|&lt;</button></td>
-                                        <td><button type="button" id="goToPrevious">&lt;</button></td>
-                                        <td><button type="button" id="goToNext">&gt;</button></td>
-                                        <td><button type="button" id="goToEnd">&gt;|</button></td>
-                                    </tr>
-                                </table>
-                            </div>
                             <div id="testTable"></div>
                             <br>
                         </div>
