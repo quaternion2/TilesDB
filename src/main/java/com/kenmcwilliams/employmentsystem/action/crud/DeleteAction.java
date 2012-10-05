@@ -7,6 +7,8 @@ package com.kenmcwilliams.employmentsystem.action.crud;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
 import com.kenmcwilliams.employmentsystem.util.ActionUtils;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -27,13 +29,23 @@ public class DeleteAction extends ActionSupport {
     private String entityName; //entity name
     private Object jsonModel;
     private Class clazz;
-    private Long id;
+    private Integer id;
 
     //TODO: add (or consider adding) validate method
     @Override
-    public String execute() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        clazz = ActionUtils.initClazz(entityName);
-        crudService.delete(clazz, id);
+    public String execute() {
+        Map<String, String> message = new HashMap();
+
+        try {
+            clazz = ActionUtils.initClazz(entityName);
+            crudService.delete(clazz, id);
+        } catch (Exception e) {
+            message.put(ERROR, e.getMessage());
+        }
+        if (message.size() == 0) { //no error messages
+            message.put(SUCCESS, SUCCESS);
+        }
+        jsonModel = message;
         return SUCCESS;
     }
 
@@ -61,14 +73,14 @@ public class DeleteAction extends ActionSupport {
     /**
      * @return the id
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

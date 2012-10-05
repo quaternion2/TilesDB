@@ -19,5 +19,5 @@ public interface CrudService {
     void update(Class clazz, Map map);
     List<Object> page(Class clazz, Integer start, Integer size);//TODO: add, parameters for sortOrder and query
     Long count(Class clazz); //total # records for entity TODO: add criteria object
-    public void delete(Class clazz, Long id);
+    public void delete(Class clazz, Integer id);
 }

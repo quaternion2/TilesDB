@@ -55,7 +55,7 @@ public class CrudServiceImpl implements CrudService {
     }
 
     @Override
-    public void delete(Class clazz, Long id) {
+    public void delete(Class clazz, Integer id) {
         //String simpleClassName = clazz.getSimpleName();
         Object found = em.getReference(clazz, id);
         em.remove(found);
