@@ -51,10 +51,10 @@
                     <div class="yui3-g">
 
                         <div class="yui3-u-1-2">
-                            <h2>Qualification Form Services</h2><br>
+                            <h2>Qualification Form Services</h2>
                             <ul>
                                 <li><s:a cssClass="group" value="/enoch/qualificationFormEntry009">Enter New Qualification Form</s:a></li>
-                                <li><s:a cssClass="group" value="/enoch/listQualificationForms003">List Qualification Forms</s:a></li>
+                                <li><s:a cssClass="group" value="/enoch/listQualificationForms002">List Qualification Forms</s:a></li>
                                 <li><s:a cssClass="group" value="/enoch/viewQualificationForm">View Qualification Form</s:a></li>
                                 </ul>
                             </div>
