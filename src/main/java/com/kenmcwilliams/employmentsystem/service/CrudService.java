@@ -16,7 +16,7 @@ import java.util.Map;
 public interface CrudService {
     Object create(Class clazz, Object entity); //return the created object from database with id
     Object read(Class clazz, Integer id); //TODO: change to long
-    void update(Class clazz, Map map);
+    void update(Class clazz, Map map) throws Exception;
     List<Object> page(Class clazz, Integer start, Integer size);//TODO: add, parameters for sortOrder and query
     Long count(Class clazz); //total # records for entity TODO: add criteria object
     public void delete(Class clazz, Integer id);
