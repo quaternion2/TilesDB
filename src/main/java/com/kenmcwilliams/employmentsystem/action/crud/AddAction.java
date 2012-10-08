@@ -9,6 +9,8 @@ import com.kenmcwilliams.employmentsystem.util.ActionUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -31,7 +33,7 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
     private CrudService crudService;
     private String entityName; //entity name
     private Object entityModel; // for input
-    private Object jsonModel; //for output, return the newly created object
+    private Map jsonModel = new HashMap(); //for output, return the newly created object
     //private Long count;
     //private Long id;
     private Class clazz;
@@ -39,9 +41,22 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
     @Override
     public String execute() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         log.log(Level.INFO, "In execute entityName is set with {0}", entityName);
-        //Not sure what happens if an id is passed in
-
-        jsonModel = crudService.create(clazz, entityModel);
+        //If an id is passed in it will merge the object with that id, it will null not set attributes
+        String status = SUCCESS;
+        boolean error = false;
+        Object entity = null;
+        try {
+            
+            entity = crudService.create(clazz, entityModel);
+        } catch (Exception e) {
+            error = true;
+            status = ERROR;
+            jsonModel.put("message", e.getMessage());
+        }
+        if (error == false) {
+            jsonModel.put("entity", entity);
+        }
+        jsonModel.put("status", status);
         return SUCCESS;
     }
 
@@ -64,13 +79,6 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
      */
     public Object getJsonModel() {
         return jsonModel;
-    }
-
-    /**
-     * @param jsonModel the jsonModel to set
-     */
-    public void setJsonModel(Object jsonModel) {
-        this.jsonModel = jsonModel;
     }
 
     //@Override
