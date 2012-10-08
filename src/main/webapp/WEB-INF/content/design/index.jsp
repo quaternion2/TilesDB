@@ -17,6 +17,7 @@
             clutter the design document. Red alert section is best reserved when we need to 
             get each others attention.
         </p>
+        <s:a namespace="/design" action="agenda">Agenda for meetings</s:a> - What we need to talk about next time we meet<br/>
         <s:a namespace="/design" action="design-document">Design Document</s:a> - Requirements, How realized, Test<br/>
         <s:a namespace="/design" action="conventions">Conventions</s:a> - Conventions used in the system<br/>
         <s:a namespace="/design" action="style-guide">Style Guide</s:a> - HTML, CSS and JS notes<br/>

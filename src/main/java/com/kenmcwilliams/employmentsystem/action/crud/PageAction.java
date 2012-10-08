@@ -74,9 +74,9 @@ public class PageAction extends ActionSupport {
     /**
      * @param jsonModel the jsonModel to set
      */
-    public void setJsonModel(Object jsonModel) {
-        this.jsonModel = jsonModel;
-    }
+    //public void setJsonModel(Object jsonModel) {
+    //    this.jsonModel = jsonModel;
+    //}
 
     /**
      * @return the name

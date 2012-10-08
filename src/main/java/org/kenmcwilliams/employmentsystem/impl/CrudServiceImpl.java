@@ -5,12 +5,15 @@
 package org.kenmcwilliams.employmentsystem.impl;
 
 import com.kenmcwilliams.employmentsystem.service.CrudService;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -49,13 +52,18 @@ public class CrudServiceImpl implements CrudService {
     }
 
     @Override
-    public void update(Class clazz, Object entity) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void update(Class clazz, Map map) throws Exception {
+        Integer id = (Integer) map.get("id");
+        Object found = em.find(clazz, id);
+        BeanUtils.populate(found, map);
+        em.persist(found);
     }
 
     @Override
     public void delete(Class clazz, Integer id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //String simpleClassName = clazz.getSimpleName();
+        Object found = em.getReference(clazz, id);
+        em.remove(found);
     }
 
     @Override

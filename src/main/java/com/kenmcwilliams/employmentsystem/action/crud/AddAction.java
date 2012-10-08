@@ -74,6 +74,7 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
     }
 
     //@Override
+    @Override
     public Object getModel() {
         return this.entityModel;
     }
