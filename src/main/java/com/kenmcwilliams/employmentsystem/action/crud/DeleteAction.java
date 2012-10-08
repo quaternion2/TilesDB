@@ -43,7 +43,7 @@ public class DeleteAction extends ActionSupport {
             message.put(ERROR, e.getMessage());
         }
         if (message.size() == 0) { //no error messages
-            message.put(SUCCESS, SUCCESS);
+            message.put("status", SUCCESS);
         }
         jsonModel = message;
         return SUCCESS;
