@@ -230,6 +230,8 @@ div.groupBox4{
     border-radius:  4px 4px;
     border: 1px solid;
 }
+ 
+
 div.boxHeader{
     background-color: #394951; 
     border-radius:  4px 4px 0 0;
@@ -237,7 +239,9 @@ div.boxHeader{
     background-image: -moz-linear-gradient(center bottom, #3F3F3F 0%, #383838 50%, #434343 51%, #555555 100% );
     background-color:#383838; /* Fallback */
     width: 800px;  
-
+    
+    margin-left: auto ;
+    margin-right: auto ; 
     /* We want to add the shadow to the complete navigation menu. In order to do that, we'll need to set
     the correct width and height, and also the correct borders, in order to create the perfect drop shadow */
     /*width:980px; height:34px;*/
@@ -256,6 +260,8 @@ div.boxBody{
     background-color: #F8F8F8;
     width: 798px; 
 
+    margin-left: auto ;
+    margin-right: auto ; 
     /* We want to add the shadow to the complete navigation menu. In order to do that, we'll need to set
     the correct width and height, and also the correct borders, in order to create the perfect drop shadow */
     /*width:980px; height:34px;*/
@@ -308,10 +314,10 @@ a.group:visited { color: #000000; text-decoration: none}
 a.group:hover { color: #0000FF; text-decoration: none}
 a.group:active { color: #000000; text-decoration: none}
 
-#content li {
+/*#content li {
     font-size: small;
     margin-left: 1.5em;
-}
+}*/
 
 .strike{
     text-decoration: line-through; 

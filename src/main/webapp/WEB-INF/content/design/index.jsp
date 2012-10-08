@@ -25,7 +25,7 @@
 
         <div style="color:#FF0000">
             <h1>RED ALERT HELP SECTION</h1>
-            
+            <p>Ken... when you made #content.li{} in the style.css thats what fucked up the header on all the pages...I quoted it out if you want to reimplement what you were doing with a different variable name</p>
         </div>
     </body>
 </html>

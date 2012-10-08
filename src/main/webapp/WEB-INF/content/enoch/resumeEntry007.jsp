@@ -362,7 +362,7 @@
                         <li><s:a cssClass="group" value="/index">Employment System</s:a></li>
                         <li><s:a cssClass="group" value="/enoch/listResumes001">Resume</s:a></li>
                         <li><s:a cssClass="group" value="/enoch/listQualificationForms002">Qualification</s:a></li>                       
-                        <li><s:a cssClass="group" value="/enoch/designDocument">Design</s:a></li>              
+                        <li><s:a cssClass="group" namespace="" value="/design/index">Design</s:a></li>             
                         <li><s:a cssClass="group" value="/index" title="time">
                                 <script type="text/javascript">
                                     var mydate=new Date()
@@ -378,7 +378,7 @@
                                     //write out the final results
                                     document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
                                 </script>  
-                         </s:a></li>
+                            </s:a></li>
                     </ul>
                 </nav>
                 <%--  end website header --%>
@@ -388,22 +388,24 @@
                     <h1>Resume Entry</h1>  
                     <br>
                     <%--  Contact Info --%>
-                    <div class="boxHeader"><h2 class="boxHeader">Contact Info</h2></div>
-                    <div class="boxBody">
-                        <div class="boxInterior"> 
-                            <form>
-                                <div class ="inputLine"><label class="labelLine">First Name:</label><input class="inputLine" type="text" placeholder="First Name" id="firstName"></div>
-                                <div class ="inputLine"><label class="labelLine">Last Name:</label><input class="inputLine" type="text" placeholder="Last Name" id="lastName"></div>
-                                <div class ="inputLine"><label class="labelLine">Street Address:</label><input class="inputLine" type="text" placeholder="Street Address" id="streetAddress"></div>
-                                <div class ="inputLine"><label class="labelLine">City:</label><input class="inputLine" type="text" placeholder="City" id="city" ></div>
-                                <div class ="inputLine"><label class="labelLine">Province:</label><input class="inputLine" type="text" placeholder="Province"  id="province"></div>
-                                <div class ="inputLine"><label class="labelLine">Postal Code:</label><input class="inputLine" type="text" placeholder="Postal Code" id="postalCode" ></div>
-                                <div class ="inputLine"><label class="labelLine">Phone:</label><input class="inputLine" type="text" placeholder="Phone"  id="phone"></div>
-                                <div class ="inputLine"><label class="labelLine">Email:</label><input class="inputLine" type="text" placeholder="Email" id="email" ></div>
-                                <button id="saveResumeButton" type="button">SAVE RESUME CONTACTS + JSON</button>
-                            </form><br>
+                    
+                        <div class="boxHeader"><h2 class="boxHeader">Contact Info</h2></div>
+                        <div class="boxBody">
+                            <div class="boxInterior"> 
+                                <form>
+                                    <div class ="inputLine"><label class="labelLine">First Name:</label><input class="inputLine" type="text" placeholder="First Name" id="firstName"></div>
+                                    <div class ="inputLine"><label class="labelLine">Last Name:</label><input class="inputLine" type="text" placeholder="Last Name" id="lastName"></div>
+                                    <div class ="inputLine"><label class="labelLine">Street Address:</label><input class="inputLine" type="text" placeholder="Street Address" id="streetAddress"></div>
+                                    <div class ="inputLine"><label class="labelLine">City:</label><input class="inputLine" type="text" placeholder="City" id="city" ></div>
+                                    <div class ="inputLine"><label class="labelLine">Province:</label><input class="inputLine" type="text" placeholder="Province"  id="province"></div>
+                                    <div class ="inputLine"><label class="labelLine">Postal Code:</label><input class="inputLine" type="text" placeholder="Postal Code" id="postalCode" ></div>
+                                    <div class ="inputLine"><label class="labelLine">Phone:</label><input class="inputLine" type="text" placeholder="Phone"  id="phone"></div>
+                                    <div class ="inputLine"><label class="labelLine">Email:</label><input class="inputLine" type="text" placeholder="Email" id="email" ></div>
+                                    <button id="saveResumeButton" type="button">SAVE RESUME CONTACTS + JSON</button>
+                                </form><br>
+                            </div>
                         </div>
-                    </div>
+            
                     <br>
                     <%--  Experience --%>
                     <br>

@@ -47,12 +47,12 @@
 
             <%--  website main page --%>
             <div class ="outer content">
-                <br><br><h1>Main Menu</h1><br><br>
+                <br><br><h1>Main Menu</h1><br>
 
                 <div class="yui3-g">
 
                     <div class="yui3-u-1-2">
-                        <h2>Qualification Form Services</h2>
+                        <h2>Qualification Form Services</h2><br>
                         <ul>
                             <li><s:a cssClass="group" value="/enoch/qualificationFormEntry009">Enter New Qualification Form</s:a></li>
                             <li><s:a cssClass="group" value="/enoch/listQualificationForms003">List Qualification Forms</s:a></li>
@@ -62,7 +62,7 @@
 
 
                     <div class="yui3-u-1-2">
-                        <h2>Resume Services</h2>
+                        <h2>Resume Services</h2><br>
                         <ul>
                             <li><s:a cssClass="group" value="/enoch/resumeEntry007">Enter New Resume</s:a></li>
                             <li><s:a cssClass="group" value="/enoch/listResumes001">List Resumes</s:a></li>
@@ -71,7 +71,7 @@
                     </div>
                     <br><br><br>
                     <div class="yui3-u-1-2">
-                        <h2>Ken's Stuff</h2>
+                        <h2>Ken's Stuff</h2><br>
                         <ul>
 
                             <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
@@ -82,7 +82,7 @@
                         </ul>
                     </div>
                     <div class="yui3-u-1-2">
-                        <h2>Enoch's Stuff</h2>
+                        <h2>Enoch's Stuff</h2><br>
                         <ul>
                             <li><s:a cssClass="group" value="/enoch/qualificationFormEntry7">qualificationFormEntry7</s:a></li>
                             <li><s:a cssClass="group" value="/enoch/resumeEntry005">resumeEntry005</s:a></li>
@@ -93,22 +93,7 @@
 
                     <br><br><br>  
 
-                    <div class="yui3-u-1-2">
-                        <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
-                        <ul>
-                            <li style="color:#FF0000">I cannot get a jQuery tab example to work...all it displays is basic html without the tabbing functionality</li>
-                            <li style="color:#FF0000">struts-2 problem with design button in header link bar</li>
-                            <li style="color:#FF0000">fix resizing glitch with header link bar</li>    
-                            <li style="color:#FF0000">all crud read operations should only return records from that table(don't recursively descend)</li>
-                            <li style="color:#FF0000">read operations should only return lines from the table</li>
-                            <li style="color:#FF0000">include parameters should only return associated collections</li>
-                            <li style="color:#FF0000">exclude parameters should work on individual fields</li>
-
-                        </ul>
-
-                        <br><br><br>
-
-                    </div>
+                  
 
                 </div>
                 <%--  website footer --%>

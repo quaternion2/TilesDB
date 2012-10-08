@@ -14,5 +14,8 @@
     <body>
         <h1>Style Guide (HTML, CSS, JavaScript)</h1>
         <p>This document is for the styles used in the document.</p>
+        <p>
+            example:ids: #headerNavBar
+        </p>
     </body>
 </html>
