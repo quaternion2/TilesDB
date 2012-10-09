@@ -14,7 +14,8 @@
 
         <s:url var="pageUrl" escapeAmp="false"  namespace="/crud/qual" action="page"/>
         <s:url var="countUrl" escapeAmp="false"  namespace="/crud/qual" action="count"/>
-
+        <s:url var="deleteUrl" escapeAmp="false"  namespace="/crud/qual" action="delete"/>
+        <s:url var="addUrl" escapeAmp="false"  namespace="/crud/qual" action="add"/>
         <script>
             var totalEntryCount = 0;
             var start = 1; //first line number on page
@@ -23,32 +24,8 @@
             
             $(document).ready(function(){
                 $( "#tabs" ).tabs();
-                $.getJSON('<s:property escape="false" value="countUrl"/>', function(data){
-                    totalEntryCount = data;
-                    //alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
-                    //test if catches error properly
-                    if(totalEntryCount==0){
-                        //should print table empty in results
-                        alert("empty table");
-                        end = 0;
-                        // alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
-                    }
-                    if(totalEntryCount<count){
-                        //figure out what to do
-                        end = totalEntryCount;
-                        //alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
-                    }
-                    
-                    $("#tableStartNumber").text(start); //to convert array to line number
-                    $("#tableEndNumber").text(end);
-                    $("#totalEntryCount").text(totalEntryCount);
-                        
-                    // alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
-                        
-                    
-                    
-                });
                 
+                calculateTableLineCount();
                 
                 buildTable(start - 1, end);
                 
@@ -56,6 +33,7 @@
                 $("#goToEnd").click(goToEnd); //function declaration
                 $("#goToPrevious").click(goToPrevious); //function declaration
                 $("#goToStart").click(goToStart); //function declaration
+               
 
             })
             
@@ -68,6 +46,13 @@
                     
                     //TODO: check data and data[0] are greater than 0
                     var nCols = Object.keys(data[0]).length;
+                    
+                    //get index of id property in database
+                    var idIndex=-1;
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].name==="id"){idIndex=i;break;}
+                    }
+                    
                     
                     var jTable = $("<table>");
                     //make sure to do data checking
@@ -89,12 +74,20 @@
                         for(var key in data[row]){
                             //alert(data[row][key]);
                             var jTd = $("<td>").html(data[row][key]);
-                            $(jRow).append(jTd);
-                            //alert("data "+ jTable);
+                            if(key==="id"){
+                                $(jTd).addClass("id"); 
+                            }
+                            $(jRow).append(jTd);                        
                         }
+                        
+                        $(jRow).append("<button class='delete'>Delete</button>");
+                        $(jRow).append("<button class='copy'>Copy<button>");
                     }
                     $("#testTable").append(jTable);
+                    $("button.delete").click(deleteButtonHandler); //function declaration to make it work on refresh
+                    $("button.copy").click(copyButtonHandler); //function declaration to make it work on refresh
                 });
+                 
             };
             var goToNext = function(){
                 //should print table empty in results 
@@ -174,7 +167,85 @@
                 
                 buildTable(start -1, end);
             }    
-            
+            var deleteButtonHandler = function(){
+                
+                var number = $(this).parent().children(".id").first().html();
+                deleteLineById(number);
+                //alert("delete number:"+number);   
+               
+            }
+            var deleteLineById = function(number){
+                    
+                $.getJSON('<s:property escape="false" value="deleteUrl"/>'+"?id="+number, function(data){
+                    if(data.message ==='error'){
+                        alert("error:"+data.message);
+                            
+                            
+                    }else{
+                        calculateTableLineCount();
+                        buildTable(start -1, end);
+                    }
+                });
+            }
+            var copyButtonHandler = function(){
+                
+                var number = $(this).parent().children(".id").first().html();
+                copyLineById(number);
+                //alert("delete number:"+number);   
+               
+            }
+            var copyLineById = function(number){
+                    
+                $.getJSON(
+                    '<s:property escape="false" value="addUrl"/>', 
+                    {description: "cow",
+                    name:"dog",
+                    role:"horse"
+                    },
+                    function(data){
+                    
+                    
+                    if(data.message ==='error'){
+                        alert("error:"+data.message);
+                            
+                            
+                    }else{
+                        calculateTableLineCount();
+                        //fix this function need asynchronous receiving of data
+                        setTimeout(goToEnd, 600);
+                        
+                        //buildTable(start -1, end);
+                    }
+                });
+                
+            }
+            var calculateTableLineCount = function(){
+                $.getJSON('<s:property escape="false" value="countUrl"/>', function(data){
+                    totalEntryCount = data;
+                    //alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                    //test if catches error properly
+                    if(totalEntryCount==0){
+                        //should print table empty in results
+                        alert("empty table");
+                        end = 0;
+                        // alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                    }
+                    if(totalEntryCount<count){
+                        //figure out what to do
+                        end = totalEntryCount;
+                        //alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                    }
+                    
+                    $("#tableStartNumber").text(start); //to convert array to line number
+                    $("#tableEndNumber").text(end);
+                    $("#totalEntryCount").text(totalEntryCount);
+                        
+                    // alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
+                        
+                    
+                    
+                });
+            }
         </script>
         <style>
             td{
@@ -186,36 +257,6 @@
     </head>
     <body>
 
-
-
-
-<div class="demo">
-
-<div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">Nunc tincidunt</a></li>
-		<li><a href="#tabs-2">Proin dolor</a></li>
-		<li><a href="#tabs-3">Aenean lacinia</a></li>
-	</ul>
-	<div id="tabs-1">
-		<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
-	</div>
-	<div id="tabs-2">
-		<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
-	</div>
-	<div id="tabs-3">
-		<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-		<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
-	</div>
-</div>
-
-</div><!-- End demo -->
-
-
-
-<div style="display: none;" class="demo-description">
-<p>Click tabs to swap between content that is broken into logical sections.</p>
-</div><!-- End demo-description -->
         <%--  website header --%>
         <div id="wrapper">
             <div id="content">
@@ -247,40 +288,11 @@
                 <div><%-- website body --%>
                     <br>
                     <script>
-	$(function() {
-		$( "#tabs" ).tabs();
-	});
-	</script>
+                        $(function() {
+                            $( "#tabs" ).tabs();
+                        });
+                    </script>
 
-
-
-<div class="demo">
-
-<div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">Nunc tincidunt</a></li>
-		<li><a href="#tabs-2">Proin dolor</a></li>
-		<li><a href="#tabs-3">Aenean lacinia</a></li>
-	</ul>
-	<div id="tabs-1">
-		<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
-	</div>
-	<div id="tabs-2">
-		<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
-	</div>
-	<div id="tabs-3">
-		<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-		<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
-	</div>
-</div>
-
-</div><!-- End demo -->
-
-
-
-<div style="display: none;" class="demo-description">
-<p>Click tabs to swap between content that is broken into logical sections.</p>
-</div><!-- End demo-description -->
                     <br>
                     <h1>Qualification</h1>  
                     <p> <button>New Qualification Form</button></p>

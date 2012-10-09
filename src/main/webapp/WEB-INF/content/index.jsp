@@ -91,17 +91,12 @@
                                 <li><s:a cssClass="group" value="/enoch/resumeEntry005">resumeEntry005</s:a></li>
                                 <li><s:a cssClass="group" value="/enoch/test">test</s:a></li>
                                 <li><s:a cssClass="group" value="/enoch/pager">pager</s:a></li>
+                                <li><s:a cssClass="group" value="/script/lightbox/index.jsp">lightbox</s:a></li>
                                 </ul>
                             </div>
 
                             <br><br><br>  
 
-                            <div class="yui3-u-1-2">
-                                <h1 style="color:#FF0000">RED ALERT HELP SECTION</h1>
-                                This section will be deleted (Now under design section[link at top of page])
-                                <br><br><br>
-
-                            </div>
                         <%--  website footer --%>
                         <div>
                             <p class="siteFooter">
