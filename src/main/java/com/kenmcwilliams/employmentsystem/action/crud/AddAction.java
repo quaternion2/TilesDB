@@ -45,8 +45,7 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
         String status = SUCCESS;
         boolean error = false;
         Object entity = null;
-        try {
-            
+        try { 
             entity = crudService.create(clazz, entityModel);
         } catch (Exception e) {
             error = true;
