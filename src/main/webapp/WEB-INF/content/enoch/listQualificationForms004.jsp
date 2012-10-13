@@ -10,8 +10,8 @@
         <script src="../script/jquery/1.8.1/jquery.min.js"></script>
         <script src="../script/jquery-ui-1.8.24.custom/js/jquery-ui-1.8.24.custom.min.js"></script>
         <link href ="../script/jquery-ui-1.8.24.custom/css/ui-lightness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css">
-               
-        
+
+
         <title>JSP Page</title>
 
         <s:url var="pageUrl" escapeAmp="false"  namespace="/crud/qual" action="page"/>
@@ -312,7 +312,15 @@
 
                     <br>
                     <h1>Qualification</h1>  
-                    <p> <button class="add">New Qualification Form</button></p>
+                    <p> 
+
+
+                    <form> 
+                        <input type=button 
+                               value="New Qualification Form"
+                               onClick="self.location='qualificationFormEntry010'">
+                    </form> 
+                    </p>
                     <br>
                     <%--  Contact Info --%>
                     <div class="boxHeader">
