@@ -80,8 +80,7 @@
                                 <li><s:a cssClass="group" value="/crud/qual/count">Crud - count - total quals</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/add.action?description=the description&name=the name&role=the role">Crud - write - add new qual header</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/delete.action?id=13">Crud - delete by id</s:a></li>
-
-
+                                <li><s:a cssClass="group" value="/crud/list-tables">List all DataBase Tables</s:a></li>
                                 </ul>
                             </div>
                             <div class="yui3-u-1-2">
