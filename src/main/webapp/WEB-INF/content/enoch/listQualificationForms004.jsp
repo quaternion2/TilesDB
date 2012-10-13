@@ -18,6 +18,7 @@
         <s:url var="countUrl" escapeAmp="false"  namespace="/crud/qual" action="count"/>
         <s:url var="deleteUrl" escapeAmp="false"  namespace="/crud/qual" action="delete"/>
         <s:url var="addUrl" escapeAmp="false"  namespace="/crud/qual" action="add"/>
+        <s:url var="updateUrl" escapeAmp="false"  namespace="/crud/qual" action="update"/>
         <script>
             var totalEntryCount = 0;
             var start = 1; //first line number on page
@@ -25,6 +26,7 @@
             var end = count; //last line number on page
             
             $(document).ready(function(){
+                $(".add").click(addButtonHandler); 
                 $( "#tabs" ).tabs();
                 
                 calculateTableLineCount();
@@ -76,21 +78,20 @@
                         for(var key in data[row]){
                             //alert(data[row][key]);
                             var jTd = $("<td>").html(data[row][key]);
-                            if(key==="id"){
-                                $(jTd).addClass("id"); 
-                            }
+                            //if(key==="id"){
+                            $(jTd).addClass(key); 
+                            //}
                             $(jRow).append(jTd);                        
                         }
-                        
+                        $(jRow).append("  <button class='copy'  >Copy</button>");
                         $(jRow).append("<button class='delete'>Delete</button>");
-                        $(jRow).append("<button class='copy'>Copy<button>");
-                        $(jRow).append("<button class='edit'>Edit<button>");
+                        $(jRow).append("<button class='edit'  >Edit</button>");
                     }
                     $("#testTable").append(jTable);
                     $("button.delete").click(deleteButtonHandler); //function declaration to make it work on refresh
                     $("button.copy").click(copyButtonHandler); //function declaration to make it work on refresh
                     $("button.edit").click(editButtonHandler); //function declaration to make it work on refresh
-                    $("button.add").click(addButtonHandler); //DOES NOT BELONG HERE MOVE IT LATER
+                    
                 });
                  
             };
@@ -245,30 +246,148 @@
                     $("#tableEndNumber").text(end);
                     $("#totalEntryCount").text(totalEntryCount);
                         
-                    // alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);
-                        
-                    
-                    
+                    // alert("start:"+start+" end:"+end+" count:"+count+" totalEntryCount:"+totalEntryCount);                   
                 });
             }
             
             var addButtonHandler = function(){
-                //make call to lightbox make pop up with empty boxes
-                //when press save send to server
+
+                $('#dialog-add').removeClass("hidden");
+                $( "#dialog-add" ).dialog({
+                    height: 500,
+                    modal: true,
+                    buttons: {
+                        "Update": function() {
+                            
+                            $.getJSON(
+                            '<s:property escape="false" value="addUrl"/>', 
+                            {description: $("#addDescription").val(),
+                                name:$("#addName").val(),
+                                role:$("#addRole").val()
+                            },
+                            function(){
+                                //fix this function need asynchronous receiving of data
+                                setTimeout(goToEnd, 600);
+                            });
+                            ///ADD ERROR CORRECTING CODE TO HANDLE ERROR MESSAGE
+                            $( this ).dialog( "close" );                            
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+                
                 
             }
             
             var editButtonHandler = function(){
                 //make call to lightbox make pop up with empty boxes
                 //when press save send to server
-                alert("in edit");
+                //edit qualification form pop up
+                var description = $(this).parent().children(".description").first();
+                $("#description").val($(this).parent().children(".description").first().html());
+                var name = $(this).parent().children(".name").first();
+                $("#name").val($(this).parent().children(".name").first().html());
+                var role = $(this).parent().children(".role").first();
+                $("#role").val($(this).parent().children(".role").first().html());
+               
+                var idInSelectedRow = $(this).parent().children(".id").first().html();
+               
+                //alert($("#de"));scription
+                //KEN THINKS THAT THIS DIALOG BOX has weird properties 
+                $('#dialog-edit').removeClass("hidden");
+                $( "#dialog-edit" ).dialog({
+                    height: 500,
+                    modal: true,
+                    buttons: {
+                        "Update": function() {
+                            
+                            $.getJSON('<s:property escape="false" value="updateUrl"/>',
+                            {
+                                id: idInSelectedRow,
+                                description: $("#description").val(),
+                                name: $("#name").val(),
+                                role: $("#role").val()
+                            });
+                            ///ADD ERROR CORRECTING CODE TO HANDLE ERROR MESSAGE
+                            $( this ).dialog( "close" );
+                            
+                            $(description).html($('#description').val());
+                            $(name).html($('#role').val());
+                            $(role).html($('#name').val());
+                            
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+                
             }
         </script>
         <style>
-            td{
-                border: thin solid #ffa500;
-
+            table
+            {
+                border-width: 0 0 1px 1px;
+                border-spacing: 0;
+                border-collapse: collapse;
+                border-style: solid;
             }
+
+            td,th
+            {
+                margin: 0;
+                padding: 4px;
+                border-width: 1px 1px 0 0;
+                border-style: solid;
+            }
+            #dialog-edit, #dialog-add{
+                background: white;
+            }
+
+            .hidden{
+                visibility: hidden;
+                display: none;
+            }
+
+
+
+            /*dialog box properties*/
+            .ui-widget-overlay { 
+                background: #000000/*{bgColorOverlay}*/; 
+                opacity: .3;
+                filter:Alpha(Opacity=30)/*{opacityOverlay}*/; 
+            }
+            .ui-dialog .ui-dialog-buttonpane {
+                background: white;
+                border-width: 0px 0 0;
+                margin: 0em 0 0;
+                padding: 0em 0em 0em 0em;
+                text-align: left;
+            }
+            .ui-dialog {
+                padding: 0em;
+            }
+            /*fixes font issues with header bar in pop up dialog box*/
+            .ui-dialog-titlebar{
+                font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+                font-size: 20px;
+                font-weight: normal;
+                letter-spacing: -1px;
+                line-height: 18px;
+                padding: 0px;
+                z-index: 0;
+                color: white;
+            }
+            /*fix css in dialog box button*/
+            .ui-state-default {
+                background: white;
+                border: 1px solid #CCCCCC;
+                color: #1C94C4;
+                font-weight: bold;
+            }
+
         </style>
 
     </head>
@@ -315,10 +434,20 @@
                     <p> 
 
 
+                    <div id="dialog-edit" class="hidden" class="boxHeader" title="Edit Qualification Form">
+                        <p>DESCRIPTION:</p><input id="description" type="text" size="25" value="description"><br>
+                        <p>NAME:</p><input id="name" type="text" size="25" value="name"><br>
+                        <p>ROLE:</p><input id="role" type="text" size="25" value="role"><br>
+                    </div>
+
+                    <div id="dialog-add" class="hidden" class="boxHeader" title="Add Qualification Form">
+                        <p>DESCRIPTION:</p><input id="addDescription" type="text" size="25" value="description"><br>
+                        <p>NAME:</p><input id="addName" type="text" size="25" value="name"><br>
+                        <p>ROLE:</p><input id="addRole" type="text" size="25" value="role"><br>
+                    </div>
+
                     <form> 
-                        <input type=button 
-                               value="New Qualification Form"
-                               onClick="self.location='qualificationFormEntry010'">
+                        <input type=button class="add" value="New Qualification Form">
                     </form> 
                     </p>
                     <br>
