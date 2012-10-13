@@ -73,7 +73,7 @@
                                 <h2>Ken's Stuff</h2>
                                 <ul>
 
-                                    <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
+                                <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/read.action?id=9">Crud- Read - qual - id 9</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual-line/read.action?id=9">Crud - Read - qual-line - id 9, shows hyphen (qual-line) to camel case conversion (accessing QualLine class)</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/page?start=0&count=10">Crud- Paged Read - qual - start 0, count 10</s:a></li>
