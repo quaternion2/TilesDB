@@ -9,7 +9,6 @@ import com.kenmcwilliams.employmentsystem.util.ActionUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -40,9 +39,9 @@ public class DeleteAction extends ActionSupport {
             clazz = ActionUtils.initClazz(entityName);
             crudService.delete(clazz, id);
         } catch (Exception e) {
-            message.put(ERROR, e.getMessage());
+            message.put("messagel", e.getMessage());
         }
-        if (message.size() == 0) { //no error messages
+        if (message.isEmpty()) { //no error messages
             message.put("status", SUCCESS);
         }
         jsonModel = message;

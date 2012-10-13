@@ -73,15 +73,14 @@
                                 <h2>Ken's Stuff</h2>
                                 <ul>
 
-                                    <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
+                                <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/read.action?id=9">Crud- Read - qual - id 9</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual-line/read.action?id=9">Crud - Read - qual-line - id 9, shows hyphen (qual-line) to camel case conversion (accessing QualLine class)</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/page?start=0&count=10">Crud- Paged Read - qual - start 0, count 10</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/count">Crud - count - total quals</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/add.action?description=the description&name=the name&role=the role">Crud - write - add new qual header</s:a></li>
                                 <li><s:a cssClass="group" value="/crud/qual/delete.action?id=13">Crud - delete by id</s:a></li>
-
-
+                                <li><s:a cssClass="group" value="/crud/list-tables">List all DataBase Tables</s:a></li>
                                 </ul>
                             </div>
                             <div class="yui3-u-1-2">
