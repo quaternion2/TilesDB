@@ -92,6 +92,7 @@
                                 <li><s:a cssClass="group" value="/enoch/pager">pager</s:a></li>
                                 <li><s:a cssClass="group" value="/script/lightbox/index.jsp">lightbox</s:a></li>
                                 <li><s:a cssClass="group" value="/enoch/merge001">merge001</s:a></li>
+                                <li><s:a cssClass="group" value="/enoch/recruiter001">recruiter001</s:a></li>
                                 </ul>
                             </div>
 
