@@ -5,21 +5,21 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ken
  */
 @Entity
-@Table(name = "qual_line", catalog = "emp_sys", schema = "")
+@Table(name = "qual_line")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "QualLine.mandatory.count", query = "SELECT count(q) FROM QualLine q WHERE q.mandatory = true"),
-    @NamedQuery(name = "QualLine.desirable.count", query = "SELECT count(q) FROM QualLine q WHERE q.mandatory = false"),
     @NamedQuery(name = "QualLine.findAll", query = "SELECT q FROM QualLine q"),
     @NamedQuery(name = "QualLine.findById", query = "SELECT q FROM QualLine q WHERE q.id = :id"),
     @NamedQuery(name = "QualLine.findByNumber", query = "SELECT q FROM QualLine q WHERE q.number = :number"),
@@ -29,18 +29,26 @@ public class QualLine implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id")
     private Integer id;
     @Column(name = "number")
     private Integer number;
     @Lob
     @Size(max = 65535)
-    @Column(name = "description", length = 65535)
+    @Column(name = "description")
     private String description;
     @Column(name = "mandatory")
     private Boolean mandatory;
     @Column(name = "months")
     private Integer months;
-    @JoinColumn(name = "qual_id", referencedColumnName = "id", nullable = false)
+    @JoinTable(name = "qual_line_position_point", joinColumns = {
+        @JoinColumn(name = "qual_line_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "position_point_id", referencedColumnName = "id")})
+    @ManyToMany
+    private Collection<PositionPoint> positionPointCollection;
+    @JoinColumn(name = "qual_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Qual qualId;
 
@@ -89,6 +97,15 @@ public class QualLine implements Serializable {
 
     public void setMonths(Integer months) {
         this.months = months;
+    }
+
+    @XmlTransient
+    public Collection<PositionPoint> getPositionPointCollection() {
+        return positionPointCollection;
+    }
+
+    public void setPositionPointCollection(Collection<PositionPoint> positionPointCollection) {
+        this.positionPointCollection = positionPointCollection;
     }
 
     public Qual getQualId() {

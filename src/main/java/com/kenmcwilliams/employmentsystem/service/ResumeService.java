@@ -4,8 +4,8 @@
  */
 package com.kenmcwilliams.employmentsystem.service;
 
+import com.kenmcwilliams.employmentsystem.orm.Position;
 import com.kenmcwilliams.employmentsystem.orm.Resume;
-import com.kenmcwilliams.employmentsystem.orm.Role;
 import java.util.List;
 
 /**
@@ -20,9 +20,9 @@ public interface ResumeService {
     void addResume(Resume resume);
     void updateResume(Resume resume);
     
-    Role getRole(int id);
-    void updateRole(Role role);
-    void addResumeRole(int resumeId, Role role);
-    void addRole(Role role);
+    Position getRole(int id);
+    void updateRole(Position role);
+    void addResumeRole(int resumeId, Position role);
+    void addRole(Position role);
     void deleteRole(int id);
 }

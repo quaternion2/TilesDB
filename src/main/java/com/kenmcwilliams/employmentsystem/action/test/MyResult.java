@@ -6,8 +6,6 @@ package com.kenmcwilliams.employmentsystem.action.test;
 
 import com.kenmcwilliams.employmentsystem.orm.Qual;
 import com.opensymphony.xwork2.ActionSupport;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 

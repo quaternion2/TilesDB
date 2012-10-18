@@ -5,41 +5,49 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ken
  */
 @Entity
-@Table(name = "company", catalog = "emp_sys", schema = "")
+@Table(name = "company")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c"),
     @NamedQuery(name = "Company.findById", query = "SELECT c FROM Company c WHERE c.id = :id"),
     @NamedQuery(name = "Company.findByName", query = "SELECT c FROM Company c WHERE c.name = :name"),
     @NamedQuery(name = "Company.findByCity", query = "SELECT c FROM Company c WHERE c.city = :city"),
-    @NamedQuery(name = "Company.findByState", query = "SELECT c FROM Company c WHERE c.state = :state")})
+    @NamedQuery(name = "Company.findByState", query = "SELECT c FROM Company c WHERE c.state = :state"),
+    @NamedQuery(name = "Company.findByCountry", query = "SELECT c FROM Company c WHERE c.country = :country")})
 public class Company implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 45)
-    @Column(name = "name", length = 45)
+    @Column(name = "name")
     private String name;
     @Size(max = 45)
-    @Column(name = "city", length = 45)
+    @Column(name = "city")
     private String city;
     @Size(max = 45)
-    @Column(name = "state", length = 45)
+    @Column(name = "state")
     private String state;
+    @Size(max = 45)
+    @Column(name = "country")
+    private String country;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
+    private Collection<Position> positionCollection;
 
     public Company() {
     }
@@ -78,6 +86,23 @@ public class Company implements Serializable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @XmlTransient
+    public Collection<Position> getPositionCollection() {
+        return positionCollection;
+    }
+
+    public void setPositionCollection(Collection<Position> positionCollection) {
+        this.positionCollection = positionCollection;
     }
 
     @Override
