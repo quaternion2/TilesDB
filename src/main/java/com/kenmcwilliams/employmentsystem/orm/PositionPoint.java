@@ -17,39 +17,46 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ken
  */
 @Entity
-@Table(name = "qual")
+@Table(name = "position_point")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Qual.findAll", query = "SELECT q FROM Qual q"),
-    @NamedQuery(name = "Qual.findById", query = "SELECT q FROM Qual q WHERE q.id = :id"),
-    @NamedQuery(name = "Qual.findByName", query = "SELECT q FROM Qual q WHERE q.name = :name"),
-    @NamedQuery(name = "Qual.findByRole", query = "SELECT q FROM Qual q WHERE q.role = :role"),
-    @NamedQuery(name = "Qual.findByDescription", query = "SELECT q FROM Qual q WHERE q.description = :description")})
-public class Qual implements Serializable {
+    @NamedQuery(name = "PositionPoint.findAll", query = "SELECT p FROM PositionPoint p"),
+    @NamedQuery(name = "PositionPoint.findById", query = "SELECT p FROM PositionPoint p WHERE p.id = :id"),
+    @NamedQuery(name = "PositionPoint.findByRank", query = "SELECT p FROM PositionPoint p WHERE p.rank = :rank")})
+public class PositionPoint implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
-    @Column(name = "name")
-    private String name;
-    @Size(max = 45)
-    @Column(name = "role")
-    private String role;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "qualId")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "rank")
+    private int rank;
+    @ManyToMany(mappedBy = "positionPointCollection")
     private Collection<QualLine> qualLineCollection;
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Position roleId;
 
-    public Qual() {
+    public PositionPoint() {
     }
 
-    public Qual(Integer id) {
+    public PositionPoint(Integer id) {
         this.id = id;
+    }
+
+    public PositionPoint(Integer id, String description, int rank) {
+        this.id = id;
+        this.description = description;
+        this.rank = rank;
     }
 
     public Integer getId() {
@@ -60,28 +67,20 @@ public class Qual implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     @XmlTransient
@@ -91,6 +90,14 @@ public class Qual implements Serializable {
 
     public void setQualLineCollection(Collection<QualLine> qualLineCollection) {
         this.qualLineCollection = qualLineCollection;
+    }
+
+    public Position getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Position roleId) {
+        this.roleId = roleId;
     }
 
     @Override
@@ -103,10 +110,10 @@ public class Qual implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Qual)) {
+        if (!(object instanceof PositionPoint)) {
             return false;
         }
-        Qual other = (Qual) object;
+        PositionPoint other = (PositionPoint) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -115,7 +122,7 @@ public class Qual implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kenmcwilliams.employmentsystem.orm.Qual[ id=" + id + " ]";
+        return "com.kenmcwilliams.employmentsystem.orm.PositionPoint[ id=" + id + " ]";
     }
     
 }

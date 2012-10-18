@@ -5,7 +5,7 @@
 package org.kenmcwilliams.employmentsystem.impl;
 
 import com.kenmcwilliams.employmentsystem.orm.Resume;
-import com.kenmcwilliams.employmentsystem.orm.Role;
+import com.kenmcwilliams.employmentsystem.orm.Position;
 import com.kenmcwilliams.employmentsystem.service.ResumeService;
 import java.util.List;
 
@@ -41,22 +41,22 @@ public class ResumeServiceImpl implements ResumeService{
     }
 
     @Override
-    public Role getRole(int id) {
+    public Position getRole(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void updateRole(Role role) {
+    public void updateRole(Position role) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void addResumeRole(int resumeId, Role role) {
+    public void addResumeRole(int resumeId, Position role) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void addRole(Role role) {
+    public void addRole(Position position) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

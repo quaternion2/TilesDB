@@ -4,7 +4,7 @@
  */
 package com.kenmcwilliams.employmentsystem.action.resume;
 
-import com.kenmcwilliams.employmentsystem.orm.ResumePoint;
+import com.kenmcwilliams.employmentsystem.orm.PositionPoint;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -14,7 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class NewResumeRolePoint extends ActionSupport{
     //attributes for role id & point
     public Integer id = null;
-    public ResumePoint resumePoint = new ResumePoint();
+    public PositionPoint resumePoint = new PositionPoint();
     
     @Override
     public String execute(){
