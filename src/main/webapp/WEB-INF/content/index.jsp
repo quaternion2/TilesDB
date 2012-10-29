@@ -94,7 +94,13 @@
                                 <li><s:a cssClass="group" value="/enoch/merge001">merge001</s:a></li>
                                 </ul>
                             </div>
-
+                            <div class="yui3-u-1-2">
+                                <h2>HTML FORMS</h2>
+                                <ul>
+                                    <li><s:a cssClass="group" value="/html/list-qualification-forms">html list qualification form</s:a></li>                               
+                                </ul>
+                            </div>
+<%--/html/list-qualification-forms--%>
                             <br><br><br>  
 
                         <%--  website footer --%>

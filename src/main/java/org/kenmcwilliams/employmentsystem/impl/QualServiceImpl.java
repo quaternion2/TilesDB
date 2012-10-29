@@ -52,6 +52,7 @@ public class QualServiceImpl implements QualService {
     @Override
     public void deleteQual(int id) {
         Qual found = em.find(Qual.class, id);
+        log.log(Level.INFO, "found qual id: {0} with name value: {1}", new Object[]{id, found.getName()});
         em.remove(found);
     }
 
