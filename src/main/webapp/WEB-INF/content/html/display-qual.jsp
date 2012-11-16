@@ -9,15 +9,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Qualification Form Details</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Qualification Form Details</h1>
         <div>
-            <span>Id</span><s:property value="header.id"/>
-            <span>Name</span>Name: <s:property value="header.name"/>
-            <span>Role</span><s:property value="header.role"/>
-            <span>Description</span><s:property value="header.description"/>
+            <span>Id:</span><s:property value="qual.id"/>
+            <span>Name:</span><s:property value="qual.name"/>
+            <span>Role:</span><s:property value="qual.role"/>
+            <span>Description:</span><s:property value="qual.description"/>
         </div>
     </body>
 </html>

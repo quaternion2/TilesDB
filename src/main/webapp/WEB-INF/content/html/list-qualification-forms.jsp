@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Manage Qualification Forms</title>
     </head>
     <body>
         <h1>Manage Qualification Forms</h1>
@@ -35,7 +35,7 @@
                         <td><s:property value="description"/></td>
                         <td><s:a namespace="/html" action="remove-qual"><s:param name="id" value="id"/>remove</s:a></td>
                         <td><s:a namespace="/html" action="edit-qual"><s:param name="id" value="id"/>edit</s:a></td>
-                        <td><s:a namespace="/html" action="details-qual"><s:param name="id" value="id"/>details</s:a></td>
+                        <td><s:a namespace="/html" action="display-qual"><s:param name="id" value="id"/>details</s:a></td>
                     </tr>
                 </s:iterator>  
             </tbody>
