@@ -9,6 +9,7 @@
     <class>com.kenmcwilliams.employmentsystem.orm.Qual</class>
     <class>com.kenmcwilliams.employmentsystem.orm.QualLine</class>
     <class>com.kenmcwilliams.employmentsystem.orm.Resume</class>
+    <class>com.kenmcwilliams.employmentsystem.orm.Candidate</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <!-- property name="org.hibernate.service.jta.platform.spi.JtaPlatform" value="org.hibernate.transaction.SunONETransactionManagerLookup"/-->

@@ -7,7 +7,6 @@ package com.kenmcwilliams.employmentsystem.util;
 import com.kenmcwilliams.employmentsystem.action.crud.ReadAction;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -36,20 +35,28 @@ public class ActionUtils {
         return returnSet;
     }
 
-    public static String simpleNameToUrlEntityName(String entityName){
+    /*
+     * Converts simple java class name to the defualt struts2 conventions action name 
+     * TODO: appending "-" is wrong, need to look up struts2 conventions separator character 
+     */
+    public static String simpleNameToUrlEntityName(String entityName) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < entityName.length(); i++){
+        for (int i = 0; i < entityName.length(); i++) {
             Character c = entityName.charAt(i);
-            if(Character.isUpperCase(c) && (i > 0)){
+            if (Character.isUpperCase(c) && (i > 0)) {
                 sb.append("-");
                 sb.append(Character.toLowerCase(c));
-            }else{
+            } else {
                 sb.append(Character.toLowerCase(c));
             }
         }
         return sb.toString();
     }
-    
+
+    /*
+     * Converts the default conventions action name (has hypens to a java class
+     * name)
+     */
     public static String urlEntityNameToSimpleName(String urlEntityName) {
         String lowerCaseName = urlEntityName.toLowerCase();
         String[] words = lowerCaseName.split("-");

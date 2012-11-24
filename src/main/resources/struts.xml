@@ -8,6 +8,11 @@
     <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
     <constant name="struts.patternMatcher" value="namedVariable" />
+    <constant name="struts.convention.default.parent.package" value="tiles-package"/>
+    <constant name="struts.convention.relative.result.types" value="dispatcher,velocity,freemarker,tiles"/>
+    <bean type="org.apache.struts2.convention.ConventionsService" name="tilesConvention" class="com.kenmcwilliams.tiles.result.TilesConventionsServiceImpl"/>
+    <constant name="struts.convention.conventionsService" value="tilesConvention"/>
+
     
     <package name="package-kjson" extends="struts-default">
         <result-types>
@@ -49,4 +54,10 @@
         </interceptors>
         <default-interceptor-ref name="staticParamsPrepareParamsStack"/>
     </package> 
+    
+    <package  name="tiles-package" extends="convention-default">
+        <result-types>
+            <result-type default="true" name="tiles" class="com.kenmcwilliams.tiles.result.TilesResult"/>
+        </result-types>
+    </package>   
 </struts>
