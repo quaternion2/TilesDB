@@ -99,7 +99,7 @@
                             <h2>HTML FORMS</h2>
                             <ul>
                                 <li><s:a cssClass="group" value="/html/list-qualification-forms">html list qualification form</s:a></li>
-                                <li><s:a cssClass="group" namespace="/html/candidate" action="input">New Candidate</s:a></li> 
+                                <li><s:a cssClass="group" namespace="/html/candidate" action="list">New Candidate</s:a></li> 
                             </ul>
                         </div>
                         <div class="yui3-u-1-2">

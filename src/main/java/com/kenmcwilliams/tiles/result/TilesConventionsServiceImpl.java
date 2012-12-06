@@ -24,6 +24,7 @@ import com.opensymphony.xwork2.config.entities.ActionConfig;
 import com.opensymphony.xwork2.config.entities.PackageConfig;
 import com.opensymphony.xwork2.config.entities.ResultTypeConfig;
 import com.opensymphony.xwork2.inject.Inject;
+import flexjson.JSONSerializer;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +50,7 @@ public class TilesConventionsServiceImpl extends ConventionsServiceImpl {
     @Inject
     public TilesConventionsServiceImpl(@Inject("struts.convention.result.path") String resultPath) {
         super(resultPath);
-        log.log(Level.INFO, "Constructed TilesConventionsServiceImpl with resultPath : {0}", resultPath);
+        log.log(Level.INFO, "TilesConventionsServiceImpl: Constructed TilesConventionsServiceImpl with resultPath : {0}", resultPath);
     }
 
     /**
@@ -57,9 +58,9 @@ public class TilesConventionsServiceImpl extends ConventionsServiceImpl {
      */
     @Override
     public String determineResultPath(Class<?> actionClass) {
-        log.log(Level.INFO, "Entered determineResultPath with actionClass: {0}", actionClass.getCanonicalName());
+        log.log(Level.INFO, "TilesConventionsServiceImpl: Entered determineResultPath with actionClass: {0}", actionClass.getCanonicalName());
         String determineResultPath = super.determineResultPath(actionClass);
-        log.log(Level.INFO, "Exiting determineResultPath, return with resultPath: {0}", determineResultPath);
+        log.log(Level.INFO, "TilesConventionsServiceImpl: Exiting determineResultPath, return with resultPath: {0}", determineResultPath);
         return determineResultPath;
     }
 
@@ -68,9 +69,9 @@ public class TilesConventionsServiceImpl extends ConventionsServiceImpl {
      */
     @Override
     public String determineResultPath(ActionConfig actionConfig) {
-        log.info("Entered determineResultPath with actionConfig");
+        log.info("TilesConventionsServiceImpl: Entered determineResultPath with actionConfig");
         String determineResultPath = super.determineResultPath(actionConfig);
-        log.log(Level.INFO, "Exiting determineResultPath, returning determineResultPath with: {0}", determineResultPath);
+        log.log(Level.INFO, "TilesConventionsServiceImpl: Exiting determineResultPath, returning determineResultPath with: {0}", (new JSONSerializer().serialize(determineResultPath)));
         return determineResultPath;
     }
 
@@ -79,9 +80,9 @@ public class TilesConventionsServiceImpl extends ConventionsServiceImpl {
      */
     @Override
     public Map<String, ResultTypeConfig> getResultTypesByExtension(PackageConfig packageConfig) {
-        log.info("Entered getResultTypesByExtension with packageConfig");
+        log.info("TilesConventionsServiceImpl: Entered getResultTypesByExtension with packageConfig");
         Map<String, ResultTypeConfig>  resultTypesByExtension = super.getResultTypesByExtension(packageConfig);
-        log.log(Level.INFO, "Exiting getResultTypesByExtension, returning resultTypesByExtension: {0}", resultTypesByExtension.toString());
+        log.log(Level.INFO, "TilesConventionsServiceImpl: Exiting getResultTypesByExtension, returning resultTypesByExtension: {0}", (new JSONSerializer().serialize(resultTypesByExtension)));
         return resultTypesByExtension;
     }
 }

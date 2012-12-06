@@ -1,4 +1,4 @@
-<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="s" uri="/struts-tags"%><%@page contentType="text/html" pageEncoding="UTF-8" %>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<s:url value='/style/cssreset-min.css'/>" rel="stylesheet" type="text/css">

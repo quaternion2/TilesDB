@@ -39,9 +39,8 @@ public class TilesResult extends ServletDispatcherResult {
         //location = "test.definition"; //for test
         log.log(Level.INFO, "TilesResult doExecute() location: {0}", location);
         //Start simple conventions
-        //String canonicalName = invocation.getAction().getClass().getCanonicalName();
-        //String actionName = invocation.getInvocationContext().getName();
-        if (location == null) {
+        //
+        if (/** tiles && **/location == null) {
             String namespace = invocation.getProxy().getNamespace();
             String actionName = invocation.getProxy().getActionName();
             location = namespace + "#" + actionName;

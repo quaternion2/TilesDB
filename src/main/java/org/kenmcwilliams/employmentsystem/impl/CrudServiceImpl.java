@@ -31,6 +31,7 @@ public class CrudServiceImpl implements CrudService {
     @Override
     public Object create(Class clazz, Object entity) {
         //TODO: consider use of clazz which is not being used at all
+        //TODO: add check to test that entity is a clazz or derived from clazz
         return em.merge(entity);
     }
 
