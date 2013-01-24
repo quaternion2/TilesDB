@@ -1,58 +1,3 @@
-<style>
-    .hidden{
-        display: none;
-    }
-
-    .templates{
-
-    }
-
-    .resumeUtil{
-    }
-    .companyEntry{
-
-    }
-    .companyHeader{
-        width: 950px;
-        background-color: steelblue;
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
-    }
-    .companyName{
-
-    }
-    .companyDate{
-        float: right;
-    }
-    .details{
-
-    }
-    .detail{
-        width: 950px;
-        overflow:hidden;
-        background-color: beige;
-    }
-    .detail input{
-        width: 650px;
-    }
-    .right{
-        float: right;
-    }
-    .isDetailSelected{
-        display: none;
-    }
-
-    .strike{
-        text-decoration: line-through;
-    }
-    .field input{
-        width: 15em;                
-    }
-    .label {
-        width: 15em;    
-        display: inline-block;
-    }
-</style>
 <script> 
     var dateRangeRegex = /\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W+\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W*/i;
     var toServer = [];
@@ -253,7 +198,7 @@
             //if(startDates.length !== endDates.length){
             //    alert("Sanity test: LENGTH NOT EQUAL");  
             //}
-            //alert("startDates: " + startDates + " endDates: " + endDates);
+            alert("startDates: " + startDates + " endDates: " + endDates);
             var start = startDates[0];
             var end = endDates[0];
             var sum = end - start + 1;
@@ -263,46 +208,45 @@
                 var temp_end = endDates[x];
                 var new_start = true;
                 var new_end = true;
-                        
+                       
                 if (isInRange(temp_start, start, end) === true){
-                    //alert("case 1: ");
+                    alert("case 1: " + "start: " + start + " end: " + end + " temp_start: " + temp_start + " temp_end: " + temp_end + " new_start: " + new_start + " new_end: " + new_end);
                     new_start = false;
                 }
                 if(isInRange(temp_end, start, end) === true){
-                    //alert("case 2: ");
+                    alert("case 2: " + "start: " + start + " end: " + end + " temp_start: " + temp_start + " temp_end: " + temp_end + " new_start: " + new_start + " new_end: " + new_end);
                     new_end = false;
                 }
                 //Date range is totally bracketed 
                 if (new_end === false && new_start == false){
-                    //alert("case 3: ");
+                    alert("case 3: " + "start: " + start + " end: " + end + " temp_start: " + temp_start + " temp_end: " + temp_end + " new_start: " + new_start + " new_end: " + new_end);
                     continue;
-                    //Date range is partially bracketed
+                    //Date range is partially bracketed (end not new)
                 }else if (new_start == true && new_end == false){
-                    //alert("case 4: ");
+                    alert("case 4: " + "start: " + start + " end: " + end + " temp_start: " + temp_start + " temp_end: " + temp_end + " new_start: " + new_start + " new_end: " + new_end);
                     //find the total and subtract the overlap
+                    //start = temp_start;
+                    sum += start - temp_start;//this line appears 3 times, should factor down
                     start = temp_start;
-                    sum += (end - start) + 1;//this line appears 3 times, should factor down
-                    //NORMAL RANGE
-                }else if (new_start == false && new_end == true){
-                    //alert("case 5: ");
+                    //start = temp_start;
+                    //Date range is partially bracketed (start not new)
+                }else if (new_start == true && new_end == true){
+                    alert("case 5: " + "start: " + start + " end: " + end + " temp_start: " + temp_start + " temp_end: " + temp_end + " new_start: " + new_start + " new_end: " + new_end);
                     end = temp_end;
+                    start = temp_start
                     sum += (end - start) + 1;
+                    //NORMAL RANGE
                 }else{
-                    //, calcuate a normal range...
-                    //this will not work... need different logic depending
-                    //if one of the above values is being replaced
-                    //alert("Case 6: Normal range");
-                    start = temp_start;
-                    end = temp_end;
-                    sum += end - start + 1;
+                    alert("case 6:" + " error unreachable");
                 }
             }
             alert("End calculateTotalMonths, returning : " + sum);
             return sum;
         }
-                
+        
+        //must be _inside_ the range, that is not inclusive
         var isInRange = function(value, start, end){
-            if (value <= start && value >= end){
+            if (value > start && value < end){
                 return true;
             } else {
                 return false;
@@ -381,42 +325,34 @@
         role: "";
         dateWorked: ""; //should be something automatic if currently employed
         details: "";                     
-    };
-    //start date picker
-    //$(function() {
-    //    $( "#startDatePicker" ).datepicker({
-    //        changeMonth: true,
-    //        changeYear: true
-    //    });
-    //});
-    //finish date picker
-    //$(function() {
-    //    $( "#finishDatePicker" ).datepicker({
-    //        changeMonth: true,
-    //        changeYear: true
-    //    });
-//});
-            
-            
+    };        
 </script>
 <%--  website main page --%>
 <h1>Resume Entry</h1>  
 
 <br>
 <div class="enoch">
-    <form>
-        <span class ="label">First Name: </span><span class="field"><input type="text" id="firstName" /></span> 
-        <span class ="label">Last Name: </span><span class="field"><input type="text" id="lastName" /></span>
-        <span class ="label">Street Address: </span><span class="field"><input type="text" id="streetAddress" /></span><br>
-        <span class ="label">City: </span><span class="field"><input type="text" id="city" /></span>
-        <span class ="label">Province: <input type="text" id="province" /></span>
-        Postal Code: <input type="text" id="postalCode" /><br>
-        Phone: <input type="text" id="phone" /><br>
-        Email: <input type="text" id="email" /><br>
-        <button id="saveResumeButton" type="button">SAVE RESUME CONTACTS + JSON</button>
-    </form><br>
+    <div>
+        <h1>TTD</h1>
+        <ul>
+            <li><strike>Don't sum over lapping time</strike></li>
+            <li>not needed<strike>Add calculation fields (they will be hidden later to avoid use of arrays)</strike></li>
+            <li>Make include/exclude toggle (and selection radio boxes)</li>
+            <li>Rewite this thing because it's a mess!</li>
+            <li>Display in years/months or just months</li>
+            <li>Put back employee entry form, removed because was taking up too much space</li>
+            
+        </ul>
+    </div>
 </div>
+
+
 <div class="templates hidden">
+    <div style=" background-color: white; font-weight: bold;">
+        <span style="padding-left:7em;">Company</span> 
+        <span style="padding-left:10em;">Role</span> 
+        <span style="float:right; padding-right:7em;">Dates</span>
+    </div>
     <div id="companyTemplate">
         <div class="companyEntry">           
             <div class="companyHeader">
@@ -447,5 +383,4 @@
         <button id="addCompanyButton">New Company</button>
         <input contenteditable="false" id="total" class="right" type="text" value="" placeholder="Total Time">
     </div>
-    <br><button id="saveWorkHistoryButton" type="button">SAVE WORK HISTORY + JSON</button>
 </div>

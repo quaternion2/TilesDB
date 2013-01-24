@@ -1,0 +1,61 @@
+/* 
+    Document   : candidate-input
+    Created on : 22-Jan-2013, 11:08:01 PM
+    Author     : ken
+    Description:
+        local styles required by /recruiter/candidate-input.jsp
+*/
+
+.hidden{
+    display: none;
+}
+
+.templates{
+
+}
+
+.resumeUtil{
+}
+.companyEntry{
+
+}
+.companyHeader{
+    width: 950px;
+    background-color: steelblue;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+.companyName{
+
+}
+.companyDate{
+    float: right;
+}
+.details{
+
+}
+.detail{
+    width: 950px;
+    overflow:hidden;
+    background-color: beige;
+}
+.detail input{
+    width: 650px;
+}
+.right{
+    float: right;
+}
+.isDetailSelected{
+    display: none;
+}
+
+.strike{
+    text-decoration: line-through;
+}
+.field input{
+    width: 15em;                
+}
+.label {
+    width: 15em;    
+    display: inline-block;
+}

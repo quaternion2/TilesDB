@@ -43,7 +43,7 @@ public class TilesResult extends ServletDispatcherResult {
         if (/** tiles && **/location == null) {
             String namespace = invocation.getProxy().getNamespace();
             String actionName = invocation.getProxy().getActionName();
-            location = namespace + "#" + actionName;
+            location = namespace + "#" + actionName + ".jsp"; //Warning forcing extension
             log.log(Level.INFO, "TilesResult namespace: {0}", namespace);
             log.log(Level.INFO, "TilesResult actionName: {0}", actionName);
             log.log(Level.INFO, "TilesResult location: {0}", location);

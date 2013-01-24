@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-    <definition name="/test" template="/WEB-INF/content/template/template.jsp">
-        <put-attribute name="head" value="/WEB-INF/content/template/head.jsp"/>
-        <put-attribute name="header" value="/WEB-INF/content/template/header.jsp"/>
-        <put-attribute name="body" value="/WEB-INF/content/template/body.jsp"/>
-        <put-attribute name="footer" value="/WEB-INF/content/template/footer.jsp"/>
+    <definition name="default" template="/WEB-INF/template/template.jsp">
+        <put-attribute name="head" value="/WEB-INF/template/head.jsp"/>
+        <put-attribute name="header" value="/WEB-INF/template/header.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/template/body.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/template/footer.jsp"/>
     </definition>
-    <definition name="REGEXP:(.*)#(.*)"  extends="/test">
+    <definition name="REGEXP:\/recruiter#candidate-input\.(.*)"  extends="default">
+        <put-attribute name="head" value="/WEB-INF/template/recruiter/head.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/content/recruiter/candidate-input.jsp"/>
+    </definition>
+    <definition name="REGEXP:(.*)#(.*)"  extends="default">
         <put-attribute name="body" value="/WEB-INF/content{1}/{2}"/>
     </definition>
 </tiles-definitions>
