@@ -12,7 +12,6 @@ import com.opensymphony.xwork2.Preparable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.beanutils.BeanMap;
@@ -37,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *      the update failed.
  * @author ken
  */
-@ParentPackage("staticParams-prepare-parms") //should probably use: @ParentPackage("staticParams-prepare-parms")
+@ParentPackage("staticParams-prepare-parms")
 @Namespace("/crud/{entityName}")
 @Result(type = "kjson")
 //THIS IS WRONG I need to apply the types to the entity dirrectly to get type conversion

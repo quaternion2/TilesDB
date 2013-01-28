@@ -27,11 +27,15 @@
             <li>?include parameters should only return associated collections</li>
             <li>?exclude parameters should work on individual fields</li>
         </ul>
-        <h1>View Related Stuff</h1>
+        <h1>Resume Widget</h1>
         <ul>
-            <li>Integrate Apache Tiles</li>
-            <li>Show Enoch how apache tiles works</li>
-            <li>Talk about view related conventions (establish consistent rules for some important html classes and id)</li>
+            <li><strike>Don't sum over lapping time</strike></li>
+            <li>not needed<strike>Add calculation fields (they will be hidden later to avoid use of arrays)</strike></li>
+            <li>Make include/exclude toggle (and selection radio boxes)</li>
+            
+            <li>Display in years/months or just months</li>
+            <li>Put back employee entry form, removed because was taking up too much space</li>
+            <li>Rewrite this thing because it's a mess!</li>
         </ul>
     </body>
 </html>

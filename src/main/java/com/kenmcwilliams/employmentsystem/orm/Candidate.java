@@ -6,7 +6,6 @@ package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Candidate.findByOtherPhone", query = "SELECT c FROM Candidate c WHERE c.otherPhone = :otherPhone"),
     @NamedQuery(name = "Candidate.findByEmail", query = "SELECT c FROM Candidate c WHERE c.email = :email"),
     @NamedQuery(name = "Candidate.findByAltEmail", query = "SELECT c FROM Candidate c WHERE c.altEmail = :altEmail"),
+    @NamedQuery(name = "Candidate.findBySkype", query = "SELECT c FROM Candidate c WHERE c.skype = :skype"),
     @NamedQuery(name = "Candidate.findByStreet", query = "SELECT c FROM Candidate c WHERE c.street = :street"),
     @NamedQuery(name = "Candidate.findByCity", query = "SELECT c FROM Candidate c WHERE c.city = :city"),
     @NamedQuery(name = "Candidate.findByState", query = "SELECT c FROM Candidate c WHERE c.state = :state"),
@@ -65,6 +65,9 @@ public class Candidate implements Serializable {
     @Column(name = "alt_email")
     private String altEmail;
     @Size(max = 45)
+    @Column(name = "skype")
+    private String skype;
+    @Size(max = 45)
     @Column(name = "street")
     private String street;
     @Size(max = 45)
@@ -76,9 +79,9 @@ public class Candidate implements Serializable {
     @Size(max = 45)
     @Column(name = "po_code")
     private String poCode;
-    @Size(max = 45)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "desired_rate_hour")
-    private String desiredRateHour;
+    private Float desiredRateHour;
 
     public Candidate() {
     }
@@ -159,6 +162,14 @@ public class Candidate implements Serializable {
         this.altEmail = altEmail;
     }
 
+    public String getSkype() {
+        return skype;
+    }
+
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
+
     public String getStreet() {
         return street;
     }
@@ -191,11 +202,11 @@ public class Candidate implements Serializable {
         this.poCode = poCode;
     }
 
-    public String getDesiredRateHour() {
+    public Float getDesiredRateHour() {
         return desiredRateHour;
     }
 
-    public void setDesiredRateHour(String desiredRateHour) {
+    public void setDesiredRateHour(Float desiredRateHour) {
         this.desiredRateHour = desiredRateHour;
     }
 

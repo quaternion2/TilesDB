@@ -1,13 +1,14 @@
-<%@taglib prefix="s" uri="/struts-tags"%><%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<tiles:importAttribute name="cssList"/><tiles:importAttribute name="jsList"/>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="<s:url value='/style/cssreset-min.css'/>" rel="stylesheet" type="text/css">
-    <link href="<s:url value='/style/cssbase-min.css'/>" rel="stylesheet" type="text/css">
-    <link href="<s:url value='/style/cssfonts-min.css'/>" rel="stylesheet" type="text/css">
-    <link href="<s:url value='/style/grids-min.css'/>" rel="stylesheet" type="text/css">
-    <link href="<s:url value='/style/style.css'/>" rel="stylesheet" type="text/css">
-    
-    <script src="<s:url value='/script/jquery/1.8.1/jquery.min.js'/>"></script>
-    <script src="<s:url value='/script/jquery.sort.js'/>"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <s:iterator value="#attr.cssList" var="cssValue">
+        <link href="<s:url value="%{cssValue}"/>" rel="stylesheet" type="text/css">
+    </s:iterator>
+    <s:iterator value="#attr.jsList" var="jsValue">
+        <script src="<s:url value="%{jsValue}"/>"></script>
+    </s:iterator>
     <title>A Title</title>
 </head>

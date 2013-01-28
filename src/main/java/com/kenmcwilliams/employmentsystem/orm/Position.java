@@ -44,12 +44,12 @@ public class Position implements Serializable {
     private Date endDate;
     @Column(name = "currently_employed")
     private Boolean currentlyEmployed;
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Company companyId;
     @JoinColumn(name = "resume_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Resume resumeId;
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Company companyId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
     private Collection<PositionPoint> positionPointCollection;
 
@@ -100,20 +100,20 @@ public class Position implements Serializable {
         this.currentlyEmployed = currentlyEmployed;
     }
 
-    public Company getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Company companyId) {
-        this.companyId = companyId;
-    }
-
     public Resume getResumeId() {
         return resumeId;
     }
 
     public void setResumeId(Resume resumeId) {
         this.resumeId = resumeId;
+    }
+
+    public Company getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Company companyId) {
+        this.companyId = companyId;
     }
 
     @XmlTransient

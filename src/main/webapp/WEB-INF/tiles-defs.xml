@@ -2,16 +2,35 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
     <definition name="default" template="/WEB-INF/template/template.jsp">
+        <put-list-attribute name="cssList" cascade="true">
+            <add-attribute value="/style/cssbase-min.css" />
+            <add-attribute value="/style/cssfonts-min.css" />
+            <add-attribute value="/style/cssreset-min.css" />
+            <add-attribute value="/style/grids-min.css" />
+            <add-attribute value="/style/style.css" />
+        </put-list-attribute>    
+        <put-list-attribute name="jsList" cascade="true">
+            <add-attribute value="/script/jquery/1.8.1/jquery.min.js" />
+            <add-attribute value="/script/jquery.sort.js" />
+        </put-list-attribute>        
         <put-attribute name="head" value="/WEB-INF/template/head.jsp"/>
         <put-attribute name="header" value="/WEB-INF/template/header.jsp"/>
         <put-attribute name="body" value="/WEB-INF/template/body.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/template/footer.jsp"/>
     </definition>
+    
     <definition name="REGEXP:\/recruiter#candidate-input\.(.*)"  extends="default">
-        <put-attribute name="head" value="/WEB-INF/template/recruiter/head.jsp"/>
+        <put-list-attribute name="cssList" cascade="true" inherit="true">
+            <add-attribute value="/style/recruiter/candidate-input.css" />
+        </put-list-attribute>
+        <put-list-attribute name="jsList" cascade="true" inherit="true">
+            <add-attribute value="/script/widgets/resume/resume.js" />
+        </put-list-attribute>
         <put-attribute name="body" value="/WEB-INF/content/recruiter/candidate-input.jsp"/>
     </definition>
+    
     <definition name="REGEXP:(.*)#(.*)"  extends="default">
         <put-attribute name="body" value="/WEB-INF/content{1}/{2}"/>
     </definition>
+    
 </tiles-definitions>

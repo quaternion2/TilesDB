@@ -13,7 +13,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * Provides a paging service in the form: /crud/candidate/page?start=0&count=10
  * @author ken
  */
 @ParentPackage("package-kjson")

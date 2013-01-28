@@ -5,12 +5,10 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,11 +39,6 @@ public class QualLine implements Serializable {
     private Boolean mandatory;
     @Column(name = "months")
     private Integer months;
-    @JoinTable(name = "qual_line_position_point", joinColumns = {
-        @JoinColumn(name = "qual_line_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "position_point_id", referencedColumnName = "id")})
-    @ManyToMany
-    private Collection<PositionPoint> positionPointCollection;
     @JoinColumn(name = "qual_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Qual qualId;
@@ -95,15 +88,6 @@ public class QualLine implements Serializable {
 
     public void setMonths(Integer months) {
         this.months = months;
-    }
-
-    @XmlTransient
-    public Collection<PositionPoint> getPositionPointCollection() {
-        return positionPointCollection;
-    }
-
-    public void setPositionPointCollection(Collection<PositionPoint> positionPointCollection) {
-        this.positionPointCollection = positionPointCollection;
     }
 
     public Qual getQualId() {

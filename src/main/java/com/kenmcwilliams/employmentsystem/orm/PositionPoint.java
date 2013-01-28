@@ -5,12 +5,10 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,8 +36,6 @@ public class PositionPoint implements Serializable {
     @NotNull
     @Column(name = "rank")
     private int rank;
-    @ManyToMany(mappedBy = "positionPointCollection")
-    private Collection<QualLine> qualLineCollection;
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Position roleId;
@@ -79,15 +75,6 @@ public class PositionPoint implements Serializable {
 
     public void setRank(int rank) {
         this.rank = rank;
-    }
-
-    @XmlTransient
-    public Collection<QualLine> getQualLineCollection() {
-        return qualLineCollection;
-    }
-
-    public void setQualLineCollection(Collection<QualLine> qualLineCollection) {
-        this.qualLineCollection = qualLineCollection;
     }
 
     public Position getRoleId() {
