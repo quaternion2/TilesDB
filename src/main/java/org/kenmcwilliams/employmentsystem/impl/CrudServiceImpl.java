@@ -4,8 +4,9 @@
  */
 package org.kenmcwilliams.employmentsystem.impl;
 
+import com.kenmcwilliams.employmentsystem.service.CriteriaConstraints;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -13,6 +14,8 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +57,7 @@ public class CrudServiceImpl implements CrudService {
 
     @Override
     public void update(Class clazz, Map map) throws Exception {
-        Integer id = (Integer) map.get("id");
+        Integer id = Integer.decode((String) map.get("id"));//should be checked before it gets here
         Object found = em.find(clazz, id);
         BeanUtils.populate(found, map);
         em.persist(found);
@@ -82,5 +85,15 @@ public class CrudServiceImpl implements CrudService {
         String simpleClassName = clazz.getSimpleName();
         TypedQuery query = em.createQuery("select count(o) from " + simpleClassName + " o", Long.class);
         return (Long) query.getSingleResult();
+    }
+
+    @Override
+    public List<Object> search(Class clazz, Object entity, Map<String, Map<CriteriaConstraints, List>> constraints) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery(clazz);
+        //cq.
+        //
+        //return new ArrayList();//just to get rid of compiler error
+        throw new Error();//NOT IMPLEMENTED YET
     }
 }

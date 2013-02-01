@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public interface CrudService {
     Object create(Class clazz, Object entity); //return the created object from database with id
+    List<Object> search(Class clazz, Object entity, Map<String, Map<CriteriaConstraints, List>> constraints);
     Object read(Class clazz, Integer id); //TODO: change to long
     void update(Class clazz, Map map) throws Exception;
     List<Object> page(Class clazz, Integer start, Integer size);//TODO: add, parameters for sortOrder and query

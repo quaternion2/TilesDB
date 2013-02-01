@@ -13,28 +13,24 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author ken
  */
-public class List extends ActionSupport {
+public class Details extends ActionSupport {
 
     @Autowired
     private CrudService crudService;
-    private java.util.List<Object> candidateList;
-    private Long count;
+    private Candidate candidate;
+    private Integer id = null;
 
     @Override
     public String execute() {
-        count = crudService.count(Candidate.class);
-        candidateList = crudService.page(Candidate.class, 0, count.intValue());
+        candidate = (Candidate) crudService.read(Candidate.class, id);
         return SUCCESS;
     }
-
-    /**
-     * @return the candidateList
-     */
-    public java.util.List<Object> getCandidateList() {
-        return candidateList;
+    
+    public Candidate getCandidate(){
+        return candidate;
     }
     
-    public Long getCount(){
-        return count;
+    public void setId(Integer id){
+        this.id = id;
     }
 }
