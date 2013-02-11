@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kenmcwilliams.employmentsystem.impl;
+package com.kenmcwilliams.employmentsystem.impl;
 
 import com.kenmcwilliams.employmentsystem.orm.Qual;
 import com.kenmcwilliams.employmentsystem.orm.QualLine;

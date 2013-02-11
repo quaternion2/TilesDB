@@ -3,6 +3,14 @@
 <div class ="outer content">
     <br><br><h1>Main Menu</h1><br><br>
     <div class="yui3-g">
+        <div class="yui3-u-1-2">
+            <h2>Recruiter Tools</h2>
+            <ul>
+                <li><s:a cssClass="group" namespace="/candidate" action="index">Candidate - Index</s:a></li>
+                <li><s:a cssClass="group" namespace="/candidate" action="search-input">Candidate - Find</s:a></li>
+                <li><s:a cssClass="group" namespace="/candidate" action="list">Candidate - List</s:a></li>
+            </ul>
+        </div>    
 
         <div class="yui3-u-1-2">
             <h2>Qualification Form Services</h2>

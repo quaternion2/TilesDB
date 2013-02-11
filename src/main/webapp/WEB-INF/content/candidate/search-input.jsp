@@ -1,7 +1,7 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
 <h1>Search Candidate</h1>
 
-<s:form id="addCandidate" namespace="/candidate" action="find">
+<s:form id="addCandidate" namespace="/candidate" action="search">
     <div>
         <s:textfield name="candidate.fname" placeholder="First Name" title="First Name"/>
         <s:textfield name="candidate.mname" placeholder="Middle Name" title="Middle Name"/>

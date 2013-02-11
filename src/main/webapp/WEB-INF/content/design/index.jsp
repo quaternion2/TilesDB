@@ -26,7 +26,15 @@
 
         <div style="color:#FF0000">
             <h1>RED ALERT HELP SECTION</h1>
-            <p>Ken... when you made #content.li{} in the style.css thats what fucked up the header on all the pages...I quoted it out if you want to reimplement what you were doing with a different variable name</p>
+            <ul>
+                <li>Put Database back!</li>
+                <li>Fix Resume section</li>
+                <li>Qualification section</li>
+                <li>Move our main section under a development link (which only developers should be able to access)</li>
+                <li>add candidate logging</li>
+                <li>Add user log in</li>
+            </ul>
+            <p></p>
         </div>
     </body>
 </html>

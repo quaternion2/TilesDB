@@ -10,8 +10,8 @@ import com.kenmcwilliams.employmentsystem.service.CrudService;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author ken
  */
+@Result(name="success", location="/WEB-INF/content/candidate/list.jsp")
 public class Search extends ActionSupport {
 
     @Autowired
@@ -26,15 +27,15 @@ public class Search extends ActionSupport {
     private java.util.List<Object> candidateList;
     private Long count;
     private Candidate candidate;
-    private Map<String, Map<CriteriaConstraints, java.util.List>> constraints;
-    private Map<CriteriaConstraints, java.util.List> fnameMap;
-    private Map<CriteriaConstraints, java.util.List> lnameMap;
+    private Map<String, Map<CriteriaConstraints, java.util.List>> constraints = new HashMap<>();;
+    private Map<CriteriaConstraints, java.util.List> fnameMap = new HashMap<>();
+    private Map<CriteriaConstraints, java.util.List> lnameMap = new HashMap<>();
 
-    public void prepare() {
-        constraints = new HashMap<>();
+    //public void prepare() {
+        //constraints = new HashMap<>();
         //fnameMap = 
         //constraints.put("fname", new HashMap());
-    }
+    //}
 
     @Override
     public String execute() {
@@ -52,7 +53,8 @@ public class Search extends ActionSupport {
             parameters.add("%");//these values will be concatinated by the service, it could be done as one string "%namevalue%" but I want to check this
             addConstraint("lname", CriteriaConstraints.Like, parameters);
         }
-        //candidateList = crudService.find(Candidate.class, candidate, constraints);
+        //public List<Object> search(Class clazz, Object entity, Map<String, Map<CriteriaConstraints, List>> constraints)
+        candidateList = crudService.search(Candidate.class, candidate, constraints);
         count = (long)candidateList.size();
         return SUCCESS;
     }
