@@ -6,8 +6,8 @@ package com.kenmcwilliams.employmentsystem.impl;
 
 import com.kenmcwilliams.employmentsystem.service.CriteriaConstraints;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
+import flexjson.JSONSerializer;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -17,7 +17,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -95,6 +94,12 @@ public class CrudServiceImpl implements CrudService {
      * parameters constrains: contraints applied against the entity fields
      */
     public List<Object> search(Class clazz, Object entity, Map<String, Map<CriteriaConstraints, List>> constraints) {
+        log.log(Level.INFO,
+                "CrudServiceImpl search()\n clazz: {0} \nentity: {1}\nconstraints:{2}\n",
+                new Object[]{
+                    clazz.getCanonicalName(),
+                    new JSONSerializer().serialize(entity),
+                    new JSONSerializer().serialize(constraints)});
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(clazz);
         Root root = cq.from(clazz);
@@ -124,11 +129,11 @@ public class CrudServiceImpl implements CrudService {
                 } else if (constraint == CriteriaConstraints.IsNull) {
                     predicate = cb.isNull(root);
                 } else if (constraint == CriteriaConstraints.Like) {
-                    predicate = cb.like(fieldPath, (String)values.get(0));
+                    predicate = cb.like(fieldPath, (String) values.get(0));
                 } else if (constraint == CriteriaConstraints.Lt) {
                     predicate = cb.ge(fieldPath, (Number) values.get(0));
                 } else if (constraint == CriteriaConstraints.LtOrEq) {
-                    predicate = cb.ge(fieldPath, (Number) values.get(0));
+                    predicate = cb.le(fieldPath, (Number) values.get(0));
                 } else if (constraint == CriteriaConstraints.NotEq) {
                     predicate = cb.ge(fieldPath, (Number) values.get(0));
                 } else if (constraint == CriteriaConstraints.NotLike) {
@@ -141,7 +146,7 @@ public class CrudServiceImpl implements CrudService {
         }
         //Predicate[] prdcts = new ArrayList()
         if (prdcts.size() > 0) {
-            Predicate [] predicate =  new Predicate[prdcts.size()];
+            Predicate[] predicate = new Predicate[prdcts.size()];
             predicate = prdcts.toArray(predicate);
             cq.where(cb.and(predicate));
         }
