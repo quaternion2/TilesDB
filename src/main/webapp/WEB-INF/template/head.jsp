@@ -10,5 +10,5 @@
     <s:iterator value="#attr.jsList" var="jsValue">
         <script src="<s:url value="%{jsValue}"/>"></script>
     </s:iterator>
-    <title>A Title</title>
+        <title><tiles:insertAttribute name="title" defaultValue="no title"/></title>
 </head>

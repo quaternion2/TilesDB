@@ -7,6 +7,7 @@ package com.kenmcwilliams.employmentsystem.action.candidate;
 import com.kenmcwilliams.employmentsystem.orm.Candidate;
 import com.kenmcwilliams.employmentsystem.service.CriteriaConstraints;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
+import com.kenmcwilliams.employmentsystem.service.EntityFormaterService;
 import com.opensymphony.xwork2.ActionSupport;
 import flexjson.JSONSerializer;
 import java.lang.reflect.InvocationTargetException;
@@ -21,6 +22,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,17 +31,22 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author ken
  */
-@Result(name = "success", location = "/WEB-INF/content/candidate/list.jsp")
+@ParentPackage("json-default")
+@Result(type = "json")
+//@Result(name = "success", location = "/WEB-INF/content/candidate/list.jsp")
 public class Search extends ActionSupport {
 
     private static final Logger log = Logger.getLogger(Search.class.getName());
     @Autowired
     private CrudService crudService;
+    @Autowired
+    private EntityFormaterService formatService;
     @PersistenceContext
     private EntityManager em;
     private java.util.List<Object> candidateList;
     private Long count;
     private Candidate candidate;
+    private Map<String, Integer> ordinals = new HashMap();//map of field names to location
     private Map<String, Map<CriteriaConstraints, java.util.List>> constraints = new HashMap<>();
     //private Map<CriteriaConstraints, java.util.List> fnameMap = new HashMap<>();
     //private Map<CriteriaConstraints, java.util.List> lnameMap = new HashMap<>();
@@ -57,6 +64,7 @@ public class Search extends ActionSupport {
         //TODO I'm using like for all string attributes, when I should be taking in a description of how to handle
         for (Attribute attribute : attributes) {
             String attrName = attribute.getName();
+            log.log(Level.INFO, "attr name: {0}\n", attrName);
             Class attrType = attribute.getJavaType();
             Object propertyValue = PropertyUtils.getProperty(candidate, attrName);
 
@@ -135,5 +143,19 @@ public class Search extends ActionSupport {
                     new JSONSerializer().serialize(criteriaConstraint),
                     new JSONSerializer().serialize(parameters)});
         constraints.put(fieldName, fieldConstraints);
+    }
+
+    /**
+     * @return the ordinals
+     */
+    public Map<String, Integer> getOrdinals() {
+        return ordinals;
+    }
+
+    /**
+     * @param ordinals the ordinals to set
+     */
+    public void setOrdinals(Map<String, Integer> ordinals) {
+        this.ordinals = ordinals;
     }
 }

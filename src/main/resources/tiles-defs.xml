@@ -14,7 +14,9 @@
             <add-attribute value="/script/jquery/1.8.1/jquery.min.js" />
             <add-attribute value="/script/jquery-ui-1.8.24.custom/js/jquery-ui-1.8.24.custom.min.js" />
             <add-attribute value="/script/jquery.sort.js" />
-        </put-list-attribute>        
+            <add-attribute value="/script/custom/jquery-serialize.js" />
+        </put-list-attribute>   
+        <put-attribute name="title" value="defaults-name" cascade="true"  type="string"/>
         <put-attribute name="head" value="/WEB-INF/template/head.jsp"/>
         <put-attribute name="header" value="/WEB-INF/template/header.jsp"/>
         <put-attribute name="body" value="/WEB-INF/template/body.jsp"/>
@@ -37,6 +39,7 @@
     </definition>
     
     <definition name="REGEXP:(.*)#(.*)"  extends="default">
+        <put-attribute name="title" cascade="true" expression="OGNL:@com.opensymphony.xwork2.ActionContext@getContext().name"/>
         <put-attribute name="body" value="/WEB-INF/content{1}/{2}"/>
     </definition>
     
