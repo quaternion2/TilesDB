@@ -11,16 +11,11 @@ import com.kenmcwilliams.employmentsystem.service.EntityFormaterService;
 import com.opensymphony.xwork2.ActionSupport;
 import flexjson.JSONSerializer;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.metamodel.Attribute;
-import javax.persistence.metamodel.EntityType;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -32,7 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ken
  */
 @ParentPackage("json-default")
-@Result(type = "json")
+@Result(type = "json", params = {
+        "excludeProperties",
+        "candidate"
+    })
 //@Result(name = "success", location = "/WEB-INF/content/candidate/list.jsp")
 public class Search extends ActionSupport {
 
@@ -42,38 +40,33 @@ public class Search extends ActionSupport {
     @Autowired
     private EntityFormaterService formatService;
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager em; //used for meta model access, not DB access.
     private java.util.List<Object> candidateList;
     private Long count;
     private Candidate candidate;
-    private Map<String, Integer> ordinals = new HashMap();//map of field names to location
+    private Collection<String> ordinals = new LinkedList();//map of field names to location
     private Map<String, Map<CriteriaConstraints, java.util.List>> constraints = new HashMap<>();
-    //private Map<CriteriaConstraints, java.util.List> fnameMap = new HashMap<>();
-    //private Map<CriteriaConstraints, java.util.List> lnameMap = new HashMap<>();
 
-    //public void prepare() {
-    //constraints = new HashMap<>();
-    //fnameMap = 
-    //constraints.put("fname", new HashMap());
-    //}
     @Override
     public String execute() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        EntityType<Candidate> entityType = em.getMetamodel().entity(Candidate.class);
-        Set<Attribute<? super Candidate, ?>> attributes = entityType.getAttributes();
-
+        //EntityType<Candidate> entityType = em.getMetamodel().entity(Candidate.class);
+        //Set<Attribute<? super Candidate, ?>> attributes = entityType.getAttributes();
+        Collection<String> attributes = this.formatService.getUnmodifiablePropertiesByEntity(Candidate.class);
+        this.ordinals = attributes;
         //TODO I'm using like for all string attributes, when I should be taking in a description of how to handle
-        for (Attribute attribute : attributes) {
-            String attrName = attribute.getName();
-            log.log(Level.INFO, "attr name: {0}\n", attrName);
-            Class attrType = attribute.getJavaType();
-            Object propertyValue = PropertyUtils.getProperty(candidate, attrName);
+        for (String attribute : attributes) {
+            log.log(Level.INFO, "attr name: {0}\n", attribute);
+            //Class attrType = attribute.getJavaType();
+            Object propertyValue = PropertyUtils.getProperty(candidate, attribute);
+            Class attrType = PropertyUtils.getPropertyType(candidate, attribute);
+            log.log(Level.INFO, "propertyValue: {0}", propertyValue);
 
             if (attrType == String.class) {
                 String strValue = (String) propertyValue;
                 if (strValue != null && !strValue.isEmpty()) {
                     ArrayList parameters = new ArrayList();
                     parameters.add("%" + propertyValue + "%");
-                    addConstraint(attrName, CriteriaConstraints.Like, parameters);
+                    addConstraint(attribute, CriteriaConstraints.Like, parameters);
                 }
             } else if (attrType == Integer.class) {
             } else if (attrType == Float.class) {
@@ -81,7 +74,7 @@ public class Search extends ActionSupport {
                 if (floatValue != null && !floatValue.isNaN()) {
                     ArrayList parameters = new ArrayList();
                     parameters.add(propertyValue);
-                    addConstraint(attrName, CriteriaConstraints.LtOrEq, parameters);
+                    addConstraint(attribute, CriteriaConstraints.LtOrEq, parameters);
                 }
             }
         }
@@ -148,14 +141,14 @@ public class Search extends ActionSupport {
     /**
      * @return the ordinals
      */
-    public Map<String, Integer> getOrdinals() {
+    public Collection<String> getOrdinals() {
         return ordinals;
     }
 
     /**
      * @param ordinals the ordinals to set
      */
-    public void setOrdinals(Map<String, Integer> ordinals) {
+    public void setOrdinals(Collection<String> ordinals) {
         this.ordinals = ordinals;
     }
 }

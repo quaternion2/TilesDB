@@ -9,10 +9,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.NotFoundException;
+import javassist.*;
 
 /**
  *
@@ -23,7 +20,9 @@ public class MethodOrderDeterminer {
     public static SortedMap<Integer, String> getOrderedPropertiesFor(Class clazz) {
         TreeMap<Integer, String> properties = new TreeMap<>(); //In key sorted order
         //properties.
-        ClassPool pool = ClassPool.getDefault();
+        //ClassPool pool = ClassPool.getDefault(); //old
+        ClassPool pool = new ClassPool(); //.getDefault();
+        pool.insertClassPath(new ClassClassPath(clazz));
         String canonicalName = clazz.getCanonicalName();
         //System.out.println("Looking up class for: " + canonicalName);
         CtClass cc;
