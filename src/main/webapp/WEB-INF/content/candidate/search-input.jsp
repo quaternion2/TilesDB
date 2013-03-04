@@ -2,20 +2,40 @@
 <h1>Search Candidate</h1>
 <script>
     $(document).ready(function(){
+        var candidateDetailsUrl = "<s:url namespace="/candidate" action="details"/>";
+        var tableColumns = [];
+        
         var fnListCandidates = function(data){
             var doOnce = true;
             var headerRow = $("<tr>");
             var tbody = $("<tbody>");
+            //set tableColumns
+            tableColumns = [];
+            $.each(data.ordinals, function(index, columnName){
+                console.log(columnName);
+                tableColumns.push(columnName);
+            });
+            
             $.each(data.candidateList, function(index, candidate){
                 //console.log("start row");
                 var row = $("<tr>");
-                $.each(candidate, function( field, value ) {
+
+                $.each(tableColumns, function( index, columnName) {
                     if (doOnce == true){ //generate the header only once
-                        $(headerRow).append($("<th>").html(field));
+                        $(headerRow).append($("<th>").html(columnName));
                     }
                     //console.log( field + ": " + value );
-                    $(row).append($("<td>").html(value));
+                    if(columnName.localeCompare("id") === 0){
+                        //id is in first position
+                        var td = $("<td>");
+                        var url = $("<a>").attr("href", "" + candidateDetailsUrl + "?id=" +  candidate["id"]).html(candidate[columnName]);
+                        $(td).append(url);
+                        $(row).append(td);
+                    }else{
+                        $(row).append($("<td>").html(candidate[columnName]));
+                    }
                 });
+                //end new
                 doOnce = false;
                 $(tbody).append(row); //TODO better to tbody in memory and then replace at once 
                 //console.log("end row");
@@ -31,9 +51,14 @@
             
             //($.param(formObject));            
         });
+        
+        var get
     });
 </script>
 <s:form id="candidate-form" namespace="/candidate" action="search">
+    <s:submit/>
+    <button type="button" id="search-button">Search</button>
+    <s:a namespace="candidate" action="add">New Candidate</s:a>
     <div>
         <s:textfield name="candidate.fname" placeholder="First Name" title="First Name"/>
         <s:textfield name="candidate.mname" placeholder="Middle Name" title="Middle Name"/>
@@ -62,8 +87,6 @@
     <div>
         <s:textfield name="candidate.desiredRateHour" placeholder="Desired Rate 0.00" title="Desired Rate 0.00"/>
     </div>
-    <s:submit/>
-    <button type="button" id="search-button">Search</button>
 </s:form>
 <h1>Found</h1>
 <table id="candidate-list">

@@ -16,6 +16,23 @@
     <constant name="struts.convention.conventionsService" value="tilesConvention"/>
 
     
+    <package name="secure-package" extends="struts-default" abstract="true">
+        <interceptors>
+            <interceptor name="authenticationInterceptor" class="com.kenmcwilliams.s2.interceptor.BasicAuthentication"/>
+            <interceptor-stack name="secureStack">
+                <interceptor-ref name="authenticationInterceptor"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="secureStack"/>
+    </package>
+    
+    <package name="secure-content" namespace="/secure"  extends="secure-package">
+        <action name="secure-content">
+            <result>/WEB-INF/secure/secure-content.jsp</result>
+        </action>
+    </package>
+    
     <package name="package-kjson" extends="struts-default">
         <result-types>
             <result-type name="kjson" default="true" class="com.kenmcwilliams.employmentsystem.result.Kjson"/>
