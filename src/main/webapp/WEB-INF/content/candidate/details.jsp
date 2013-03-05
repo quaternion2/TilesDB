@@ -34,6 +34,6 @@
         </div>
         <s:submit value="Update"/>
     </s:form>
-    
+    <h1>Log</h1>
     
 </s:push>
