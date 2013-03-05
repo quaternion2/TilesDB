@@ -106,4 +106,8 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
     public void setEntityName(String entityName) {
         this.entityName = entityName;
     }
+    
+    //TODO: validation would be a great idea...
+    //if entity implements a validate method, this validate should
+    //call that validate
 }
