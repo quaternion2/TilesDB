@@ -5,10 +5,12 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,6 +40,8 @@ public class Recruiter implements Serializable {
     @Size(max = 45)
     @Column(name = "lname")
     private String lname;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recruiterId")
+    private Collection<CandidateLog> candidateLogCollection;
 
     public Recruiter() {
     }
@@ -76,6 +80,15 @@ public class Recruiter implements Serializable {
 
     public void setLname(String lname) {
         this.lname = lname;
+    }
+
+    @XmlTransient
+    public Collection<CandidateLog> getCandidateLogCollection() {
+        return candidateLogCollection;
+    }
+
+    public void setCandidateLogCollection(Collection<CandidateLog> candidateLogCollection) {
+        this.candidateLogCollection = candidateLogCollection;
     }
 
     @Override

@@ -5,9 +5,11 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -82,6 +84,8 @@ public class Candidate implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "desired_rate_hour")
     private Float desiredRateHour;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateId")
+    private Collection<CandidateLog> candidateLogCollection;
 
     public Candidate() {
     }
@@ -208,6 +212,15 @@ public class Candidate implements Serializable {
 
     public void setDesiredRateHour(Float desiredRateHour) {
         this.desiredRateHour = desiredRateHour;
+    }
+
+    @XmlTransient
+    public Collection<CandidateLog> getCandidateLogCollection() {
+        return candidateLogCollection;
+    }
+
+    public void setCandidateLogCollection(Collection<CandidateLog> candidateLogCollection) {
+        this.candidateLogCollection = candidateLogCollection;
     }
 
     @Override
