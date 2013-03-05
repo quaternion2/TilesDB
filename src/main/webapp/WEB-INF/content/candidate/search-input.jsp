@@ -1,8 +1,10 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
-<h1>Search Candidate</h1>
+<h1>Search Candidates</h1>
 <script>
     $(document).ready(function(){
         var candidateDetailsUrl = "<s:url namespace="/candidate" action="details"/>";
+        var addCandidatesUrl = "<s:url namespace="/crud/candidate" action="add"/>";
+        
         var tableColumns = [];
         
         var fnListCandidates = function(data){
@@ -47,18 +49,53 @@
         var searchUrl = "<s:url namespace="/candidate" action="search"/>";
         $("#search-button").click(function(){      
             var formObject = $('#candidate-form').serializeForm();
-            $.getJSON(searchUrl,formObject,fnListCandidates);
-            
-            //($.param(formObject));            
+            $.getJSON(searchUrl,formObject,fnListCandidates);     
         });
         
-        var get
+        $("#clear-button").click(function(){
+            $("#candidate-form")[0].reset();
+        });
+        
+        $("#new-candidate-button").click(function(){
+            var formObject = $('#candidate-form').serializeForm();
+            console.log(formObject);
+            formObject = popFromObjectName(formObject, "candidate.");
+            console.log(formObject);
+            $.getJSON(addCandidatesUrl,formObject,function(data){
+                console.log(data);
+            });
+        });
+        
+        //TODO: I can see the following useful in many forms (pushing and popping name attribuites)
+        //TODO: no effort at making this recursive, forms are not typically recursive
+        var pushToObjectName =  function(obj, pushStr){
+            var newObj = {};
+            $.each(obj, function(key, value){
+               var newKey = pushStr + key; 
+               newObj[newKey] = value;
+            });
+            return newObj;
+        };
+        
+        var popFromObjectName = function(obj, popStr){
+            var newObj = {};
+            $.each(obj, function(key, value){
+               var newKey = key.replace(popStr, ''); 
+               newObj[newKey] = value;
+            });
+            return newObj;
+        };
+        
     });
 </script>
+<ul>
+    <li>Get Adding logs to work!!! (add log for currently logged in user)</li>
+</ul>
 <s:form id="candidate-form" namespace="/candidate" action="search">
-    <s:submit/>
     <button type="button" id="search-button">Search</button>
-    <s:a namespace="candidate" action="add">New Candidate</s:a>
+    <button type="button" id="clear-button">Clear</button>
+    <button type="button" id="new-candidate-button">Add Candidate</button>
+
     <div>
         <s:textfield name="candidate.fname" placeholder="First Name" title="First Name"/>
         <s:textfield name="candidate.mname" placeholder="Middle Name" title="Middle Name"/>
@@ -87,6 +124,7 @@
     <div>
         <s:textfield name="candidate.desiredRateHour" placeholder="Desired Rate 0.00" title="Desired Rate 0.00"/>
     </div>
+    <s:submit/>
 </s:form>
 <h1>Found</h1>
 <table id="candidate-list">
