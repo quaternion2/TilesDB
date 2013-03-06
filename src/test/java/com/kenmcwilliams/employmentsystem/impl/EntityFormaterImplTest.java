@@ -43,13 +43,14 @@ public class EntityFormaterImplTest {
     public void testGetUnmodifiablePropertiesByEntity() {
         System.out.println("getUnmodifiablePropertiesByEntity");
         Class clazz = com.kenmcwilliams.employmentsystem.orm.Recruiter.class;
-        EntityFormaterImpl instance = new EntityFormaterImpl();
+        EntityInspectorImpl instance = new EntityInspectorImpl();
         assertNotNull("Instance is null", instance);
         ArrayList<String> expResult = new ArrayList();
         expResult.add("id");
         expResult.add("fname");
         expResult.add("mname");
         expResult.add("lname");
+        expResult.add("candidateLogCollection"); 
         Collection<String> result = instance.getUnmodifiablePropertiesByEntity(clazz);
         assertNotNull(result);
         org.junit.Assert.assertTrue("Result has no values", result.iterator().hasNext());
@@ -70,24 +71,23 @@ public class EntityFormaterImplTest {
     public void testGetOrderedProperties() {
         System.out.println("getOrderedProperties");
         Class clazz = com.kenmcwilliams.employmentsystem.orm.Recruiter.class;
-        EntityFormaterImpl instance = new EntityFormaterImpl();
+        EntityInspectorImpl instance = new EntityInspectorImpl();
         assertNotNull("Instance is null", instance);
         ArrayList<String> expResult = new ArrayList();
         expResult.add("id");
         expResult.add("fname");
         expResult.add("mname");
         expResult.add("lname");
+        expResult.add("candidateLogCollection"); 
         SortedMap<Integer, String> result = instance.getOrderedProperties(clazz);
         assertNotNull(result);
         org.junit.Assert.assertTrue("Values is not greater than zero", result.values().size() > 0);
         Collection<String> values = result.values();
         int i = 0;
         for (String strMethod : values) {
-            //for (String strExpected : expResult) {
             System.out.println("Comparing: " + strMethod + " to " + expResult.get(i));
             assertEquals("Comparing: " + strMethod + " to " + expResult.get(i) + " failed.", expResult.get(i).compareTo(strMethod), 0);
             i++;
-            //}
         }
     }
 }

@@ -1,6 +1,17 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
+<p>TTD: use ajax to load candidate description values</p>
+<p>TTD: make this fit in with the standard tiles template and see if I can load tiles components in here</p>
+<p>TTD: ensure only logged in user can access this page (and all pages not in default package or public package)</p>
+<p>TTD: create add new log input.</p>
+<p>TTD: list log entries for this candidate - from most recent to oldest</p>
+<p>TTD: add opportunity id to log</p>
+<p>TTD: Add ownership fields to candidate (audit fields : date created/updated, who last created/updated)</p>
+<p>TTD: Add ownership field to candidate</p>
+<p>TTD: add VIP field for candidate</p>
+<p>TTD: add tag collection...</p>
+<p>TTD: add resume collection...</p>
+<p>TTD: add opportunity collection...</p>
 <h1>Update Candidate</h1>
-
 <s:push value="candidate">
     <s:form id="addCandidate" namespace="/candidate" action="update">
         <s:hidden name="id" value="%{id}"/>

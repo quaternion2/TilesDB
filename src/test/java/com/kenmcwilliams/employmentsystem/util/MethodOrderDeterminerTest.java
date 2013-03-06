@@ -51,7 +51,7 @@ public class MethodOrderDeterminerTest {
         //Collection<String> values = result.values();
         Set<Integer> keySet = result.keySet();
         
-        String[] expected = {"id", "fname", "mname", "lname"};
+        String[] expected = {"id", "fname", "mname", "lname", "candidateLogCollection"};
         //58 fname
         //66 mname
         //74 lname

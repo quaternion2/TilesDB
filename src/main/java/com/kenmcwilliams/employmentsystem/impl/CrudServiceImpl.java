@@ -151,6 +151,8 @@ public class CrudServiceImpl implements CrudService {
             cq.where(cb.and(predicate));
         }
         TypedQuery query = em.createQuery(cq);
-        return query.getResultList();
+        List resultList = query.getResultList();
+        //em.detach(resultList);
+        return resultList;
     }
 }

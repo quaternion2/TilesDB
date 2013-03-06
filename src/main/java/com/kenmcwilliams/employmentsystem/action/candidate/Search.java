@@ -7,8 +7,9 @@ package com.kenmcwilliams.employmentsystem.action.candidate;
 import com.kenmcwilliams.employmentsystem.orm.Candidate;
 import com.kenmcwilliams.employmentsystem.service.CriteriaConstraints;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
-import com.kenmcwilliams.employmentsystem.service.EntityFormaterService;
+import com.kenmcwilliams.employmentsystem.service.EntityInspectorService;
 import com.opensymphony.xwork2.ActionSupport;
+import flexjson.JSON;
 import flexjson.JSONSerializer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -26,11 +27,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author ken
  */
-@ParentPackage("json-default")
-@Result(type = "json", params = {
-        "excludeProperties",
-        "candidate"
-    })
+@ParentPackage("package-kjson")
+//@ParentPackage("json-default")
+//@Result(type = "json", params = {
+//        "excludeProperties",
+//        "candidate"
+//    })
+@Result(type = "kjson")
 //@Result(name = "success", location = "/WEB-INF/content/candidate/list.jsp")
 public class Search extends ActionSupport {
 
@@ -38,7 +41,7 @@ public class Search extends ActionSupport {
     @Autowired
     private CrudService crudService;
     @Autowired
-    private EntityFormaterService formatService;
+    private EntityInspectorService formatService;
     @PersistenceContext
     private EntityManager em; //used for meta model access, not DB access.
     private java.util.List<Object> candidateList;
@@ -46,6 +49,7 @@ public class Search extends ActionSupport {
     private Candidate candidate;
     private Collection<String> ordinals = new LinkedList();//map of field names to location
     private Map<String, Map<CriteriaConstraints, java.util.List>> constraints = new HashMap<>();
+    private Object jsonModel;
 
     @Override
     public String execute() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -98,19 +102,48 @@ public class Search extends ActionSupport {
         log.log(Level.INFO, "\nSerch execute()\n constraints: {0}\n", new JSONSerializer().serialize(constraints));
         candidateList = crudService.search(Candidate.class, candidate, constraints);
         count = (long) candidateList.size();
+        //setup the json model
+        //HashMap<String,  tempModel = new HashMap<>();
+        //tempModel.put("count", jsonModel);
+        //tempModel.put("candidateList", candidateList);
+        //tempModel.put("ordinals", ordinals);
+        //jsonModel = tempModel;
+        jsonModel = new Object() {
+
+            public Long getCount() {
+                return count;
+            }
+
+            @JSON
+            public Collection<String> getOrdinals() {
+                return ordinals;
+            }
+
+            @JSON
+            public java.util.List<Object> getCandidateList() {
+                return candidateList;
+            }
+        };
         return SUCCESS;
+    }
+
+    /**
+     * @return the jsonModel
+     */
+    public Object getJsonModel() {
+        return jsonModel;
     }
 
     /**
      * @return the candidateList
      */
-    public java.util.List<Object> getCandidateList() {
-        return candidateList;
-    }
+    //public java.util.List<Object> getCandidateList() {
+    //    return candidateList;
+    //}
 
-    public Long getCount() {
-        return count;
-    }
+    //public Long getCount() {
+    //    return count;
+    //}
 
     /**
      * @return the model
@@ -141,14 +174,14 @@ public class Search extends ActionSupport {
     /**
      * @return the ordinals
      */
-    public Collection<String> getOrdinals() {
-        return ordinals;
-    }
+    //public Collection<String> getOrdinals() {
+    //    return ordinals;
+    //}
 
     /**
      * @param ordinals the ordinals to set
      */
-    public void setOrdinals(Collection<String> ordinals) {
-        this.ordinals = ordinals;
-    }
+    //public void setOrdinals(Collection<String> ordinals) {
+    //    this.ordinals = ordinals;
+    //}
 }

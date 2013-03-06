@@ -5,14 +5,12 @@
 package com.kenmcwilliams.employmentsystem.service;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.SortedMap;
 
 /**
  *
  * @author ken
  */
-public interface EntityFormaterService {
+public interface EntityInspectorService {
     /**
      * @return List of getters in the order they occur in the source file of a particular entity class 
      */
