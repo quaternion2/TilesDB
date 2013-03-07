@@ -7,12 +7,14 @@ package com.kenmcwilliams.employmentsystem.action.login;
 import com.kenmcwilliams.s2.interceptor.User;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
+import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
  *
  * @author ken
  */
+@Result(name = "success", type = "redirectAction", params = {"namespace", "/", "actionName", ""})
 public class Login extends ActionSupport implements SessionAware{
     private String userName;
     private String password;

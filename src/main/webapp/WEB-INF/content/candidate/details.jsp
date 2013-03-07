@@ -46,5 +46,13 @@
         <s:submit value="Update"/>
     </s:form>
     <h1>Log</h1>
-    
+    <s:form namespace="/candidate" action="add-log">
+        <s:hidden name="candidateId" value="id"/>
+        <div>
+            <s:submit value="Add Log"/>
+        </div>
+        <div>
+            <s:textarea name="log" cols="120" rows="5"/>
+        </div>
+    </s:form>
 </s:push>

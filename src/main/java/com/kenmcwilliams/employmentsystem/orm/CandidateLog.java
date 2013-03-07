@@ -4,6 +4,7 @@
  */
 package com.kenmcwilliams.employmentsystem.orm;
 
+import com.opensymphony.xwork2.ActionSupport;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CandidateLog.findAll", query = "SELECT c FROM CandidateLog c"),
     @NamedQuery(name = "CandidateLog.findById", query = "SELECT c FROM CandidateLog c WHERE c.id = :id"),
     @NamedQuery(name = "CandidateLog.findByStamp", query = "SELECT c FROM CandidateLog c WHERE c.stamp = :stamp")})
-public class CandidateLog implements Serializable {
+public class CandidateLog implements Serializable, ActionValidateable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +55,10 @@ public class CandidateLog implements Serializable {
     public CandidateLog(Integer id, Date stamp) {
         this.id = id;
         this.stamp = stamp;
+    }
+    
+    public CandidateLog(Date stamp, Integer CandidateId, Integer RecruiterId){
+        
     }
 
     public Integer getId() {
@@ -120,5 +125,12 @@ public class CandidateLog implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.CandidateLog[ id=" + id + " ]";
     }
+
+    @Override
+    public void validate(ActionSupport validateableAction) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
     
 }

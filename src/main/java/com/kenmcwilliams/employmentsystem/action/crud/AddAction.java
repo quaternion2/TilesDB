@@ -4,6 +4,7 @@
  */
 package com.kenmcwilliams.employmentsystem.action.crud;
 
+import com.kenmcwilliams.employmentsystem.orm.ActionValidateable;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
 import com.kenmcwilliams.employmentsystem.util.ActionUtils;
 import com.opensymphony.xwork2.ActionSupport;
@@ -110,4 +111,10 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
     //TODO: validation would be a great idea...
     //if entity implements a validate method, this validate should
     //call that validate
+    @Override
+    public void validate(){
+        if (entityModel instanceof ActionValidateable){
+            ((ActionValidateable)entityModel).validate(this);
+        }
+    }
 }

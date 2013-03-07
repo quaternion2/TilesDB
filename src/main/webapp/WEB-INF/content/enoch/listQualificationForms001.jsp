@@ -14,31 +14,7 @@
         <%--  website header --%>
         <div id="wrapper">
             <div id="content">
-
-                <nav>
-                    <ul id="navBar">
-                        <li><a href="http://EmploymentSystem.com" title="main menu">Employment System</a></li>
-                        <li><a href="http://EmploymentSystem.com/resume" title="resume">Resume</a></li>
-                        <li><a href="http://EmploymentSystem.com/qualification" title="qualification">Qualification</a></li>
-                        <li><a href="http://EmploymentSystem.com/other" title="other">Other</a></li>              
-                        <li><a href="http://EmploymentSystem.com/support" title="time">
-                                <script type="text/javascript">
-                                    var mydate=new Date()
-                                    var year=mydate.getFullYear()
-                                    var day=mydate.getDay()
-                                    var month=mydate.getMonth()
-                                    var daym=mydate.getDate()
-                                    //if the current date is less than 10, pad it.
-                                    if (daym<10)
-                                        daym="0"+daym
-                                    var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
-                                    var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
-                                    //write out the final results
-                                    document.write(dayarray[day]+", "+montharray[month]+" "+daym+", "+year)
-                                </script>  </a></li>
-                    </ul>
-                </nav>
-                <%--  end website header --%>
+              <%--  end website header --%>
 
                 <div><%-- website body --%>
                     <br>
