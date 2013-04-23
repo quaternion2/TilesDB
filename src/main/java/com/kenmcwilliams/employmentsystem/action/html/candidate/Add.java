@@ -4,8 +4,6 @@
  */
 package com.kenmcwilliams.employmentsystem.action.html.candidate;
 
-import com.kenmcwilliams.employmentsystem.enums.Country;
-import com.kenmcwilliams.employmentsystem.enums.Province;
 import com.kenmcwilliams.employmentsystem.orm.Candidate;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
 import com.opensymphony.xwork2.ActionSupport;

@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -21,27 +20,22 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Recruiter.findAll", query = "SELECT r FROM Recruiter r"),
-    @NamedQuery(name = "Recruiter.findById", query = "SELECT r FROM Recruiter r WHERE r.id = :id"),
-    @NamedQuery(name = "Recruiter.findByFname", query = "SELECT r FROM Recruiter r WHERE r.fname = :fname"),
-    @NamedQuery(name = "Recruiter.findByMname", query = "SELECT r FROM Recruiter r WHERE r.mname = :mname"),
-    @NamedQuery(name = "Recruiter.findByLname", query = "SELECT r FROM Recruiter r WHERE r.lname = :lname")})
+    @NamedQuery(name = "Recruiter.findById", query = "SELECT r FROM Recruiter r WHERE r.id = :id")})
 public class Recruiter implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
-    @Column(name = "fname")
-    private String fname;
-    @Size(max = 45)
-    @Column(name = "mname")
-    private String mname;
-    @Size(max = 45)
-    @Column(name = "lname")
-    private String lname;
+    @ManyToMany(mappedBy = "recruiterCollection")
+    private Collection<Opportunity> opportunityCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recruiterId")
     private Collection<CandidateLog> candidateLogCollection;
+    @OneToMany(mappedBy = "recruiter")
+    private Collection<Candidate> candidateCollection;
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Person person;
 
     public Recruiter() {
     }
@@ -58,28 +52,13 @@ public class Recruiter implements Serializable {
         this.id = id;
     }
 
-    public String getFname() {
-        return fname;
+    @XmlTransient
+    public Collection<Opportunity> getOpportunityCollection() {
+        return opportunityCollection;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public String getMname() {
-        return mname;
-    }
-
-    public void setMname(String mname) {
-        this.mname = mname;
-    }
-
-    public String getLname() {
-        return lname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setOpportunityCollection(Collection<Opportunity> opportunityCollection) {
+        this.opportunityCollection = opportunityCollection;
     }
 
     @XmlTransient
@@ -89,6 +68,23 @@ public class Recruiter implements Serializable {
 
     public void setCandidateLogCollection(Collection<CandidateLog> candidateLogCollection) {
         this.candidateLogCollection = candidateLogCollection;
+    }
+
+    @XmlTransient
+    public Collection<Candidate> getCandidateCollection() {
+        return candidateCollection;
+    }
+
+    public void setCandidateCollection(Collection<Candidate> candidateCollection) {
+        this.candidateCollection = candidateCollection;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override
@@ -113,7 +109,7 @@ public class Recruiter implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kenmcwilliams.employmentsystem.orm.Recruiter[ id=" + id + " ]";
+        return "com.kenmcwillaims.employmentsystemdb.Recruiter[ id=" + id + " ]";
     }
     
 }

@@ -36,7 +36,7 @@ public class QualLine implements Serializable {
     @Size(max = 65535)
     @Column(name = "description")
     private String description;
-    @Column(name = "mandatory")
+    @Column(name = "mandatory", columnDefinition = "BIT", length = 1)
     private Boolean mandatory;
     @Column(name = "months")
     private Integer months;

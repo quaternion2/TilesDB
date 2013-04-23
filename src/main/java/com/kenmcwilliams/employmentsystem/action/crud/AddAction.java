@@ -26,23 +26,21 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @ParentPackage("staticParams-prepare-parms")
 @Namespace("/crud/{entityName}")
-@Result(type = "kjson") //TODO: I can get rid of this line by setting the result as the defaul for the package
+@Result(type = "kjson") //TODO: could rid of this line by setting the result as the default for the package
 public class AddAction extends ActionSupport implements Preparable, ModelDriven {
 
     private static final Logger log = Logger.getLogger(AddAction.class.getName());
     @Autowired
     private CrudService crudService;
-    private String entityName; //entity name
-    private Object entityModel; // for input
+    private String entityName; 
+    private Object entityModel; 
     private Map jsonModel = new HashMap(); //for output, return the newly created object
-    //private Long count;
-    //private Long id;
     private Class clazz;
 
     @Override
     public String execute() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         log.log(Level.INFO, "In execute entityName is set with {0}", entityName);
-        //If an id is passed in it will merge the object with that id, it will null not set attributes
+        //If an id is passed in it will merge the object with that id, null will be used for unset attributes
         String status = SUCCESS;
         boolean error = false;
         Object entity = null;
@@ -108,7 +106,7 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
         this.entityName = entityName;
     }
     
-    //TODO: validation would be a great idea...
+    //TODO: validation would be a good idea can't implement in this class need to delegate
     //if entity implements a validate method, this validate should
     //call that validate
     @Override

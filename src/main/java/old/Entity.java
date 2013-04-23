@@ -18,7 +18,6 @@ import org.apache.struts2.convention.annotation.Result;
 public class Entity{
     private String crudOperation;
     private String entity;
-
     
     
     /**

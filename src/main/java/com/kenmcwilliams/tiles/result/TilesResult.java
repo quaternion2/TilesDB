@@ -18,10 +18,6 @@ import org.apache.tiles.request.ApplicationContext;
 import org.apache.tiles.request.servlet.ServletRequest;
 import org.apache.tiles.request.servlet.ServletUtil;
 
-/**
- *
- * @author ken
- */
 public class TilesResult extends ServletDispatcherResult {
 
     private static final Logger log = Logger.getLogger(TilesResult.class.getName());

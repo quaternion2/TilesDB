@@ -1,16 +1,9 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
-<p>TTD: use ajax to load candidate description values</p>
-<p>TTD: make this fit in with the standard tiles template and see if I can load tiles components in here</p>
-<p>TTD: ensure only logged in user can access this page (and all pages not in default package or public package)</p>
-<p>TTD: create add new log input.</p>
-<p>TTD: list log entries for this candidate - from most recent to oldest</p>
-<p>TTD: add opportunity id to log</p>
-<p>TTD: Add ownership fields to candidate (audit fields : date created/updated, who last created/updated)</p>
-<p>TTD: Add ownership field to candidate</p>
-<p>TTD: add VIP field for candidate</p>
-<p>TTD: add tag collection...</p>
-<p>TTD: add resume collection...</p>
-<p>TTD: add opportunity collection...</p>
+<script>
+    $(document).ready(function(){
+        
+    });
+</script>
 <h1>Update Candidate</h1>
 <s:push value="candidate">
     <s:form id="addCandidate" namespace="/candidate" action="update">
@@ -45,14 +38,38 @@
         </div>
         <s:submit value="Update"/>
     </s:form>
-    <h1>Log</h1>
     <s:form namespace="/candidate" action="add-log">
-        <s:hidden name="candidateId" value="id"/>
-        <div>
-            <s:submit value="Add Log"/>
-        </div>
+        <s:hidden name="candidateId" value="%{id}"/>
         <div>
             <s:textarea name="log" cols="120" rows="5"/>
         </div>
+        <div>
+            <s:submit value="Add Log"/>
+        </div>
     </s:form>
+    <s:iterator value="logs">
+        <div class="log">
+            <div class="boxHeader">
+                <span><s:date name="stamp" format="yyyy/MM/dd hh:mm"/></span>
+                <span><s:property value="recruiterId.person.fname"/> <s:property value="recruiterId.person.lname"/></span>
+            </div>
+            <div class="log-body">
+                <s:property value="note"/>
+            </div>
+        </div>
+    </s:iterator>
+
+    <p>TTD: use ajax to load candidate description values</p>
+    <p>TTD: ensure only logged in user can access this page (and all pages not in default package or public package)</p>
+    <p>TTD: Add ownership fields to candidate (audit fields : date created/updated/ManagedBy)</p>
+    <p>TTD: Add ownership field to candidate</p>
+    
+    <p>TTD: add tag collection...</p>
+    <p>TTD: add opportunity collection...</p>
+    <p>TTD: add resume collection...</p>
+    <p>TTD: add opportunity collection...</p>
+    
+    <p>TTD: add communication skill drop down</p>
+    <p>TTD: add personality drop down</p>
+    <p>TTD: add VIP check box</p>
 </s:push>

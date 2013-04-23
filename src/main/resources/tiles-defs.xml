@@ -3,9 +3,9 @@
 <tiles-definitions>
     <definition name="default" template="/WEB-INF/template/template.jsp">
         <put-list-attribute name="cssList" cascade="true">
-            <add-attribute value="/style/cssbase-min.css" />
-            <add-attribute value="/style/cssfonts-min.css" />
             <add-attribute value="/style/cssreset-min.css" />
+            <add-attribute value="/style/cssfonts-min.css" />
+            <add-attribute value="/style/cssbase-min.css" />  
             <add-attribute value="/style/grids-min.css" />
             <add-attribute value="/script/jquery-ui-1.8.24.custom/css/ui-lightness/jquery-ui-1.8.24.custom.css" />
             <add-attribute value="/style/style.css" />

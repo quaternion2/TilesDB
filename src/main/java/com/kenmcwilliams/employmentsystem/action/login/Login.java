@@ -4,39 +4,39 @@
  */
 package com.kenmcwilliams.employmentsystem.action.login;
 
+import com.kenmcwilliams.employmentsystem.service.AuthenticationService;
+import com.kenmcwilliams.employmentsystem.util.ApplicationConstants;
 import com.kenmcwilliams.s2.interceptor.User;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.SessionAware;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author ken
  */
 @Result(name = "success", type = "redirectAction", params = {"namespace", "/", "actionName", ""})
-public class Login extends ActionSupport implements SessionAware{
+public class Login extends ActionSupport implements SessionAware {
+
     private String userName;
     private String password;
     private Map<String, Object> session;
-            
+    @Autowired
+    private AuthenticationService authenticationService;
+    private User login;
+
     @Override
-    public String execute(){
-        User user = new User(userName);
-        this.session.put("user", user);
+    public String execute() {
+        this.session.put(ApplicationConstants.USER.name(), login);
         return SUCCESS;
     }
-    
+
     @Override
-    public void validate(){
-        boolean error = false;
-        if (userName.compareTo("ken") != 0){
-            error = true;
-        }
-        if(password.compareTo("1234") != 0){
-            error = true;
-        }
-        if (error == true){
+    public void validate() {
+        login = authenticationService.login(userName, password);
+        if (login == null) {
             this.addActionError("User name or password is incorrect");
             this.addFieldError("null", "null");//Used to force return of LOGIN
         }

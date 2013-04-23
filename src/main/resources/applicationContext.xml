@@ -37,6 +37,8 @@
     <bean id="qualService" class="com.kenmcwilliams.employmentsystem.impl.QualServiceImpl"/>
     <bean id="crudService" class="com.kenmcwilliams.employmentsystem.impl.CrudServiceImpl"/>
     <bean id="formatService" class="com.kenmcwilliams.employmentsystem.impl.EntityInspectorImpl"/>
+    <bean id="candidateService" class="com.kenmcwilliams.employmentsystem.impl.CandidateServiceImpl"/>
+    <bean id="authenticationService" class="com.kenmcwilliams.employmentsystem.impl.AuthenticationServiceImpl"/>
     <tx:annotation-driven  transaction-manager="transactionManager"/>
     
    <!-- <aop:config>

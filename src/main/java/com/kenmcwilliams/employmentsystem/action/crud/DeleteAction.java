@@ -15,7 +15,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * TODO: Delete should really be controlled... need soft and hard delete, anottation controlled
  * @author ken
  */
 @ParentPackage("package-kjson")

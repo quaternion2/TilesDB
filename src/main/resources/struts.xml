@@ -8,13 +8,15 @@
     <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
     <constant name="struts.patternMatcher" value="namedVariable" />
+    <!-- note -->
     <constant name="struts.convention.default.parent.package" value="tiles-package"/>
-    <constant name="struts.convention.relative.result.types" value="dispatcher,velocity,freemarker,tiles"/>
-    
-    <bean type="org.apache.struts2.convention.ConventionsService" name="tilesConvention" class="com.kenmcwilliams.tiles.result.TilesConventionsServiceImpl"/>
-    <bean type="com.opensymphony.xwork2.UnknownHandler" name="tilesUnknownHandler" class="com.kenmcwilliams.tiles.result.TilesUnknownHandler"/>
-    <constant name="struts.convention.conventionsService" value="tilesConvention"/>
+    <!--constant name="struts.convention.relative.result.types" value="dispatcher,velocity,freemarker,tiles"/-->
+    <constant name="struts.date.format" value="yyyy/MM/dd hh:mm" />
 
+    
+    <!--bean type="org.apache.struts2.convention.ConventionsService" name="tilesConvention" class="com.kenmcwilliams.tiles.result.TilesConventionsServiceImpl"/-->
+    <bean type="com.opensymphony.xwork2.UnknownHandler" name="tilesUnknownHandler" class="com.kenmcwilliams.tiles.result.TilesUnknownHandler"/>
+    <!--constant name="struts.convention.conventionsService" value="tilesConvention"/-->
     
     <package name="secure-package" extends="struts-default" abstract="true">
         <interceptors>

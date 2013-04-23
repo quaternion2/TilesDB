@@ -4,6 +4,7 @@
      color: #000; 
      font-size:60px; 
      letter-spacing:-1px; }*/
+li {list-style:none;}
 h1 small{ font-size: 24px; display: block; color: #636363; }
 
 /* COMMON CLASSES */
@@ -75,7 +76,7 @@ h1 small{ font-size: 24px; display: block; color: #636363; }
     box-shadow: inset 0 1px 2px 2px #000;
 }
 
-#navBar li a { color:white; text-decoration:none; text-align:center; display:block; line-height:34px; outline:none; }
+#navBar li a { color:white; text-decoration:none; text-align:center; display:inline-block; line-height:34px; outline:none; }
 
 /* Styling of the search field */
 #navBar form input { width:76px; height:20px; margin-left:9px; margin-top:8px; border:none; padding-left:20px; padding-right:10px; color:#eee;
@@ -236,10 +237,10 @@ div.boxHeader{
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #3F3F3F), color-stop(0.5, #383838), color-stop(0.51, #434343), color-stop(1, #555555));
     background-image: -moz-linear-gradient(center bottom, #3F3F3F 0%, #383838 50%, #434343 51%, #555555 100% );
     background-color:#383838; /* Fallback */
-    width: 800px;  
+    /*width: 800px;*/  
     
-    margin-left: auto ;
-    margin-right: auto ; 
+    /*margin-left: auto ;*/
+    /*margin-right: auto ;*/ 
     /* We want to add the shadow to the complete navigation menu. In order to do that, we'll need to set
     the correct width and height, and also the correct borders, in order to create the perfect drop shadow */
     /*width:980px; height:34px;*/
@@ -250,13 +251,18 @@ div.boxHeader{
     -moz-box-shadow: 0px 3px 3px #cecece;
     -webkit-box-shadow: 0px 3px 3px #cecece;
     box-shadow: 0 3px 4px #8b8b8b;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    color: white;
 }
 div.boxBody{
     border-radius:  0 0 4px 4px;
     border: 1px solid;
     border-color: #394951;
     background-color: #F8F8F8;
-    width: 798px; 
+    /*width: 798px; */
 
     margin-left: auto ;
     margin-right: auto ; 
@@ -272,6 +278,7 @@ div.boxBody{
     box-shadow: 0 3px 4px #8b8b8b;
 
 }
+
 div.boxInterior{
     width: 700px;
     margin: 20px;

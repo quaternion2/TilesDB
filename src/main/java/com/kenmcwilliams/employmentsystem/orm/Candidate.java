@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Candidate.findByPoCode", query = "SELECT c FROM Candidate c WHERE c.poCode = :poCode"),
     @NamedQuery(name = "Candidate.findByDesiredRateHour", query = "SELECT c FROM Candidate c WHERE c.desiredRateHour = :desiredRateHour")})
 public class Candidate implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,6 +87,9 @@ public class Candidate implements Serializable {
     private Float desiredRateHour;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateId")
     private Collection<CandidateLog> candidateLogCollection;
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "recruiter")
+    private Recruiter recruiter;
 
     public Candidate() {
     }
@@ -223,6 +227,14 @@ public class Candidate implements Serializable {
         this.candidateLogCollection = candidateLogCollection;
     }
 
+    public Recruiter getRecruiter() {
+        return recruiter;
+    }
+
+    public void setRecruiter(Recruiter recruiter) {
+        this.recruiter = recruiter;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -247,5 +259,4 @@ public class Candidate implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Candidate[ id=" + id + " ]";
     }
-    
 }

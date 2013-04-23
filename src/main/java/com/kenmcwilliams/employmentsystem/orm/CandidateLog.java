@@ -22,8 +22,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "CandidateLog.findAll", query = "SELECT c FROM CandidateLog c"),
     @NamedQuery(name = "CandidateLog.findById", query = "SELECT c FROM CandidateLog c WHERE c.id = :id"),
-    @NamedQuery(name = "CandidateLog.findByStamp", query = "SELECT c FROM CandidateLog c WHERE c.stamp = :stamp")})
+    @NamedQuery(name = "CandidateLog.findByStamp", query = "SELECT c FROM CandidateLog c WHERE c.stamp = :stamp"),
+    @NamedQuery(name = "CandidateLog.findByCandiateId", query = "SELECT c FROM CandidateLog c LEFT JOIN FETCH c.candidateId cid WHERE cid.id = :candidateId ORDER BY c.stamp DESC")
+})
+//TOOD: I need the recruiter information, I think the making the recruiter not lazy is expensive
+//should consider a view, or a custom query with JPA into a custom object factoring in 
+//Recruiter, Candidate and this Log
 public class CandidateLog implements Serializable, ActionValidateable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,9 +62,8 @@ public class CandidateLog implements Serializable, ActionValidateable {
         this.id = id;
         this.stamp = stamp;
     }
-    
-    public CandidateLog(Date stamp, Integer CandidateId, Integer RecruiterId){
-        
+
+    public CandidateLog(Date stamp, Integer CandidateId, Integer RecruiterId) {
     }
 
     public Integer getId() {
@@ -130,7 +135,4 @@ public class CandidateLog implements Serializable, ActionValidateable {
     public void validate(ActionSupport validateableAction) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    
-    
 }

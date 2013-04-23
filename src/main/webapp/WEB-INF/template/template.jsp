@@ -7,7 +7,7 @@
     <body>
         <%--  website header --%>
         <div id="wrapper">
-            <div>
+            <div id="content">
                 <tiles:insertAttribute name="header"/>
                 <tiles:insertAttribute name="body"/>
                 <div class ="outer content">

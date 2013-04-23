@@ -1,5 +1,6 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
 <h1>Candidate Index</h1>
+<p>Not really implemented - should remove later</p>
 <h2>TTD:</h2>
 <ul>
     <li>Set up index with...</li>

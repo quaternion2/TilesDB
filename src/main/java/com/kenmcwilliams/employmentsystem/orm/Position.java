@@ -42,7 +42,7 @@ public class Position implements Serializable {
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @Column(name = "currently_employed")
+    @Column(name = "currently_employed", columnDefinition = "binary", length = 1)
     private Boolean currentlyEmployed;
     @JoinColumn(name = "resume_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

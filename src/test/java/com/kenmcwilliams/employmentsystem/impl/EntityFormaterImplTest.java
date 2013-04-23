@@ -42,15 +42,13 @@ public class EntityFormaterImplTest {
     @Test
     public void testGetUnmodifiablePropertiesByEntity() {
         System.out.println("getUnmodifiablePropertiesByEntity");
-        Class clazz = com.kenmcwilliams.employmentsystem.orm.Recruiter.class;
+        Class clazz = com.kenmcwilliams.employmentsystem.orm.Test.class;
         EntityInspectorImpl instance = new EntityInspectorImpl();
         assertNotNull("Instance is null", instance);
         ArrayList<String> expResult = new ArrayList();
         expResult.add("id");
-        expResult.add("fname");
-        expResult.add("mname");
-        expResult.add("lname");
-        expResult.add("candidateLogCollection"); 
+        expResult.add("name");
+        expResult.add("age");
         Collection<String> result = instance.getUnmodifiablePropertiesByEntity(clazz);
         assertNotNull(result);
         org.junit.Assert.assertTrue("Result has no values", result.iterator().hasNext());
@@ -70,15 +68,14 @@ public class EntityFormaterImplTest {
     @Test
     public void testGetOrderedProperties() {
         System.out.println("getOrderedProperties");
-        Class clazz = com.kenmcwilliams.employmentsystem.orm.Recruiter.class;
+        Class clazz = com.kenmcwilliams.employmentsystem.orm.Test.class;
         EntityInspectorImpl instance = new EntityInspectorImpl();
         assertNotNull("Instance is null", instance);
         ArrayList<String> expResult = new ArrayList();
         expResult.add("id");
-        expResult.add("fname");
-        expResult.add("mname");
-        expResult.add("lname");
-        expResult.add("candidateLogCollection"); 
+        expResult.add("name");
+        expResult.add("age");
+        //expResult.add("candidateLogCollection"); 
         SortedMap<Integer, String> result = instance.getOrderedProperties(clazz);
         assertNotNull(result);
         org.junit.Assert.assertTrue("Values is not greater than zero", result.values().size() > 0);

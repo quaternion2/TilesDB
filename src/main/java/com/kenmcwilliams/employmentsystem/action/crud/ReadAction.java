@@ -24,10 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @ParentPackage("package-kjson")
 @Namespace("/crud/{entityName}")
 @Result(type="kjson")
-//@Result(location="/WEB-INF/content/test/named-test.jsp")
-//@Action(results = {
-//    @Result(name = "success", type = "json", params = {"root", "model", "excludeProperties", "%{excludeProperties}"}),
-//    @Result(name = "input", type = "json", params = {"root", "fieldErrors"}),})
 public class ReadAction extends ActionSupport implements Preparable, RequestAware{
 
     private static final Logger log = Logger.getLogger(ReadAction.class.getName());
@@ -48,13 +44,10 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
     }
     
     public String getExcludeProperties(){
-        //log.log(Level.INFO, "excludeProperties String: {0}", excludeProperties.toString());
-        //return excludeProperties.toString();
         return excludeProperties;
     }
 
     @Override
-    //@Transactional //<-THIS ANNOTATION CAUSES EVERYTHING TO GO TO HELL (named variables don't work)
     public String execute() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         //request.put("excludeProperties", "qualLineCollection")
         log.info("Read execute");
@@ -62,31 +55,6 @@ public class ReadAction extends ActionSupport implements Preparable, RequestAwar
         clazz = ActionUtils.initClazz(entityName);
         //Map modelDescription;
         jsonModel = crudService.read(clazz, id);
-        //Class aClass = Hibernate.getClass(jsonModel);
-/*
-        try {
-            log.info("after crudService.read");
-            modelDescription = BeanUtils.describe(model);
-            log.info("after describe");
-            Set keys = modelDescription.keySet();
-            log.info("after keyset");
-            log.info("key set");
-            for (Object k : keys) {
-                log.info(k.toString());
-            }
-            Collection values = modelDescription.values();
-            log.info("key set");
-            for (Object v : values) {
-                log.info(v.toString());
-            }
-        } catch (InvocationTargetException ex) {
-            log.warning("caught InvocationTargetException");
-        } catch (NoSuchMethodException ex) {
-            log.warning("caught NoSuchMethodException");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
         return SUCCESS;
     }
 

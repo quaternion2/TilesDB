@@ -4,11 +4,8 @@
  */
 package com.kenmcwilliams.employmentsystem.util;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.SortedMap;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.junit.*;
 
 /**
@@ -42,7 +39,7 @@ public class MethodOrderDeterminerTest {
     @Test
     public void testGetOrderedPropertiesFor(){
         System.out.println("getOrderedPropertiesFor");
-        Class clazz = com.kenmcwilliams.employmentsystem.orm.Recruiter.class;
+        Class clazz = com.kenmcwilliams.employmentsystem.orm.Test.class;
         SortedMap expResult = null;
         SortedMap<Integer, String> result = MethodOrderDeterminer.getOrderedPropertiesFor(clazz);
         System.out.println("result size: " + result.size());
@@ -51,7 +48,7 @@ public class MethodOrderDeterminerTest {
         //Collection<String> values = result.values();
         Set<Integer> keySet = result.keySet();
         
-        String[] expected = {"id", "fname", "mname", "lname", "candidateLogCollection"};
+        String[] expected = {"id", "name", "age"};
         //58 fname
         //66 mname
         //74 lname

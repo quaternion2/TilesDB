@@ -4,17 +4,34 @@
  */
 package com.kenmcwilliams.s2.interceptor;
 
+import com.kenmcwilliams.employmentsystem.orm.Person;
+import com.kenmcwilliams.employmentsystem.orm.Roles;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
+
 /**
  *
  * @author ken
  */
 public class User {
-
+    private static final Logger log = Logger.getLogger(User.class.getName());
+    
     private String name;
-    private String id;
+    private Integer id;
+    private Set<String> roles;
 
     public User(String name) {
         this.name = name;
+    }
+
+    public User(Person person) {
+        roles = new HashSet();
+        this.id = person.getId();
+        this.name = person.getName();
+        for(Roles role : person.getRolesCollection()){
+            this.roles.add(role.getName());
+        }
     }
 
     /**
@@ -25,24 +42,14 @@ public class User {
     }
 
     /**
-     * @param userName the userName to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * @return the id
      */
-    public String getId() {
+    public Integer getId() {
         return id;
     }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
+    
+    //TODO: Use Enum for Roles?
+    public boolean hasRole(String role){
+        return this.roles.contains(role);
     }
-   
 }

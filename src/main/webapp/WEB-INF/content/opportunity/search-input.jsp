@@ -1,9 +1,8 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
-<h1>Search Candidates</h1>
 <script>
     $(document).ready(function(){
-        var entityDetailsUrl = "<s:url namespace="/candidate" action="details"/>";
-        var addEnityUrl = "<s:url namespace="/crud/candidate" action="add"/>";
+        var entityDetailsUrl = "<s:url namespace="/opportunity" action="details"/>";
+        var addEnityUrl = "<s:url namespace="/crud/opportunity" action="add"/>";
         
         var tableColumns = [];
         
@@ -13,14 +12,14 @@
             var tbody = $("<tbody>");
             //set tableColumns
             tableColumns = [];
-            $("#nRecords").text(": " + data.count + " candidates");
+            $("#nRecords").text(": " + data.count + " oportunities");
             
             $.each(data.ordinals, function(index, columnName){
                 console.log(columnName);
                 tableColumns.push(columnName);
             });
             
-            $.each(data.entityList, function(index, candidate){
+            $.each(data.entityList, function(index, opportunity){
                 //console.log("start row");
                 var row = $("<tr>");
 
@@ -32,11 +31,11 @@
                     if(columnName.localeCompare("id") === 0){
                         //id is in first position
                         var td = $("<td>");
-                        var url = $("<a>").attr("href", "" + entityDetailsUrl + "?id=" +  candidate["id"]).html(candidate[columnName]);
+                        var url = $("<a>").attr("href", "" + entityDetailsUrl + "?id=" +  opportunity["id"]).html(opportunity[columnName]);
                         $(td).append(url);
                         $(row).append(td);
                     }else{
-                        $(row).append($("<td>").html(candidate[columnName]));
+                        $(row).append($("<td>").html(opportunity[columnName]));
                     }
                 });
                 //end new
@@ -44,24 +43,24 @@
                 $(tbody).append(row); //TODO better to tbody in memory and then replace at once 
                 //console.log("end row");
             });
-            $("#candidate-list thead tr").replaceWith(headerRow);
-            $("#candidate-list tbody").replaceWith(tbody);
+            $("#opportunity-list thead tr").replaceWith(headerRow);
+            $("#opportunity-list tbody").replaceWith(tbody);
         }
         
-        var searchUrl = "<s:url namespace="/crud/candidate" action="search"/>";
+        var searchUrl = "<s:url namespace="/crud/opportunity" action="search"/>";
         $("#search-button").click(function(){      
-            var formObject = $('#candidate-form').serializeForm();
+            var formObject = $('#opportunity-form').serializeForm();
             $.getJSON(searchUrl,formObject,fnListEnities);     
         });
         
         $("#clear-button").click(function(){
-            $("#candidate-form")[0].reset();
+            $("#opportunity-form")[0].reset();
         });
         
-        $("#new-candidate-button").click(function(){
-            var formObject = $('#candidate-form').serializeForm();
+        $("#new-opportunity-button").click(function(){
+            var formObject = $('#opportunity-form').serializeForm();
             console.log(formObject);
-            formObject = popFromObjectName(formObject, "candidate.");
+            formObject = popFromObjectName(formObject, "opportunity.");
             console.log(formObject);
             $.getJSON(addEnityUrl,formObject,function(data){
                 console.log(data);
@@ -90,44 +89,37 @@
         
     });
 </script>
-<s:form id="candidate-form" namespace="/candidate" action="search">
+<h1>Find Opportunities</h1>
+<s:form id="opportunity-form" namespace="/opportunity" action="search">
     <button type="button" id="search-button">Search</button>
     <button type="button" id="clear-button">Clear</button>
-    <button type="button" id="new-candidate-button">Add Candidate</button>
+    <button type="button" id="new-opportunity-button">Add opportunity</button>
 
     <div>
-        <s:textfield name="model.fname" placeholder="First Name" title="First Name"/>
-        <s:textfield name="model.mname" placeholder="Middle Name" title="Middle Name"/>
-        <s:textfield  name="model.lname" placeholder="Last Name" title="Last Name"/>
+        <s:textfield name="title" placeholder="Opp Title" title="Title"/>
     </div>
     <div>
-        <s:textfield name="model.homePhone" placeholder="Day Phone" title="Day Phone"/>
-        <s:textfield name="model.cellPhone" placeholder="Cell Phone" title="Cell Phone"/>
-        <s:textfield name="model.otherPhone" placeholder="Other Phone" title="Other Phone"/>
+        <s:textfield name="clientId" placeholder="Select Client" title="Select Client"/>
     </div>
     <div>
-        <s:textfield name="model.street" placeholder="Address" title="Address"/>
+        <s:textfield name="submissionMethod" placeholder="Submission Method" title="Submission Method"/>
     </div>
     <div>
-        <s:textfield name="model.city" placeholder="City" title="City"/>
-        <s:textfield name="model.state" placeholder="Province" title="Province"/>
-        <s:textfield name="model.poCode" placeholder="Area Code" title="Area Code"/>
+        <s:textfield name="closingTime" placeholder="Closing Time" title="Closing Time"/>
+        <s:textfield name="requestTime" placeholder="Request Time" title="Request Time"/>
     </div>
     <div>
-        <s:textfield name="model.email" placeholder="email" title="email"/>
-        <s:textfield name="model.altEmail" placeholder="alt email" title="alt email"/>
+        <s:textfield name="qualId" placeholder="Qualification Form" title="Qualification Form"/>
     </div>
     <div>
-        <s:textfield name="model.skype" placeholder="Skype ID" title="Skype ID"/>
-    </div> 
-    <div>
-        <s:textfield name="model.desiredRateHour" placeholder="Desired Rate 0.00" title="Desired Rate 0.00"/>
+        <s:textfield name="description" placeholder="Description" title="Description"/>
     </div>
+    <s:submit/>
 </s:form>
 
 
     <div class="boxHeader">Found <span id="nRecords"></span></div>
-<table id="candidate-list">
+<table id="opportunity-list">
     <thead>
         <tr>
         </tr>
