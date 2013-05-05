@@ -3,6 +3,10 @@
     <listener>
         <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
     </listener>
+    <context-param>
+        <param-name>org.apache.tiles.factory.TilesContainerFactory.MUTABLE</param-name>
+        <param-value>false</param-value>
+    </context-param>
     <filter>
         <filter-name>struts2</filter-name>
         <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>

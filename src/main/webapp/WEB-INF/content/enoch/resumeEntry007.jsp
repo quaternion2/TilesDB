@@ -187,7 +187,7 @@
                 }
                 
                 var calculateTotalMonths = function(){
-                    //alert("Start calculate Total Months");
+                    alert("Start calculate Total Months");
                     var total = 0;
                     var startDates = new Array();
                     var endDates = new Array();
@@ -209,6 +209,7 @@
                     var start = startDates[0];
                     var end = endDates[0];
                     var sum = end - start + 1;
+                    alert("startDates.length: " + startDates.length);
                     for(var x = 1; x < startDates.length; x++){
                         //alert("In loop");
                         var temp_start = startDates[x];
@@ -217,33 +218,33 @@
                         var new_end = true;
                         
                         if (isInRange(temp_start, start, end) === true){
-                            //alert("case 1: ");
+                            alert("case 1: ");
                             new_start = false;
                         }
                         if(isInRange(temp_end, start, end) === true){
-                            //alert("case 2: ");
+                            lert("case 2: ");
                             new_end = false;
                         }
                         //Date range is totally bracketed 
                         if (new_end === false && new_start == false){
-                            //alert("case 3: ");
+                            alert("case 3: ");
                             continue;
                             //Date range is partially bracketed
                         }else if (new_start == true && new_end == false){
-                            //alert("case 4: ");
+                            alert("case 4: ");
                             //find the total and subtract the overlap
                             start = temp_start;
                             sum += (end - start) + 1;//this line appears 3 times, should factor down
                             //NORMAL RANGE
                         }else if (new_start == false && new_end == true){
-                            //alert("case 5: ");
+                            alert("case 5: ");
                             end = temp_end;
                             sum += (end - start) + 1;
                         }else{
                             //, calcuate a normal range...
                             //this will not work... need different logic depending
                             //if one of the above values is being replaced
-                            //alert("Case 6: Normal range");
+                            alert("Case 6: Normal range");
                             start = temp_start;
                             end = temp_end;
                             sum += end - start + 1;

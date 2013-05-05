@@ -90,7 +90,8 @@
         
     });
 </script>
-<s:form id="candidate-form" namespace="/candidate" action="search">
+
+<s:form cssClass="framed" id="candidate-form" namespace="/candidate" action="search">
     <button type="button" id="search-button">Search</button>
     <button type="button" id="clear-button">Clear</button>
     <button type="button" id="new-candidate-button">Add Candidate</button>

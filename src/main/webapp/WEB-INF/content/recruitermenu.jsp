@@ -6,7 +6,8 @@
         <ul>
             <li><s:a cssClass="group" namespace="/candidate" action="search-input">Candidate - Management</s:a></li>
             <li><s:a cssClass="group" namespace="/opportunity" action="search-input">Opportunity - Management</s:a></li>
-            <li><s:a cssClass="group" namespace="/client" action="search-input">Opportunity - Management</s:a></li>
+            <li><s:a cssClass="group" namespace="/client" action="search-input">Client - Management</s:a></li>
+            <li><s:a cssClass="group" namespace="/candidate" action="resume-entry">Client - Management</s:a></li>
         </ul>
     </div>   
     <div class="yui3-u-1-2">

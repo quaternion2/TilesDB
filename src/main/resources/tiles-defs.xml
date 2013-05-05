@@ -41,6 +41,5 @@
     <definition name="REGEXP:(.*)#(.*)"  extends="default">
         <put-attribute name="title" cascade="true" expression="OGNL:@com.opensymphony.xwork2.ActionContext@getContext().name"/>
         <put-attribute name="body" value="/WEB-INF/content{1}/{2}"/>
-    </definition>
-    
+    </definition>   
 </tiles-definitions>

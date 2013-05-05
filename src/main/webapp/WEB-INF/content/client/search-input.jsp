@@ -1,8 +1,9 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
+<h1>Search Clients</h1>
 <script>
     $(document).ready(function(){
-        var entityDetailsUrl = "<s:url namespace="/opportunity" action="details"/>";
-        var addEnityUrl = "<s:url namespace="/crud/opportunity" action="add"/>";
+        var entityDetailsUrl = "<s:url namespace="/client" action="details"/>";
+        var addEnityUrl = "<s:url namespace="/crud/client" action="add"/>";
         
         var tableColumns = [];
         
@@ -12,14 +13,14 @@
             var tbody = $("<tbody>");
             //set tableColumns
             tableColumns = [];
-            $("#nRecords").text(": " + data.count + " oportunities");
+            $("#nRecords").text(": " + data.count + " clients");
             
             $.each(data.ordinals, function(index, columnName){
                 console.log(columnName);
                 tableColumns.push(columnName);
             });
             
-            $.each(data.entityList, function(index, opportunity){
+            $.each(data.entityList, function(index, client){
                 //console.log("start row");
                 var row = $("<tr>");
 
@@ -31,11 +32,11 @@
                     if(columnName.localeCompare("id") === 0){
                         //id is in first position
                         var td = $("<td>");
-                        var url = $("<a>").attr("href", "" + entityDetailsUrl + "?id=" +  opportunity["id"]).html(opportunity[columnName]);
+                        var url = $("<a>").attr("href", "" + entityDetailsUrl + "?id=" +  client["id"]).html(client[columnName]);
                         $(td).append(url);
                         $(row).append(td);
                     }else{
-                        $(row).append($("<td>").html(opportunity[columnName]));
+                        $(row).append($("<td>").html(client[columnName]));
                     }
                 });
                 //end new
@@ -43,24 +44,24 @@
                 $(tbody).append(row); //TODO better to tbody in memory and then replace at once 
                 //console.log("end row");
             });
-            $("#opportunity-list thead tr").replaceWith(headerRow);
-            $("#opportunity-list tbody").replaceWith(tbody);
+            $("#candidate-list thead tr").replaceWith(headerRow);
+            $("#candidate-list tbody").replaceWith(tbody);
         }
         
-        var searchUrl = "<s:url namespace="/crud/opportunity" action="search"/>";
+        var searchUrl = "<s:url namespace="/crud/client" action="search"/>";
         $("#search-button").click(function(){      
-            var formObject = $('#opportunity-form').serializeForm();
+            var formObject = $('#candidate-form').serializeForm();
             $.getJSON(searchUrl,formObject,fnListEnities);     
         });
         
         $("#clear-button").click(function(){
-            $("#opportunity-form")[0].reset();
+            $("#candidate-form")[0].reset();
         });
         
-        $("#new-opportunity-button").click(function(){
-            var formObject = $('#opportunity-form').serializeForm();
+        $("#new-candidate-button").click(function(){
+            var formObject = $('#candidate-form').serializeForm();
             console.log(formObject);
-            formObject = popFromObjectName(formObject, "opportunity.");
+            formObject = popFromObjectName(formObject, "candidate.");
             console.log(formObject);
             $.getJSON(addEnityUrl,formObject,function(data){
                 console.log(data);
@@ -89,44 +90,22 @@
         
     });
 </script>
-<h1>Find Opportunities</h1>
-<s:form id="opportunity-form" namespace="/opportunity" action="search">
+<div class="framed">
+    <s:form cssClass="framed" id="candidate-form" namespace="/candidate" action="search">
     <button type="button" id="search-button">Search</button>
     <button type="button" id="clear-button">Clear</button>
-    <button type="button" id="new-opportunity-button">Add opportunity</button>
+    <button type="button" id="new-candidate-button">Add Candidate</button>
 
     <div>
-        <s:textfield name="model.title" placeholder="Opp Title" title="Title"/>
+        <s:textfield name="model.name" placeholder="Name" title="Name"/>
+        <s:textfield name="model.note" placeholder="Note" title="Note"/>
+        <s:textfield  name="model.opportunityCollection" placeholder="opportunityCollection" title="opportunityCollection"/>
     </div>
-    <div>
-        <s:textfield name="model.clientId" placeholder="Select Client" title="Select Client"/><button type="button" id="new-client">New Client</button>
-    </div>
-    <div>
-        <s:textfield name="model.submissionMethod" placeholder="Submission Method" title="Submission Method"/>
-    </div>
-    <div>
-        <s:textfield name="model.closingTime" placeholder="Closing Time" title="Closing Time"/>
-        <s:textfield name="model.requestTime" placeholder="Request Time (default to now)" title="Request Time"/>
-    </div>
-    <div>
-        <s:textfield name="model.qualId" placeholder="Qualification Form" title="Qualification Form"/>
-    </div>
-    <div>
-        <s:textfield name="model.description" placeholder="Description" title="Description"/>
-    </div>
-    
-        <div>
-        <s:textfield name="model.description" placeholder="Description" title="Description"/>
-    </div>
-        <div>
-        <s:textfield name="model.description" placeholder="Description" title="Description"/>
-    </div>
-    <s:submit/>
 </s:form>
-
+</div>
 
     <div class="boxHeader">Found <span id="nRecords"></span></div>
-<table id="opportunity-list">
+<table id="candidate-list">
     <thead>
         <tr>
         </tr>

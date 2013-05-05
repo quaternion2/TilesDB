@@ -11,10 +11,7 @@ import flexjson.JSONSerializer;
 import java.io.PrintWriter;
 import org.apache.struts2.ServletActionContext;
 
-/**
- *
- * @author ken
- */
+
 public class Kjson implements Result {
     public static final String DEFAULT_PARM = "classAlias";
     String classAlias;

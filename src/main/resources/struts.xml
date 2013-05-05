@@ -79,6 +79,7 @@
     <package  name="tiles-package" extends="convention-default">
         <result-types>
             <result-type default="true" name="tiles" class="com.kenmcwilliams.tiles.result.TilesResult"/>
+            <result-type name="tiles-definition" class="com.kenmcwilliams.tiles.result.TilesDefinitionResult"/>
         </result-types>
     </package>   
 </struts>
