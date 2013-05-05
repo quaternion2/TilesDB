@@ -194,7 +194,7 @@
         var doSortCompanies = function(){
             //should use the sort plugin for this
             $("#resume .companyDate").sortElements(comparator, getSortable);
-        }
+        }              
                 
         var doSumTime = function(){
             //$(".companyDate");
@@ -251,11 +251,13 @@
             var parameters = [startDates, endDates];
             //build the tables of months
             $("#resume .companyDate").each(function(){
-                //TODO: Change name of following fn as it only pushes dates into the arrays
-                if($(this).val().length != 0){ //skip empty values
-                    if(buildArrays.apply(this, parameters) === false){
-                        //TODO: did not parse date
-                    };
+                var checkBox = $(this).parent().children(".include-line")[0];
+                if($(checkBox).is(':checked')){
+                    if($(this).val().length != 0){ //skip empty values
+                        if(buildArrays.apply(this, parameters) === false){
+                            //TODO: did not parse date
+                        };
+                    }
                 }
             });
             startDates = startDates.reverse(); //REVERSED the Dates on a whim, need to check this
@@ -314,6 +316,8 @@
         }
         
         
+        
+        
         //Takes: Start THEN End dates.
         var dateDifference = function(start, end){
             console.log("start: " + start + " end: " + end + " diff: " + ((end - start) + 1));
@@ -327,20 +331,41 @@
                 return false;
             }
         }
+        
+        var checkAllCompanies = function(){
+            $(".include-line").each(function(){ this.checked = true; });
+            doSumTime();
+            
+        }
+        
+        var unCheckAllCompanies = function(){
+            $(".include-line").each(function(){ this.checked = false; });
+            doSumTime();
+        }
+
+        var deleteCompany = function(){
+            console.log("deleteCompany");
+            $(this).parent().parent().remove();
+            doSumTime();
+        }   
 
         appendCompany();
         //company actions
         $("#addCompanyButton").click(doAddCompanyButton);
-        $(".deleteButton").click(function(){$(this).parent().parent().remove()});
+        $(".deleteButton").click(deleteCompany);
         $(".expand").click(toggleDetailVisibility);
         //detail actions
                 
         $(".deleteDetail").click(delDetail);
         $(".addDetail").click(addDetail);
         $(".companyDate").blur(doCompanyDateBlur);
+        $("#select-all").click(checkAllCompanies);
+        $("#select-none").click(unCheckAllCompanies);
+        $(".include-line").click(doSumTime);
     });
-            
-            
+        
+        
+    
             
     $(document).ready(function(){
         $("#saveResumeButton").click(saveResumeButton);
@@ -401,20 +426,6 @@
         dateWorked: ""; //should be something automatic if currently employed
         details: "";                     
     };
-    //start date picker
-    //$(function() {
-    //    $( "#startDatePicker" ).datepicker({
-    //        changeMonth: true,
-    //        changeYear: true
-    //    });
-    //});
-    //finish date picker
-    //$(function() {
-    //    $( "#finishDatePicker" ).datepicker({
-    //        changeMonth: true,
-    //        changeYear: true
-    //    });
-    //});
             
             
 </script>
@@ -462,6 +473,7 @@
     <div id="companyTemplate">
         <div class="companyEntry">           
             <div class="companyHeader">
+                <input class="include-line" type="checkbox" name="inlude" checked="checked">
                 <button class="expand" title="Expand/Collapse">&gt;</button>
                 <button class="deleteButton" title="Delete Company">X</button>
                 <input class="companyName" type="text" placeholder="Company Name">
@@ -483,6 +495,11 @@
     </div> 
 </div>
 <div id="resume">
+    <div id="options">
+        <button id="select-all" type="button">All</button> 
+        <button id="select-none" type="button">None</button> 
+        <input id="yrsMosFrmtButton" type="checkbox" name="selectAll">Yrs, Mos format
+    </div>
     <div id="companies">
     </div>
     <div class="companyHeader">
