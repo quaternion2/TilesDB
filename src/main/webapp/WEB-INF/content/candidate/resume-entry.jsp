@@ -25,6 +25,12 @@
     .companyDate{
         float: right;
     }
+
+    input[type="text"].line-months{
+        width: 3em;
+        float: right;
+    }
+
     .details{
 
     }
@@ -55,18 +61,15 @@
     }
 </style>
 <script> 
-    //TODO: When removing resume jobs, if it is the last job, remove but but put back a new blank one.
-    //TODO: Provide switch between months and (yrs, mos).
-    //TODO: Add include check box on the roles
-    //TODO: Save the data to the DB for the particular use (select from drop down at this time)
-    //TODO: Display total months at end of line
-    //TODO: Put error css class on incorrect date formats
-    //TODO: Mark that line as excluded from calculation 
-    //TODO: Add "Include All button"
+    //TODO: 2) Provide switch between months and (yrs, mos).
+    //TODO: 4) Save the data to the DB for the particular use (select from drop down at this time)
+    //TODO: 10) On blur recalculate " Restrict to x months:" and "from date:"
+    //TODO: 11) Shift back based on "end date" (just like the way "restrict to x months" works) 
     var dateRangeRegex = /\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W+\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W*/i;
     var toServer = [];
-            
-            
+    var shortMonthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];        
+    var submissionDate;
+    
     $(document).ready(function(){
                 
         var appendCompany = function(){$($("#companyTemplate > .companyEntry").clone(true)).appendTo("#companies")};
@@ -210,16 +213,51 @@
                 $(this).val(processedDateRangeString);
             }
             //$(this).attr("dcode", );
-                    
+            console.log("calcMonthsInRange");
+            var lineMonths = $(this).parent().children(".line-months")[0];
+            var monthCount = calcMonthsInRange($(this).val());
+            $(lineMonths).val(monthCount);
+            if(monthCount < 1){
+                $(this).addClass("error"); 
+            }else{
+                $(this).removeClass("error");
+            }
+            
             //TODO: if the format of companies is wrong I need to bail
             console.log("doSortCompanies");
             doSortCompanies();
             console.log("doSumTime");
             doSumTime();//sum requires dates be sorted
+            if ($("#yrsMosFrmtButton").is(':checked') == true){
+                console.log("yrsMosFrmtButton is checked");
+                var total = $("#total").val();
+                var yrs = Math.floor(total/12);
+                var mos = total % 12;
+                var yrsMosStr = "";
+                if (yrs !== undefined && yrs > 0 && !isNaN(yrs)){
+                    yrsMosStr += "" + yrs + " yrs ";
+                }
+                if (mos > 0){
+                    yrsMosStr += "" + mos + " mos";
+                }
+                $("#total").val(yrsMosStr);
+            }
             console.log("after");
             
         }
-                
+           
+        var calcMonthsInRange = function(dateString){
+            var match = dateRangeRegex.exec(dateString);
+            //TODO: no validation done to make sure date is over 1900
+            var m1 = monthToInt(match[1]) - 1; //make jan 0
+            var d1 = (parseInt(match[2]) - 1900) * 12; //months since 1900
+            var m2 = monthToInt(match[3]) - 1;//make jan 0
+            var d2 = (parseInt(match[4]) - 1900) * 12;//months since 1900
+            var fromDate = d1 + m1;
+            var toDate = d2 + m2; 
+            return toDate - fromDate + 1;
+        }
+           
         var doAddCompanyButton = function(){
             appendCompany.apply(this,null);
             $(".companyName").last().focus();
@@ -230,7 +268,7 @@
         //put sorted start dates in one array and end dates in another
         var buildArrays = function(aFrom, aTo){
             var match = dateRangeRegex.exec($(this).val());
-            //TODO: no validation done to make sure date is over 1990
+            //TODO: no validation done to make sure date is over 1900
             var m1 = monthToInt(match[1]) - 1; //make jan 0
             var d1 = (parseInt(match[2]) - 1900) * 12; //months since 1900
             var m2 = monthToInt(match[3]) - 1;//make jan 0
@@ -242,7 +280,9 @@
             //alert("fromDate = " + fromDate + " toDate = " + toDate);
             return true;//TODO: return false on error
         }
-                
+        
+        
+        //TODO: should pass in the company lines I want the calculation on. 
         var calculateTotalMonths = function(){
             console.log("Start calculate Total Months");
             var total = 0;
@@ -315,13 +355,37 @@
             return sum;
         }
         
-        
+        function isNumber(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
         
         
         //Takes: Start THEN End dates.
         var dateDifference = function(start, end){
-            console.log("start: " + start + " end: " + end + " diff: " + ((end - start) + 1));
-            return (end - start) + 1;
+            var restrictByNMos = parseInt($("#limitByMonths").val()) - 1;
+            var restrictionDifference = submissionDate - restrictByNMos;
+            var difference;
+            //TODO: color code inrage, out of range and partial range roles
+            
+            if (isNumber(restrictByNMos) === true){
+                console.log("submissionDate: " + submissionDate + " restrictionDifference: " + restrictionDifference + " restrictByNMos " + restrictByNMos);
+                
+                if(restrictionDifference < start){
+                    difference = (end - start) + 1; //normal range
+                }else if(restrictionDifference >= start && restrictionDifference <= end){
+                    difference = (end - restrictionDifference) + 1;
+                }else{
+                    difference = 0;//restriction prevents sumation
+                }
+            
+                if (difference < 1 || isNaN(difference)){
+                    difference = 0; //don't zero or negative
+                }
+            }else{
+                difference = (end - start) + 1; //no restrictions
+            }
+             console.log("start: " + start + " end: " + end + " diff: " + difference);
+            return difference;
         }
                 
         var isInRange = function(value, start, end){
@@ -362,9 +426,19 @@
         $("#select-all").click(checkAllCompanies);
         $("#select-none").click(unCheckAllCompanies);
         $(".include-line").click(doSumTime);
+        $("#yrsMosFrmtButton").click(doSumTime);
+        setSubmissionDate();
     });
         
-        
+    var setSubmissionDate = function(){
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = today.getMonth();
+        var mmm = shortMonthNames[today.getMonth()];
+        submissionDate = (yyyy - 1900) * 12 + mm;//jan is 0! 
+        console.log("setting submission date to: " + submissionDate);
+        $("#submissionDate").val(mmm + " " + yyyy);
+    }    
     
             
     $(document).ready(function(){
@@ -381,9 +455,9 @@
         ContactInfo.postalCode = $('#postalCode').val();
         ContactInfo.phone = $('#phone').val();
         ContactInfo.email = $('#email').val();
-        alert(JSON.stringify(ContactInfo));
-                
+        alert(JSON.stringify(ContactInfo));         
     }          
+    
     var ContactInfo = {
         firstName: "",
         lastName: "",
@@ -394,7 +468,7 @@
         phone: "",
         email: ""//should add extra comma for cut and paste ie doesn't support it,
     };
-            
+
     $(document).ready(function(){
         $("#saveWorkHistoryButton").click(saveWorkHistoryButton);
     });  
@@ -420,6 +494,7 @@
         who.details = tempArray;
         toServer.push(who);           
     } 
+    
     var WorkHistoryObject = function(){
         companyName: "";
         role: "";
@@ -473,12 +548,13 @@
     <div id="companyTemplate">
         <div class="companyEntry">           
             <div class="companyHeader">
-                <input class="include-line" type="checkbox" name="inlude" checked="checked">
+                <input class="include-line" type="checkbox" name="inlude" checked="checked"/>
                 <button class="expand" title="Expand/Collapse">&gt;</button>
                 <button class="deleteButton" title="Delete Company">X</button>
-                <input class="companyName" type="text" placeholder="Company Name">
+                <input class="companyName" type="text" placeholder="Company Name"/>
                 <input class="companyRole" type="text" placeholder="Roles">
-                <input class="companyDate" type="text" placeholder="MMM YY - MMM YY">
+                <input class="companyDate" type="text" placeholder="MMM YY - MMM YY"/>
+                <input class="line-months" disabled="disabled" type="text" placeholder=""/>
             </div>
             <div class="details hidden">
                 <div class="detail">
@@ -498,13 +574,17 @@
     <div id="options">
         <button id="select-all" type="button">All</button> 
         <button id="select-none" type="button">None</button> 
-        <input id="yrsMosFrmtButton" type="checkbox" name="selectAll">Yrs, Mos format
+        <input id="yrsMosFrmtButton" type="checkbox" name="selectAll"/>Yrs, Mos format
+        <span style="float: right;"> 
+            Restrict to x months: <input id="limitByMonths" type="text" name="selectAll"/>
+            to date: <input id="submissionDate" type="text" name="selectAll" placeholder="MMM YY"/>
+        </span>
     </div>
     <div id="companies">
     </div>
     <div class="companyHeader">
         <button id="addCompanyButton">New Company</button>
-        <input contenteditable="false" id="total" class="right" type="text" value="" placeholder="Total Time">
+        <input contenteditable="false" id="total" class="right" type="text" value="" readonly="readonly" placeholder="Total Time">
     </div>
     <br><button id="saveWorkHistoryButton" type="button">SAVE WORK HISTORY + JSON</button>
 </div>
