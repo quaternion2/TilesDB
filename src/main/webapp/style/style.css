@@ -336,6 +336,7 @@ a.group:active { color: #000000; text-decoration: none}
     border-style: solid;
     border-width: medium;
     border-color: black;
+    margin-bottom: 0.5em;
 }
 
 .inline-block{
@@ -351,4 +352,9 @@ a.group:active { color: #000000; text-decoration: none}
 textarea
 {
     width:98%;
+}
+
+.error{
+    color: red;
+    font-weight: bold;
 }
