@@ -66,6 +66,7 @@
     //TODO: 10) On blur recalculate " Restrict to x months:" and "from date:"
     //TODO: 11) Shift back based on "end date" (just like the way "restrict to x months" works) 
     var dateRangeRegex = /\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W+\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W*/i;
+    var dateRegex = /\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W*/i;
     var toServer = [];
     var shortMonthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];        
     var submissionDate;
@@ -125,7 +126,7 @@
             }
         }
                 
-        var processDate = function(strDateRange){        
+        var processDateRange = function(strDateRange){  
             var match = dateRangeRegex.exec(strDateRange);
             //if 2 digit date change to 4 digit
             var y1 = parseInt(match[2], 10);
@@ -142,23 +143,6 @@
             m2 = m2.charAt(0).toUpperCase() + m2.slice(1);
             //TODO: Make first letter caps and rest lower
             return m1 + " " + y1 + " - " + m2 + " " + y2;
-        }
-                
-        var monthToInt = function(mnth){
-            switch(mnth.toLowerCase()){
-                case "jan": return 1; 
-                case "feb": return 2;
-                case "mar": return 3;
-                case "apr": return 4;
-                case "may": return 5; 
-                case "jun": return 6;
-                case "jul": return 7;
-                case "aug": return 8;
-                case "sep": return 9;
-                case "oct": return 10;
-                case "nov": return 11;
-                case "dec": return 12;
-            }
         }
                 
         var dateRangeToInt = function(strDateRange){
@@ -202,14 +186,30 @@
         var doSumTime = function(){
             //$(".companyDate");
             var months = calculateTotalMonths();
-            $("#total").val(months);
+            if ($("#yrsMosFrmtButton").is(':checked') == true){
+                console.log("yrsMosFrmtButton is checked");
+                var total = months;
+                var yrs = Math.floor(total/12);
+                var mos = total % 12;
+                var yrsMosStr = "";
+                if (yrs !== undefined && yrs > 0 && !isNaN(yrs)){
+                    yrsMosStr += "" + yrs + " yrs ";
+                }
+                if (mos > 0){
+                    yrsMosStr += "" + mos + " mos";
+                }
+                $("#total").val(yrsMosStr);
+            }else{
+                $("#total").val(months);
+            }
         }
-                
+        
+        //WARNING: Only call this from the date blur window!        
         var doCompanyDateBlur = function(){
             var dateRangeString = $(this).val();
             //TODO: No validation or helpful warnings!
             if(dateRangeString.length != 0){
-                var processedDateRangeString = processDate(dateRangeString);
+                var processedDateRangeString = processDateRange(dateRangeString);
                 $(this).val(processedDateRangeString);
             }
             //$(this).attr("dcode", );
@@ -228,22 +228,7 @@
             doSortCompanies();
             console.log("doSumTime");
             doSumTime();//sum requires dates be sorted
-            if ($("#yrsMosFrmtButton").is(':checked') == true){
-                console.log("yrsMosFrmtButton is checked");
-                var total = $("#total").val();
-                var yrs = Math.floor(total/12);
-                var mos = total % 12;
-                var yrsMosStr = "";
-                if (yrs !== undefined && yrs > 0 && !isNaN(yrs)){
-                    yrsMosStr += "" + yrs + " yrs ";
-                }
-                if (mos > 0){
-                    yrsMosStr += "" + mos + " mos";
-                }
-                $("#total").val(yrsMosStr);
-            }
             console.log("after");
-            
         }
            
         var calcMonthsInRange = function(dateString){
@@ -342,7 +327,7 @@
                     end = temp_end;
                 }
             }
-            //catch the last assignment if not acconted for from case 6
+            //catch the last assignment if not accounted for from case 6
             if(temp_start == 0 && temp_end == 0){
                 console.log("did not enter for loop sum single range");
                 sum = dateDifference(start, end);
@@ -362,7 +347,7 @@
         
         //Takes: Start THEN End dates.
         var dateDifference = function(start, end){
-            var restrictByNMos = parseInt($("#limitByMonths").val()) - 1;
+            var restrictByNMos = parseInt($("#limitByMonths").val()) - 1; //Should this be here?
             var restrictionDifference = submissionDate - restrictByNMos;
             var difference;
             //TODO: color code inrage, out of range and partial range roles
@@ -384,7 +369,7 @@
             }else{
                 difference = (end - start) + 1; //no restrictions
             }
-             console.log("start: " + start + " end: " + end + " diff: " + difference);
+            console.log("start: " + start + " end: " + end + " diff: " + difference);
             return difference;
         }
                 
@@ -412,6 +397,112 @@
             $(this).parent().parent().remove();
             doSumTime();
         }   
+        
+        var doUpdateSubmissionDate = function(){
+            console.log("doUpdateSubmissionDate");
+            var newDateString = processDate($("#submissionDate").val());
+            $("#submissionDate").val(newDateString);
+            doSumTime();
+        }    
+     
+        var monthToInt = function(mnth){
+            switch(mnth.toLowerCase()){
+                case "jan": return 1; 
+                case "feb": return 2;
+                case "mar": return 3;
+                case "apr": return 4;
+                case "may": return 5; 
+                case "jun": return 6;
+                case "jul": return 7;
+                case "aug": return 8;
+                case "sep": return 9;
+                case "oct": return 10;
+                case "nov": return 11;
+                case "dec": return 12;
+            }
+        }     
+     
+        //TODO: Highly coupled
+        var processDate = function(strDate){
+            var match = dateRegex.exec(strDate);
+            //if 2 digit date change to 4 digit
+            var m1 = match[1].toLowerCase();
+            m1 = m1.charAt(0).toUpperCase() + m1.slice(1);
+            var y1 = parseInt(match[2], 10);
+            if(y1 < 100){
+                y1 = twoDigitYearToFour(y1);
+            }
+            var nMonth = monthToInt(m1);
+            submissionDate = (y1 - 1900) * 12 + (nMonth - 1);//need zero based month
+            console.log("Updating submissionDate to: " + submissionDate);
+            //TODO: Make first letter caps and rest lower
+            return m1 + " " + y1;
+        }
+        
+        var setSubmissionDate = function(mm, yyyy){
+            var mmm = shortMonthNames[mm];
+            submissionDate = (yyyy - 1900) * 12 + mm;//jan is 0! 
+            console.log("setting submission date to: " + submissionDate);
+            $("#submissionDate").val(mmm + " " + yyyy);
+        }    
+    
+            
+        $(document).ready(function(){
+            $("#saveResumeButton").click(saveResumeButton);
+        }); 
+    
+        var saveResumeButton = function(){
+            alert("beam me up");  
+            ContactInfo.firstName = $('#firstName').val();
+            ContactInfo.lastName = $('#lastName').val();
+            ContactInfo.streetAddress = $('#streetAddress').val();
+            ContactInfo.city = $('#city').val();
+            ContactInfo.province = $('#province').val();
+            ContactInfo.postalCode = $('#postalCode').val();
+            ContactInfo.phone = $('#phone').val();
+            ContactInfo.email = $('#email').val();
+            alert(JSON.stringify(ContactInfo));         
+        }          
+    
+        var ContactInfo = {
+            firstName: "",
+            lastName: "",
+            streetAddress: "",
+            city: "",
+            province: "",
+            postalCode: "",
+            phone: "",
+            email: ""//should add extra comma for cut and paste ie doesn't support it,
+        };
+        
+        var saveWorkHistoryButton = function(){
+            toServer = []; //used to wipe out array
+            $("#resume .companyEntry").each(magicalParsing);  
+            alert(JSON.stringify(toServer));
+        }   
+        var magicalParsing = function(index, elem){
+            //alert($($(elem).find(".companyName").get(0)).val());
+            var who = new WorkHistoryObject();
+            who.companyName = $($(elem).find(".companyName").get(0)).val();
+            who.role = $($(elem).find(".companyRole").get(0)).val();
+            who.dateWorked = $($(elem).find(".companyDate").get(0)).val();
+            console.log($(elem).find(".detail .line").size());
+            var tempArray = [];
+            $(elem).find(".detail .line").each(
+            function(index, elem){
+                tempArray.push($(elem).val());
+            }          
+        );
+            who.details = tempArray;
+            toServer.push(who);           
+        } 
+    
+        var WorkHistoryObject = function(){
+            companyName: "";
+            role: "";
+            dateWorked: ""; //should be something automatic if currently employed
+            details: "";                     
+        };
 
         appendCompany();
         //company actions
@@ -426,81 +517,22 @@
         $("#select-all").click(checkAllCompanies);
         $("#select-none").click(unCheckAllCompanies);
         $(".include-line").click(doSumTime);
-        $("#yrsMosFrmtButton").click(doSumTime);
-        setSubmissionDate();
-    });
-        
-    var setSubmissionDate = function(){
+        $("#yrsMosFrmtButton").change(doSumTime);
+        $("#limitByMonths").blur(doSumTime);
+        $("#submissionDate").blur(doUpdateSubmissionDate);
         var today = new Date();
         var yyyy = today.getFullYear();
         var mm = today.getMonth();
-        var mmm = shortMonthNames[today.getMonth()];
-        submissionDate = (yyyy - 1900) * 12 + mm;//jan is 0! 
-        console.log("setting submission date to: " + submissionDate);
-        $("#submissionDate").val(mmm + " " + yyyy);
-    }    
-    
-            
-    $(document).ready(function(){
-        $("#saveResumeButton").click(saveResumeButton);
-    }); 
-    
-    var saveResumeButton = function(){
-        alert("beam me up");  
-        ContactInfo.firstName = $('#firstName').val();
-        ContactInfo.lastName = $('#lastName').val();
-        ContactInfo.streetAddress = $('#streetAddress').val();
-        ContactInfo.city = $('#city').val();
-        ContactInfo.province = $('#province').val();
-        ContactInfo.postalCode = $('#postalCode').val();
-        ContactInfo.phone = $('#phone').val();
-        ContactInfo.email = $('#email').val();
-        alert(JSON.stringify(ContactInfo));         
-    }          
-    
-    var ContactInfo = {
-        firstName: "",
-        lastName: "",
-        streetAddress: "",
-        city: "",
-        province: "",
-        postalCode: "",
-        phone: "",
-        email: ""//should add extra comma for cut and paste ie doesn't support it,
-    };
+        setSubmissionDate(mm, yyyy);
+        $("#saveWorkHistoryButton").click(saveWorkHistoryButton);
+    });
+
 
     $(document).ready(function(){
-        $("#saveWorkHistoryButton").click(saveWorkHistoryButton);
+        
     });  
     
-    var saveWorkHistoryButton = function(){
-        toServer = []; //used to wipe out array
-        $("#resume .companyEntry").each(magicalParsing);  
-        alert(JSON.stringify(toServer));
-    }   
-    var magicalParsing = function(index, elem){
-        //alert($($(elem).find(".companyName").get(0)).val());
-        var who = new WorkHistoryObject();
-        who.companyName = $($(elem).find(".companyName").get(0)).val();
-        who.role = $($(elem).find(".companyRole").get(0)).val();
-        who.dateWorked = $($(elem).find(".companyDate").get(0)).val();
-        console.log($(elem).find(".detail .line").size());
-        var tempArray = [];
-        $(elem).find(".detail .line").each(
-        function(index, elem){
-            tempArray.push($(elem).val());
-        }          
-    );
-        who.details = tempArray;
-        toServer.push(who);           
-    } 
-    
-    var WorkHistoryObject = function(){
-        companyName: "";
-        role: "";
-        dateWorked: ""; //should be something automatic if currently employed
-        details: "";                     
-    };
+
             
             
 </script>
