@@ -29,6 +29,8 @@ public class Qual implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 45)
@@ -40,6 +42,10 @@ public class Qual implements Serializable {
     @Size(max = 255)
     @Column(name = "description")
     private String description;
+    @OneToMany(mappedBy = "qualId")
+    private Collection<Resume> resumeCollection;
+    @OneToMany(mappedBy = "qualId")
+    private Collection<Opportunity> opportunityCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "qualId")
     private Collection<QualLine> qualLineCollection;
 
@@ -80,6 +86,24 @@ public class Qual implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @XmlTransient
+    public Collection<Resume> getResumeCollection() {
+        return resumeCollection;
+    }
+
+    public void setResumeCollection(Collection<Resume> resumeCollection) {
+        this.resumeCollection = resumeCollection;
+    }
+
+    @XmlTransient
+    public Collection<Opportunity> getOpportunityCollection() {
+        return opportunityCollection;
+    }
+
+    public void setOpportunityCollection(Collection<Opportunity> opportunityCollection) {
+        this.opportunityCollection = opportunityCollection;
     }
 
     @XmlTransient

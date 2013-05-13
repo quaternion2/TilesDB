@@ -53,14 +53,13 @@
         <h1>Resume Widget</h1>
         <ul>
             <li><strike>Don't sum over lapping time</strike></li>
-            <li>not needed<strike>Add calculation fields (they will be hidden later to avoid use of arrays)</strike></li>
-            <li>Make include/exclude toggle (and selection radio boxes)</li>
-            
-            <li>Display in years/months or just months</li>
-            <li>Put back employee entry form, removed because was taking up too much space</li>
+            <li class="strike">not needed<strike>Add calculation fields (they will be hidden later to avoid use of arrays)</strike></li>
+            <li class="strike">Make include/exclude toggle (and selection radio boxes)</li>      
+            <li class="strike">Display in years/months or just months</li>
+            <li class="strike">Put back employee entry form, removed because was taking up too much space</li>
             <li>Rewrite this thing because it's a mess!</li>
         </ul>
-        <h1>Data Base</h1>
+        <h1>Data Base - DB Audit & Security</h1>
         <ul>
             <li>Add audit columns - created date, last updated</li>
             <li>Add "updated by" column later because it requires application interaction</li>

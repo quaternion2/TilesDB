@@ -88,7 +88,7 @@ public class Test implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kenmcwillaims.employmentsystemdb.Test[ id=" + id + " ]";
+        return "com.kenmcwilliams.employmentsystem.orm.Test[ id=" + id + " ]";
     }
     
 }

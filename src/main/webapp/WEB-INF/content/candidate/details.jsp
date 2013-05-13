@@ -1,13 +1,20 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
 <script>
     $(document).ready(function(){
-        
+        $( "#tabs" ).tabs().width(400);
     });
 </script>
 <h1>Update Candidate</h1>
+<!-- 
+
+TODO: Block adding new candidate if fname, lname and phone are the same
+TODO: Change tab order to ommit middle name
+TODO: Create script to expand headings to top of input fields
+
+-->
 <s:push value="candidate">
     <div class="framed inline-block">
-        <s:form id="addCandidate" namespace="/candidate" action="update">
+        <s:form id="addCandidate" namespace="/candidate" action="update"> 
             <s:hidden name="id" value="%{id}"/>
             <div>
                 <s:textfield name="fname" placeholder="First Name" title="First Name"/>
@@ -49,8 +56,13 @@
             </div>
         </s:form>
     </div>
-    <div class="inline-block">
-        List of opportunities for client goes here
+    <div class="framed inline-block">
+        <s:form namespace="/candidate" action="resume-entry">
+            <s:hidden name="id" value="%{id}"/>
+            <s:submit value="%{'Add Resume for ' + fname}">Add Resume for <s:property value="fname"/></s:submit>
+        </s:form>
+        
+       List of Resumes, List of Opportunities
     </div>
     <s:iterator value="logs">
         <div class="log">

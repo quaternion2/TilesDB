@@ -4,7 +4,6 @@
  */
 package com.kenmcwilliams.employmentsystem.orm;
 
-import com.opensymphony.xwork2.ActionSupport;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
@@ -25,14 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CandidateLog.findByStamp", query = "SELECT c FROM CandidateLog c WHERE c.stamp = :stamp"),
     @NamedQuery(name = "CandidateLog.findByCandiateId", query = "SELECT c FROM CandidateLog c LEFT JOIN FETCH c.candidateId cid WHERE cid.id = :candidateId ORDER BY c.stamp DESC")
 })
-//TOOD: I need the recruiter information, I think the making the recruiter not lazy is expensive
-//should consider a view, or a custom query with JPA into a custom object factoring in 
-//Recruiter, Candidate and this Log
-public class CandidateLog implements Serializable, ActionValidateable {
+public class CandidateLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -41,7 +39,7 @@ public class CandidateLog implements Serializable, ActionValidateable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date stamp;
     @Lob
-    @Size(max = 65535)
+    @Size(max = 2147483647)
     @Column(name = "note")
     private String note;
     @JoinColumn(name = "recruiter_id", referencedColumnName = "id")
@@ -61,9 +59,6 @@ public class CandidateLog implements Serializable, ActionValidateable {
     public CandidateLog(Integer id, Date stamp) {
         this.id = id;
         this.stamp = stamp;
-    }
-
-    public CandidateLog(Date stamp, Integer CandidateId, Integer RecruiterId) {
     }
 
     public Integer getId() {
@@ -129,10 +124,5 @@ public class CandidateLog implements Serializable, ActionValidateable {
     @Override
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.CandidateLog[ id=" + id + " ]";
-    }
-
-    @Override
-    public void validate(ActionSupport validateableAction) {
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 }

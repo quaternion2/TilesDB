@@ -4,6 +4,7 @@
  */
 package com.kenmcwilliams.employmentsystem.util;
 
+import com.kenmcwilliams.employmentsystem.action.crud.ReadAction;
 import java.lang.reflect.Field;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -17,6 +18,8 @@ import javassist.*;
  */
 public class MethodOrderDeterminer {
 
+    private static final Logger log = Logger.getLogger(MethodOrderDeterminer.class.getName());
+
     public static SortedMap<Integer, String> getOrderedPropertiesFor(Class clazz) {
         TreeMap<Integer, String> properties = new TreeMap<>(); //In key sorted order
         //properties.
@@ -29,7 +32,7 @@ public class MethodOrderDeterminer {
         try {
             cc = pool.get(canonicalName);
             Field[] declaredFields = clazz.getDeclaredFields(); //TODO: Only gets declared fields, should be able to get other fields...
-            System.out.println("# declared fields: " + declaredFields.length);
+            log.log(Level.INFO, "# declared fields: {0}", declaredFields.length);
             for (Field field : declaredFields) {
                 String name = field.getName();
                 //System.out.println(name);
@@ -40,15 +43,16 @@ public class MethodOrderDeterminer {
                 try {
                     methodX = cc.getDeclaredMethod(strMethod);
                     int xlineNumber = methodX.getMethodInfo().getLineNumber(0);
-                    System.out.println("xlineNumber: " + xlineNumber + " name: " + name);
+                    log.log(Level.INFO, "xlineNumber: {0} name: {1}", new Object[]{xlineNumber, name});
                     properties.put(xlineNumber, name);
                 } catch (NotFoundException ex) {
+                    //TODO: Put this exception back, after tracking down the "getSerialVersionUID" exceptions
                     Logger.getLogger(MethodOrderDeterminer.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 //}
             }
-        } catch (NotFoundException ex) {
+        } catch (javassist.NotFoundException ex) {
             Logger.getLogger(MethodOrderDeterminer.class.getName()).log(Level.SEVERE, null, ex);
         }
         //TODO: write unit test to test against expected values of current entities and an empty object

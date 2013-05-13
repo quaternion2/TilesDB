@@ -24,7 +24,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Recruiter implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @ManyToMany(mappedBy = "recruiterCollection")
@@ -109,7 +110,7 @@ public class Recruiter implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kenmcwillaims.employmentsystemdb.Recruiter[ id=" + id + " ]";
+        return "com.kenmcwilliams.employmentsystem.orm.Recruiter[ id=" + id + " ]";
     }
     
 }

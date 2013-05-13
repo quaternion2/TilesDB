@@ -344,14 +344,11 @@
             return !isNaN(parseFloat(n)) && isFinite(n);
         }
         
-        
         //Takes: Start THEN End dates.
         var dateDifference = function(start, end){
             var restrictByNMos = parseInt($("#limitByMonths").val()) - 1; //Should this be here?
             var restrictionDifference = submissionDate - restrictByNMos;
             var difference;
-            //TODO: color code inrage, out of range and partial range roles
-            
             if (isNumber(restrictByNMos) === true){
                 console.log("submissionDate: " + submissionDate + " restrictionDifference: " + restrictionDifference + " restrictByNMos " + restrictByNMos);
                 
@@ -446,23 +443,19 @@
             $("#submissionDate").val(mmm + " " + yyyy);
         }    
     
-            
-        $(document).ready(function(){
-            $("#saveResumeButton").click(saveResumeButton);
-        }); 
-    
-        var saveResumeButton = function(){
-            alert("beam me up");  
-            ContactInfo.firstName = $('#firstName').val();
-            ContactInfo.lastName = $('#lastName').val();
-            ContactInfo.streetAddress = $('#streetAddress').val();
-            ContactInfo.city = $('#city').val();
-            ContactInfo.province = $('#province').val();
-            ContactInfo.postalCode = $('#postalCode').val();
-            ContactInfo.phone = $('#phone').val();
-            ContactInfo.email = $('#email').val();
-            alert(JSON.stringify(ContactInfo));         
-        }          
+        //TODO: Check if this is being used.
+        //var saveResumeButton = function(){
+        //    alert("beam me up");  
+        //    ContactInfo.firstName = $('#firstName').val();
+        //    ContactInfo.lastName = $('#lastName').val();
+        //    ContactInfo.streetAddress = $('#streetAddress').val();
+        //    ContactInfo.city = $('#city').val();
+        //    ContactInfo.province = $('#province').val();
+        //    ContactInfo.postalCode = $('#postalCode').val();
+        //    ContactInfo.phone = $('#phone').val();
+        //    ContactInfo.email = $('#email').val();
+        //    alert(JSON.stringify(ContactInfo));         
+        //}          
     
         var ContactInfo = {
             firstName: "",
@@ -477,9 +470,26 @@
         
         var saveWorkHistoryButton = function(){
             toServer = []; //used to wipe out array
-            $("#resume .companyEntry").each(magicalParsing);  
-            alert(JSON.stringify(toServer));
-        }   
+            $("#resume .companyEntry").each(magicalParsing);
+            var header = prepareHeaderToServer();
+            var temp = {};
+            temp["header"] = header;
+            temp["roles"] = toServer;
+            //toServer = [header, toServer];
+            $.getJSON("<s:url namespace="/candidate" action="add-resume"/>", temp, persistResumeCallback);
+            alert(JSON.stringify(temp));
+        }
+        
+        var persistResumeCallback = function(data){
+            //TODO: do this
+        }
+        
+        var prepareHeaderToServer = function(){
+            var myobject = $("#headerInfo").serializeForm();
+            return myobject;
+        }
+    
+        
         var magicalParsing = function(index, elem){
             //alert($($(elem).find(".companyName").get(0)).val());
             var who = new WorkHistoryObject();
@@ -525,57 +535,11 @@
         var mm = today.getMonth();
         setSubmissionDate(mm, yyyy);
         $("#saveWorkHistoryButton").click(saveWorkHistoryButton);
-    });
-
-
-    $(document).ready(function(){
-        
-    });  
-    
-
-            
-            
+        <!-- $("#saveResumeButton").click(saveResumeButton);-->
+    });   
 </script>
 <%--  website main page --%>
-<h1>Resume Entry</h1>  
-
-<br>
-<div class="enoch">
-    <s:form cssClass="framed" id="candidate-form" namespace="/candidate" action="search">
-        <button type="button" id="search-button">Search</button>
-        <button type="button" id="clear-button">Clear</button>
-        <button type="button" id="new-candidate-button">Add Candidate</button>
-
-        <div>
-            <s:textfield name="model.fname" placeholder="First Name" title="First Name"/>
-            <s:textfield name="model.mname" placeholder="Middle Name" title="Middle Name"/>
-            <s:textfield  name="model.lname" placeholder="Last Name" title="Last Name"/>
-        </div>
-        <div>
-            <s:textfield name="model.homePhone" placeholder="Day Phone" title="Day Phone"/>
-            <s:textfield name="model.cellPhone" placeholder="Cell Phone" title="Cell Phone"/>
-            <s:textfield name="model.otherPhone" placeholder="Other Phone" title="Other Phone"/>
-        </div>
-        <div>
-            <s:textfield name="model.street" placeholder="Address" title="Address"/>
-        </div>
-        <div>
-            <s:textfield name="model.city" placeholder="City" title="City"/>
-            <s:textfield name="model.state" placeholder="Province" title="Province"/>
-            <s:textfield name="model.poCode" placeholder="Area Code" title="Area Code"/>
-        </div>
-        <div>
-            <s:textfield name="model.email" placeholder="Email" title="Email"/>
-            <s:textfield name="model.altEmail" placeholder="Alt Email" title="Alt Email"/>
-        </div>
-        <div>
-            <s:textfield name="model.skype" placeholder="Skype ID" title="Skype ID"/>
-        </div> 
-        <div>
-            <s:textfield name="model.desiredRateHour" placeholder="Desired Rate 0.00" title="Desired Rate 0.00"/>
-        </div>
-    </s:form>
-</div>
+<h1>Resume Entry for <s:property value="candidate.fname"/> <s:property value="candidate.lname"/></h1>  
 <div class="templates hidden">
     <div id="companyTemplate">
         <div class="companyEntry">           
@@ -590,7 +554,7 @@
             </div>
             <div class="details hidden">
                 <div class="detail">
-                    <input  class="isDetailSelected" type="checkbox"/>
+                    <input  class="isDetailSelected" type="checkbox" checked="checked"/>
                     <button class="deleteDetail">Del</button>
                     <span class="detailNumber"></span>
                     <span class="right">
@@ -602,11 +566,19 @@
         </div>
     </div> 
 </div>
-<div id="resume">
+<form id="headerInfo">
+    <s:hidden name="candidateId" value="%{candidate.id}"/>
+    <s:hidden name="resumeId" value="%{resume.id}"/>
+    Name: <input name="name" type="text"/>
+    Description: <input name="description" type="text"/>
+    (TODO assign to opportunity)
+</form>
+<br/>
+<div id="resume" class="">
     <div id="options">
         <button id="select-all" type="button">All</button> 
         <button id="select-none" type="button">None</button> 
-        <input id="yrsMosFrmtButton" type="checkbox" name="selectAll"/>Yrs, Mos format
+        <input id="yrsMosFrmtButton" type="checkbox" name="selectAll"  checked="checked"/>Yrs, Mos format
         <span style="float: right;"> 
             Restrict to x months: <input id="limitByMonths" type="text" name="selectAll"/>
             to date: <input id="submissionDate" type="text" name="selectAll" placeholder="MMM YY"/>
@@ -618,5 +590,5 @@
         <button id="addCompanyButton">New Company</button>
         <input contenteditable="false" id="total" class="right" type="text" value="" readonly="readonly" placeholder="Total Time">
     </div>
-    <br><button id="saveWorkHistoryButton" type="button">SAVE WORK HISTORY + JSON</button>
+    <br><button id="saveWorkHistoryButton" type="button">Save Resume</button>
 </div>

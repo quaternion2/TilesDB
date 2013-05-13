@@ -24,12 +24,15 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findById", query = "SELECT p FROM Person p WHERE p.id = :id"),
     @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name"),
     @NamedQuery(name = "Person.findByPassword", query = "SELECT p FROM Person p WHERE p.password = :password"),
-    @NamedQuery(name = "Person.findByNameAndPassword", query = "SELECT p FROM Person p WHERE p.name = :name AND p.password = :password")})
+    @NamedQuery(name = "Person.findByFname", query = "SELECT p FROM Person p WHERE p.fname = :fname"),
+    @NamedQuery(name = "Person.findByMname", query = "SELECT p FROM Person p WHERE p.mname = :mname"),
+    @NamedQuery(name = "Person.findByLname", query = "SELECT p FROM Person p WHERE p.lname = :lname")})
 public class Person implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -42,7 +45,9 @@ public class Person implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "password")
     private String password;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "fname")
     private String fname;
     @Size(max = 45)
@@ -54,7 +59,7 @@ public class Person implements Serializable {
     @JoinTable(name = "person_roles", joinColumns = {
         @JoinColumn(name = "person_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Collection<Roles> rolesCollection;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "person")
     private Recruiter recruiter;
@@ -66,10 +71,11 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    public Person(Integer id, String name, String password) {
+    public Person(Integer id, String name, String password, String fname) {
         this.id = id;
         this.name = name;
         this.password = password;
+        this.fname = fname;
     }
 
     public Integer getId() {
@@ -96,15 +102,6 @@ public class Person implements Serializable {
         this.password = password;
     }
 
-    @XmlTransient
-    public Collection<Roles> getRolesCollection() {
-        return rolesCollection;
-    }
-
-    public void setRolesCollection(Collection<Roles> rolesCollection) {
-        this.rolesCollection = rolesCollection;
-    }
-
     public String getFname() {
         return fname;
     }
@@ -127,6 +124,23 @@ public class Person implements Serializable {
 
     public void setLname(String lname) {
         this.lname = lname;
+    }
+
+    @XmlTransient
+    public Collection<Roles> getRolesCollection() {
+        return rolesCollection;
+    }
+
+    public void setRolesCollection(Collection<Roles> rolesCollection) {
+        this.rolesCollection = rolesCollection;
+    }
+
+    public Recruiter getRecruiter() {
+        return recruiter;
+    }
+
+    public void setRecruiter(Recruiter recruiter) {
+        this.recruiter = recruiter;
     }
 
     @Override
@@ -153,4 +167,5 @@ public class Person implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Person[ id=" + id + " ]";
     }
+    
 }

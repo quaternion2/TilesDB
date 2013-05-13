@@ -32,6 +32,8 @@ public class Opportunity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -61,6 +63,10 @@ public class Opportunity implements Serializable {
         @JoinColumn(name = "recruiter_id", referencedColumnName = "id")})
     @ManyToMany
     private Collection<Recruiter> recruiterCollection;
+    @ManyToMany(mappedBy = "opportunityCollection")
+    private Collection<Candidate> candidateCollection;
+    @OneToMany(mappedBy = "opportunityId")
+    private Collection<Resume> resumeCollection;
     @JoinColumn(name = "qual_id", referencedColumnName = "id")
     @ManyToOne
     private Qual qualId;
@@ -146,6 +152,24 @@ public class Opportunity implements Serializable {
         this.recruiterCollection = recruiterCollection;
     }
 
+    @XmlTransient
+    public Collection<Candidate> getCandidateCollection() {
+        return candidateCollection;
+    }
+
+    public void setCandidateCollection(Collection<Candidate> candidateCollection) {
+        this.candidateCollection = candidateCollection;
+    }
+
+    @XmlTransient
+    public Collection<Resume> getResumeCollection() {
+        return resumeCollection;
+    }
+
+    public void setResumeCollection(Collection<Resume> resumeCollection) {
+        this.resumeCollection = resumeCollection;
+    }
+
     public Qual getQualId() {
         return qualId;
     }
@@ -184,7 +208,7 @@ public class Opportunity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kenmcwillaims.employmentsystemdb.Opportunity[ id=" + id + " ]";
+        return "com.kenmcwilliams.employmentsystem.orm.Opportunity[ id=" + id + " ]";
     }
     
 }

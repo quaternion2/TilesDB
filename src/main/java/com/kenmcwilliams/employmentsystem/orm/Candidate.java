@@ -7,6 +7,7 @@ package com.kenmcwilliams.employmentsystem.orm;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -36,10 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Candidate.findByPoCode", query = "SELECT c FROM Candidate c WHERE c.poCode = :poCode"),
     @NamedQuery(name = "Candidate.findByDesiredRateHour", query = "SELECT c FROM Candidate c WHERE c.desiredRateHour = :desiredRateHour")})
 public class Candidate implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 45)
@@ -85,11 +87,18 @@ public class Candidate implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "desired_rate_hour")
     private Float desiredRateHour;
+    @JoinTable(name = "candidate_opportunity", joinColumns = {
+        @JoinColumn(name = "candidateId", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "opportunityId", referencedColumnName = "id")})
+    @ManyToMany
+    private Collection<Opportunity> opportunityCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateId")
     private Collection<CandidateLog> candidateLogCollection;
-    @OneToOne(optional = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "recruiter")
+    @JoinColumn(name = "recruiter", referencedColumnName = "id")
+    @ManyToOne
     private Recruiter recruiter;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateId")
+    private Collection<Resume> resumeCollection;
 
     public Candidate() {
     }
@@ -219,6 +228,15 @@ public class Candidate implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Opportunity> getOpportunityCollection() {
+        return opportunityCollection;
+    }
+
+    public void setOpportunityCollection(Collection<Opportunity> opportunityCollection) {
+        this.opportunityCollection = opportunityCollection;
+    }
+
+    @XmlTransient
     public Collection<CandidateLog> getCandidateLogCollection() {
         return candidateLogCollection;
     }
@@ -233,6 +251,15 @@ public class Candidate implements Serializable {
 
     public void setRecruiter(Recruiter recruiter) {
         this.recruiter = recruiter;
+    }
+
+    @XmlTransient
+    public Collection<Resume> getResumeCollection() {
+        return resumeCollection;
+    }
+
+    public void setResumeCollection(Collection<Resume> resumeCollection) {
+        this.resumeCollection = resumeCollection;
     }
 
     @Override
@@ -259,4 +286,5 @@ public class Candidate implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Candidate[ id=" + id + " ]";
     }
+    
 }

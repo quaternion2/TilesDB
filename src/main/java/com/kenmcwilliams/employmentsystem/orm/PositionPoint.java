@@ -26,13 +26,14 @@ import javax.xml.bind.annotation.XmlTransient;
 public class PositionPoint implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 2147483647)
     @Column(name = "description")
     private String description;
     @Basic(optional = false)

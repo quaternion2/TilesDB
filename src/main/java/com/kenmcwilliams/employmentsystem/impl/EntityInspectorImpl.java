@@ -23,9 +23,8 @@ public class EntityInspectorImpl implements EntityInspectorService {
     private Set<Class> entityTypes;
     private Map<Class, Collection<String>> unmodifiablePropertiesByEntity = new HashMap<>();
 
-    public EntityInspectorImpl() {
-        //TODO: allow this class to be supplied with a different package, or multiple packages
-        Reflections reflections = new Reflections("com.kenmcwilliams.employmentsystem.orm");
+    public EntityInspectorImpl(String packageName) {
+        Reflections reflections = new Reflections(packageName);
         Set<?> temp =
                 reflections.getTypesAnnotatedWith(Entity.class);
         entityTypes = (Set<Class>) temp;
@@ -35,6 +34,10 @@ public class EntityInspectorImpl implements EntityInspectorService {
             unmodifiablePropertiesByEntity.put(entity, orderedProperties.values());
         }
         unmodifiablePropertiesByEntity = Collections.unmodifiableMap(unmodifiablePropertiesByEntity);
+    }
+
+    public EntityInspectorImpl() {
+        this("com.kenmcwilliams.employmentsystem.orm");
     }
 
     @Override

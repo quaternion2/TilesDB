@@ -27,11 +27,13 @@ public class Client implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 100)
     @Column(name = "name")
     private String name;
     @Lob
@@ -108,7 +110,7 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "com.kenmcwillaims.employmentsystemdb.Client[ id=" + id + " ]";
+        return "com.kenmcwilliams.employmentsystem.orm.Client[ id=" + id + " ]";
     }
     
 }

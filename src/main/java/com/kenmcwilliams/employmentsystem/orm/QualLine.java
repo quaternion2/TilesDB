@@ -7,6 +7,7 @@ package com.kenmcwilliams.employmentsystem.orm;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,12 +29,14 @@ public class QualLine implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Column(name = "number")
     private Integer number;
     @Lob
-    @Size(max = 65535)
+    @Size(max = 2147483647)
     @Column(name = "description")
     private String description;
     @Column(name = "mandatory", columnDefinition = "BIT", length = 1)

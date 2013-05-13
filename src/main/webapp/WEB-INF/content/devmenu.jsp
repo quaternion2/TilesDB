@@ -30,11 +30,11 @@
                 <li><s:a cssClass="group" value="/enoch/viewResume">View Resume</s:a></li>
             </ul>
         </div>
-            
+
         <div class="yui3-u-1-2">
             <h2>Ken's Stuff</h2>
             <ul>
-
+                <li><s:a cssClass="group" value="/ajaxdemo/index.action">DataBase - browser</s:a></li>
                 <li><s:a cssClass="group" value="/config-browser/actionNames.action">config-browser</s:a></li>
                 <li><s:a cssClass="group" value="/crud/qual/read.action?id=9">Crud- Read - qual - id 9</s:a></li>
                 <li><s:a cssClass="group" value="/crud/qual-line/read.action?id=9">Crud - Read - qual-line - id 9, shows hyphen (qual-line) to camel case conversion (accessing QualLine class)</s:a></li>
@@ -43,31 +43,31 @@
                 <li><s:a cssClass="group" value="/crud/qual/add.action?description=the description&name=the name&role=the role">Crud - write - add new qual header</s:a></li>
                 <li><s:a cssClass="group" value="/crud/qual/delete.action?id=13">Crud - delete by id</s:a></li>
                 <li><s:a cssClass="group" value="/crud/list-tables">List all DataBase Tables</s:a></li>
-            </ul>
-        </div>
-        <div class="yui3-u-1-2">
-            <h2>Enoch's Stuff</h2>
-            <ul>
-                <li><s:a cssClass="group" value="/enoch/qualificationFormEntry7">qualificationFormEntry7</s:a></li>
+                </ul>
+            </div>
+            <div class="yui3-u-1-2">
+                <h2>Old Stuff</h2>
+                <ul>
+                    <li><s:a cssClass="group" value="/enoch/qualificationFormEntry7">qualificationFormEntry7</s:a></li>
                 <li><s:a cssClass="group" value="/enoch/resumeEntry005">resumeEntry005</s:a></li>
                 <li><s:a cssClass="group" value="/enoch/test">test</s:a></li>
                 <li><s:a cssClass="group" value="/enoch/pager">pager</s:a></li>
                 <li><s:a cssClass="group" value="/script/lightbox/index.jsp">lightbox</s:a></li>
                 <li><s:a cssClass="group" value="/enoch/merge001">merge001</s:a></li>
                 <li><s:a cssClass="group" value="/enoch/recruiter001">recruiter001</s:a></li>
-            </ul>
-        </div>
-        <div class="yui3-u-1-2">
-            <h2>HTML FORMS</h2>
-            <ul>
-                <li><s:a cssClass="group" value="/html/list-qualification-forms">html list qualification form</s:a></li>
+                </ul>
+            </div>
+            <div class="yui3-u-1-2">
+                <h2>HTML FORMS</h2>
+                <ul>
+                    <li><s:a cssClass="group" value="/html/list-qualification-forms">html list qualification form</s:a></li>
                 <li><s:a cssClass="group" namespace="/html/candidate" action="list">New Candidate</s:a></li> 
-            </ul>
-        </div>
-        <div class="yui3-u-1-2">
-            <h2>OTHER (tests)</h2>
-            <ul>
-                <li><s:a cssClass="group" namespace="/test" action="tiles">/test/tiles</s:a></li>
+                </ul>
+            </div>
+            <div class="yui3-u-1-2">
+                <h2>OTHER (tests)</h2>
+                <ul>
+                    <li><s:a cssClass="group" namespace="/test" action="tiles">/test/tiles</s:a></li>
             </ul>
         </div>
         <div class="yui3-u-1-2">

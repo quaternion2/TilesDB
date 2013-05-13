@@ -25,12 +25,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Position.findById", query = "SELECT p FROM Position p WHERE p.id = :id"),
     @NamedQuery(name = "Position.findByTitle", query = "SELECT p FROM Position p WHERE p.title = :title"),
     @NamedQuery(name = "Position.findByStartDate", query = "SELECT p FROM Position p WHERE p.startDate = :startDate"),
-    @NamedQuery(name = "Position.findByEndDate", query = "SELECT p FROM Position p WHERE p.endDate = :endDate"),
-    @NamedQuery(name = "Position.findByCurrentlyEmployed", query = "SELECT p FROM Position p WHERE p.currentlyEmployed = :currentlyEmployed")})
+    @NamedQuery(name = "Position.findByEndDate", query = "SELECT p FROM Position p WHERE p.endDate = :endDate")})
 public class Position implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 45)
@@ -42,8 +43,9 @@ public class Position implements Serializable {
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
+    @Lob
     @Column(name = "currently_employed", columnDefinition = "binary", length = 1)
-    private Boolean currentlyEmployed;
+    private byte[] currentlyEmployed;
     @JoinColumn(name = "resume_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Resume resumeId;
@@ -92,11 +94,11 @@ public class Position implements Serializable {
         this.endDate = endDate;
     }
 
-    public Boolean getCurrentlyEmployed() {
+    public byte[] getCurrentlyEmployed() {
         return currentlyEmployed;
     }
 
-    public void setCurrentlyEmployed(Boolean currentlyEmployed) {
+    public void setCurrentlyEmployed(byte[] currentlyEmployed) {
         this.currentlyEmployed = currentlyEmployed;
     }
 
