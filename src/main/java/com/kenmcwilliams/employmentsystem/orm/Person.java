@@ -26,8 +26,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findByPassword", query = "SELECT p FROM Person p WHERE p.password = :password"),
     @NamedQuery(name = "Person.findByFname", query = "SELECT p FROM Person p WHERE p.fname = :fname"),
     @NamedQuery(name = "Person.findByMname", query = "SELECT p FROM Person p WHERE p.mname = :mname"),
-    @NamedQuery(name = "Person.findByLname", query = "SELECT p FROM Person p WHERE p.lname = :lname")})
+    @NamedQuery(name = "Person.findByLname", query = "SELECT p FROM Person p WHERE p.lname = :lname"),
+    @NamedQuery(name = "Person.findByNameAndPassword", query = "SELECT p FROM Person p WHERE p.name = :name AND p.password = :password")})
 public class Person implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -167,5 +169,4 @@ public class Person implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Person[ id=" + id + " ]";
     }
-    
 }

@@ -4,7 +4,9 @@
  */
 package com.kenmcwilliams.employmentsystem.action.candidate;
 
+import com.kenmcwilliams.employmentsystem.service.ResumeService;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.inject.Inject;
 import flexjson.JSONSerializer;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -17,13 +19,14 @@ import org.apache.struts2.convention.annotation.Result;
  * @author ken
  */
 @ParentPackage("json-default")
-@Result(type="json")
+@Result(type = "json")
 public class AddResume extends ActionSupport {
-
+    @Inject ResumeService resumeService;
     private static final Logger log = Logger.getLogger(AddResume.class.getName());
     //private Object jsonModel; //used for output
 
     public class Header {
+
         private Integer candidateId = null;
         private Integer resumeId = null;
         private String name = null;
@@ -86,77 +89,26 @@ public class AddResume extends ActionSupport {
         }
     };
 
-    public class Role {
-
-        private String companyName;
-        private String role;
-        private String dateWorked;
-        private ArrayList<String> details = new ArrayList();
-
-        /**
-         * @return the companyName
-         */
-        public String getCompanyName() {
-            return companyName;
-        }
-
-        /**
-         * @param companyName the companyName to set
-         */
-        public void setCompanyName(String companyName) {
-            this.companyName = companyName;
-        }
-
-        /**
-         * @return the role
-         */
-        public String getRole() {
-            return role;
-        }
-
-        /**
-         * @param role the role to set
-         */
-        public void setRole(String role) {
-            this.role = role;
-        }
-
-        /**
-         * @return the dateWorked
-         */
-        public String getDateWorked() {
-            return dateWorked;
-        }
-
-        /**
-         * @param dateWorked the dateWorked to set
-         */
-        public void setDateWorked(String dateWorked) {
-            this.dateWorked = dateWorked;
-        }
-
-        /**
-         * @return the details
-         */
-        public ArrayList<String> getDetails() {
-            return details;
-        }
-
-        /**
-         * @param details the details to set
-         */
-        public void setDetails(ArrayList<String> details) {
-            this.details = details;
-        }
-    }
     private Header header = new Header();
     private ArrayList<Role> roles = new ArrayList();
-    
+
     @Override
     public String execute() {
-        log.log(Level.INFO, "Received Data: {0}", (new JSONSerializer().serialize(getHeader())));
-        log.log(Level.INFO, "Received Data: {0}", (new JSONSerializer().serialize(roles)));
+        log.log(Level.INFO, "Received Header: {0}", (new JSONSerializer().serialize(getHeader())));
+        log.log(Level.INFO, "Received Roles: {0}", (new JSONSerializer().serialize(getRoles())));
+        for(Role r : roles){
+            log.log(Level.INFO, "Received Details[]: {0}", (new JSONSerializer().serialize(r.getDetails())));
+        }
         return SUCCESS;
+    }
+    
+    @Override
+    public void validate(){
+        //resume must have a name to save the result
+        String name = getHeader().getName();
+        if (name == null || name.isEmpty()){
+            this.addFieldError("name", "Resume field must have a name.");
+        }
     }
 
     /**
@@ -171,5 +123,19 @@ public class AddResume extends ActionSupport {
      */
     public void setHeader(Header header) {
         this.header = header;
+    }
+
+    /**
+     * @return the roles
+     */
+    public ArrayList<Role> getRoles() {
+        return roles;
+    }
+
+    /**
+     * @param roles the roles to set
+     */
+    public void setRoles(ArrayList<Role> roles) {
+        this.roles = roles;
     }
 }

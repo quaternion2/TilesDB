@@ -4,17 +4,25 @@
  */
 package com.kenmcwilliams.employmentsystem.impl;
 
-import com.kenmcwilliams.employmentsystem.orm.Resume;
 import com.kenmcwilliams.employmentsystem.orm.Position;
+import com.kenmcwilliams.employmentsystem.orm.Resume;
 import com.kenmcwilliams.employmentsystem.service.ResumeService;
 import java.util.List;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author ken
  */
+@Transactional
 public class ResumeServiceImpl implements ResumeService{
-
+    private static final Logger log = Logger.getLogger(ResumeServiceImpl.class.getName());
+    @PersistenceContext
+    private EntityManager em;
+    
     @Override
     public List<Resume> listResumes() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -32,7 +40,7 @@ public class ResumeServiceImpl implements ResumeService{
 
     @Override
     public void addResume(Resume resume) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        em.persist(resume);
     }
 
     @Override

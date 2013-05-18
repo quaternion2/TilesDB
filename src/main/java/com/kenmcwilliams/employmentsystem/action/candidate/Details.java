@@ -6,7 +6,6 @@ package com.kenmcwilliams.employmentsystem.action.candidate;
 
 import com.kenmcwilliams.employmentsystem.orm.Candidate;
 import com.kenmcwilliams.employmentsystem.orm.CandidateLog;
-import com.kenmcwilliams.employmentsystem.orm.Resume;
 import com.kenmcwilliams.employmentsystem.service.CandidateService;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
 import com.opensymphony.xwork2.ActionSupport;

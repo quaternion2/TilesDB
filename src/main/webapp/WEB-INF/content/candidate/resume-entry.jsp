@@ -476,8 +476,40 @@
             temp["header"] = header;
             temp["roles"] = toServer;
             //toServer = [header, toServer];
-            $.getJSON("<s:url namespace="/candidate" action="add-resume"/>", temp, persistResumeCallback);
-            alert(JSON.stringify(temp));
+            
+            var roles = [];
+            //puch role objects onto roles array
+            var enbalm = {"header.candidateId": header.candidateId,
+                "header.resumeId" : "",
+                "header.name" : header.name,
+                "header.description" : header.description
+            };
+            
+            var doOnce = true;
+            $.each(toServer, function(index, obj){
+                doOnce = true;
+                $.each(obj, function(key, value){
+                    if (key == 'companyName'){
+                        enbalm["roles[" + index + "].companyName"] = value;
+                    }else if (key == 'role'){
+                        enbalm["roles[" + index + "].role"] = value;
+                    }else if(key == 'dateWorked'){
+                        enbalm["roles[" + index + "].dateWorked"] = value;
+                    }else if(key == 'details'){
+                        if (doOnce == true){
+                            $.each(value, function(index2, value2){
+                                enbalm["roles[" + index + "].details[" + index2 + "]"] = value2;
+                            });
+                            doOnce = false;
+                        }
+                    }
+                });
+            });
+            
+            $.post("<s:url namespace="/candidate" action="add-resume"/>", 
+            enbalm, 
+            persistResumeCallback);
+            alert(JSON.stringify(toServer));
         }
         
         var persistResumeCallback = function(data){
