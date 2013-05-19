@@ -7,11 +7,14 @@ package com.kenmcwilliams.employmentsystem.orm;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -30,8 +33,6 @@ public class Position implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 45)
@@ -47,13 +48,15 @@ public class Position implements Serializable {
     @Column(name = "currently_employed", columnDefinition = "binary", length = 1)
     private byte[] currentlyEmployed;
     @JoinColumn(name = "resume_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Resume resumeId;
+    //TODO: Need to review how companies are being digested by the system (or rather how they are not being digested!)
     @JoinColumn(name = "company_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL) //TODO: Review if this is safe
     private Company companyId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
-    private Collection<PositionPoint> positionPointCollection;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<PositionPoint> positionPointCollection;
 
     public Position() {
     }
@@ -123,7 +126,7 @@ public class Position implements Serializable {
         return positionPointCollection;
     }
 
-    public void setPositionPointCollection(Collection<PositionPoint> positionPointCollection) {
+    public void setPositionPointCollection(Set<PositionPoint> positionPointCollection) {
         this.positionPointCollection = positionPointCollection;
     }
 

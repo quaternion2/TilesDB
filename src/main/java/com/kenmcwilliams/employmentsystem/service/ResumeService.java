@@ -7,6 +7,7 @@ package com.kenmcwilliams.employmentsystem.service;
 import com.kenmcwilliams.employmentsystem.orm.Position;
 import com.kenmcwilliams.employmentsystem.orm.Resume;
 import java.util.List;
+import org.javatuples.Pair;
 
 /**
  *
@@ -15,6 +16,7 @@ import java.util.List;
 public interface ResumeService {
     //list all quals
     List<Resume> listResumes();
+    List<Pair<Integer, String>> listResumeNamesByCandidate(Integer candidateId);
     Resume getResume(int id);
     void deleteResume(int id);
     void addResume(Resume resume);

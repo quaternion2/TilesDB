@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Transactional;
+import org.javatuples.Pair;
 
 /**
  *
@@ -27,10 +30,20 @@ public class ResumeServiceImpl implements ResumeService{
     public List<Resume> listResumes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    @Override
+    public List<Pair<Integer, String>> listResumeNamesByCandidate(Integer candidateId){
+        Query query = em.createQuery("select new org.javatuples.Pair(r.id, r.name) from Resume r where r.candidateId.id = :candidateId");
+        query.setParameter("candidateId", candidateId);
+        return query.getResultList();
+    }
 
     @Override
     public Resume getResume(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        TypedQuery<Resume> query = em.createQuery("select r from Resume r join fetch r.positionCollection pc join fetch pc.positionPointCollection ppc where r.id = :id", Resume.class);
+        query.setParameter("id", id);
+        return query.getResultList().get(0);
+        
     }
 
     @Override

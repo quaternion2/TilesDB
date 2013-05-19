@@ -39,6 +39,7 @@
     <bean id="formatService" class="com.kenmcwilliams.employmentsystem.impl.EntityInspectorImpl"/>
     <bean id="candidateService" class="com.kenmcwilliams.employmentsystem.impl.CandidateServiceImpl"/>
     <bean id="authenticationService" class="com.kenmcwilliams.employmentsystem.impl.AuthenticationServiceImpl"/>
+    <bean id="resumeService" class="com.kenmcwilliams.employmentsystem.impl.ResumeServiceImpl"/>
     <tx:annotation-driven  transaction-manager="transactionManager"/>
     
    <!-- <aop:config>

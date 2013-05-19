@@ -37,6 +37,7 @@ public class DynamicTilesDefinition extends ActionSupport {
         }
         MutableTilesContainer mc = (MutableTilesContainer) container;
         Definition def = new Definition();
+        
         Attribute templateAttribute = Attribute.createTemplateAttribute("/WEB-INF/test/test-template.jsp");
         def.setTemplateAttribute(templateAttribute);
         def.putAttribute("body", new Attribute("/WEB-INF/test/test-dynamic-definition.jsp"));
@@ -53,9 +54,6 @@ public class DynamicTilesDefinition extends ActionSupport {
         //def.setPreparer(String);
         //def.addAll(Map<String, Attribute>);
         //def.addMissing(Map<String, Attribute>);
-
-
-
         mc.register(def, servletRequest);
         return SUCCESS;
     }

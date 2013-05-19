@@ -7,11 +7,14 @@ package com.kenmcwilliams.employmentsystem.orm;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -32,8 +35,6 @@ public class Resume implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 100)
@@ -50,7 +51,8 @@ public class Resume implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resumeId")
-    private Collection<Position> positionCollection;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<Position> positionCollection;
     @JoinColumn(name = "opportunity_id", referencedColumnName = "id")
     @ManyToOne
     private Opportunity opportunityId;
@@ -121,7 +123,7 @@ public class Resume implements Serializable {
         return positionCollection;
     }
 
-    public void setPositionCollection(Collection<Position> positionCollection) {
+    public void setPositionCollection(Set<Position> positionCollection) {
         this.positionCollection = positionCollection;
     }
 
@@ -173,5 +175,4 @@ public class Resume implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Resume[ id=" + id + " ]";
     }
-    
 }

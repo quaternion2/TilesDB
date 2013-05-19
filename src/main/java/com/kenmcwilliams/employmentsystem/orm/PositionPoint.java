@@ -6,11 +6,14 @@ package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -26,8 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class PositionPoint implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -41,9 +43,10 @@ public class PositionPoint implements Serializable {
     @Column(name = "rank")
     private int rank;
     @ManyToMany(mappedBy = "positionPointCollection")
-    private Collection<QualLine> qualLineCollection;
+    @LazyCollection(LazyCollectionOption.FALSE) //TODO: This is probably not a good idea
+    private Set<QualLine> qualLineCollection;
     @JoinColumn(name = "role_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Position roleId;
 
     public PositionPoint() {
@@ -88,7 +91,7 @@ public class PositionPoint implements Serializable {
         return qualLineCollection;
     }
 
-    public void setQualLineCollection(Collection<QualLine> qualLineCollection) {
+    public void setQualLineCollection(Set<QualLine> qualLineCollection) {
         this.qualLineCollection = qualLineCollection;
     }
 

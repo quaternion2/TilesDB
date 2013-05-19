@@ -41,6 +41,10 @@ public class MethodOrderDeterminer {
                 //System.out.println("strMethod: " + strMethod);
                 CtMethod methodX;
                 try {
+                    //TODO: Need to add ignore methods rather than this hard coded hack.
+                    if (strMethod.compareToIgnoreCase("getSerialVersionUID") == 0){
+                        continue;
+                    }
                     methodX = cc.getDeclaredMethod(strMethod);
                     int xlineNumber = methodX.getMethodInfo().getLineNumber(0);
                     log.log(Level.INFO, "xlineNumber: {0} name: {1}", new Object[]{xlineNumber, name});

@@ -4,6 +4,7 @@
  */
 package com.kenmcwilliams.s2.interceptor;
 
+import com.kenmcwilliams.employmentsystem.util.ApplicationConstants;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
@@ -29,7 +30,7 @@ public class BasicAuthentication implements Interceptor{
     public String intercept(ActionInvocation invocation) throws Exception {
         //throw new UnsupportedOperationException("Not supported yet.");
         Map<String, Object> session = invocation.getInvocationContext().getSession();
-        User user = (User)session.get("user");
+        User user = (User)session.get(ApplicationConstants.USER.name());
         if (user == null){
             return Action.LOGIN;
         }else{

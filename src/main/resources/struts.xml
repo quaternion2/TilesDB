@@ -35,6 +35,20 @@
         </action>
     </package>
     
+    <package name="secure-json-default" extends="json-default">
+        <result-types>
+            <result-type name="kjson" class="com.kenmcwilliams.employmentsystem.result.Kjson"/>
+        </result-types>
+        <interceptors>
+            <interceptor name="authenticationInterceptor" class="com.kenmcwilliams.s2.interceptor.BasicAuthentication"/>
+            <interceptor-stack name="jsonSecureStack">
+                <interceptor-ref name="authenticationInterceptor"/>
+                <interceptor-ref name="jsonValidationWorkflowStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="jsonSecureStack"/>
+    </package>
+    
     <package name="package-kjson" extends="struts-default">
         <result-types>
             <result-type name="kjson" default="true" class="com.kenmcwilliams.employmentsystem.result.Kjson"/>
