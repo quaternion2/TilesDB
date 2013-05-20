@@ -601,8 +601,7 @@
 <form id="headerInfo">
     <s:hidden name="candidateId" value="%{candidate.id}"/>
     <s:hidden name="resumeId" value="%{resume.id}"/>
-    Name: <input name="name" type="text"/>
-    Description: <input name="description" type="text"/>
+    Name: <input name="name" type="text" value="<s:property value="resume.name"/>"/>
     (TODO assign to opportunity)
 </form>
 <br/>
@@ -617,6 +616,37 @@
         </span>
     </div>
     <div id="companies">
+        <s:if test="resume != null">
+            <s:iterator value="resume.positionCollection">
+                <div class="companyEntry">           
+                    <div class="companyHeader">
+                        <input class="include-line" type="checkbox" name="inlude" checked="checked"/>
+                        <button class="expand" title="Expand/Collapse">&gt;</button>
+                        <button class="deleteButton" title="Delete Company">X</button>
+                        <input class="companyName" type="text" value="<s:property value="companyId.name"/>" placeholder="Company Name"/>
+                        <input class="companyRole" type="text" value="<s:property value="title"/>" placeholder="Roles">
+                        <input class="companyDate" type="text" value="<s:property value="formatDate(startDate) + ' - ' + formatDate(endDate)"/>" placeholder="MMM YY - MMM YY"/>
+                        <input class="line-months" disabled="disabled" type="text" placeholder=""/>
+                    </div>
+                    <div class="details hidden">
+                        <s:iterator value="positionPointCollection">
+                        <div class="detail">
+                            <input  class="isDetailSelected" type="checkbox" checked="checked"/>
+                            <button class="deleteDetail">Del</button>
+                            <span class="detailNumber"></span>
+                            <span class="right">
+                                <input class="line" type="text" value="<s:property value="description"/>" placeholder="Details">
+                                <button class="addDetail">New Detail</button>
+                            </span>
+                        </div>
+                        </s:iterator>
+                    </div>
+                </div>
+            </s:iterator>
+        </s:if>
+        <s:else>
+            FALSE - +++++++++++++++++++++++++++++++++++++++++++++
+        </s:else>
     </div>
     <div class="companyHeader">
         <button id="addCompanyButton">New Company</button>

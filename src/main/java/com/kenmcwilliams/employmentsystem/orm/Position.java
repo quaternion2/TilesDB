@@ -133,7 +133,7 @@ public class Position implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : super.hashCode());//null id values must be able to persist in set, until persisted and assigned a value
         return hash;
     }
 
@@ -144,6 +144,9 @@ public class Position implements Serializable {
             return false;
         }
         Position other = (Position) object;
+        if (this.id == null){
+            return false;//all ids in DB exist, this is in a temporary state so keep it
+        }
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

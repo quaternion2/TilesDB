@@ -27,8 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @ParentPackage("secure-json-default")
 @Results({
-@Result(name="success", type = "json"),
-@Result(name="input", type="json")
+    @Result(name = "success", type = "json"),
+    @Result(name = "input", type = "json")
 })
 //TODO: Does not return proper error messages on error (input actually).
 public class AddResume extends ActionSupport implements UserAware {
@@ -43,6 +43,9 @@ public class AddResume extends ActionSupport implements UserAware {
 
     private Resume assembleResume() {
         Resume resume = new Resume();
+        if (header.resumeId != null) {//TODO: Should do proper valididation
+            resume.setId(header.resumeId);
+        }
         //resume.setCandidateId(null);
         Candidate candidate = new Candidate();
         candidate.setId(header.candidateId);
@@ -54,7 +57,7 @@ public class AddResume extends ActionSupport implements UserAware {
         //TODO: add description field to resume
         resume.setOpportunityId(null);
         java.util.Set<Position> positions = new HashSet();
-        for (Role r : roles){
+        for (Role r : roles) {
             //r;
             Position p = new Position();
             p.setResumeId(resume);
@@ -65,9 +68,11 @@ public class AddResume extends ActionSupport implements UserAware {
             p.setEndDate(r.getEndDate());
             p.setStartDate(r.getStartDate());
             java.util.Set<PositionPoint> points = new HashSet<>();
-            for(String detail : r.getDetails()){
+            Integer rank = 0;
+            for (String detail : r.getDetails()) {
                 PositionPoint pp = new PositionPoint();
                 pp.setDescription(detail);
+                pp.setRank(rank);
                 pp.setRoleId(p);
                 points.add(pp);
             }
@@ -83,7 +88,7 @@ public class AddResume extends ActionSupport implements UserAware {
         //save the positions (because they need reference to the resume header id
         //then save the position points (because they need reference to the position id
         //then again maybe JPA is smart enough to avoid this
-        resumeService.addResume(resume);
+        resumeService.saveResume(resume);
         return resume;
     }
 
@@ -164,8 +169,8 @@ public class AddResume extends ActionSupport implements UserAware {
             log.log(Level.INFO, "Received Details[]: {0}", (new JSONSerializer().serialize(r.getDetails())));
         }
         Resume assembleResume = this.assembleResume();
-        
-        resumeService.addResume(assembleResume);
+
+        resumeService.saveResume(assembleResume);
         return SUCCESS;
     }
 
@@ -173,7 +178,7 @@ public class AddResume extends ActionSupport implements UserAware {
     public void validate() {
         //resume must have a name to save the result
         String name = getHeader().getName();
-        if (name == null || name.isEmpty()){
+        if (name == null || name.isEmpty()) {
             this.addFieldError("name", "Resume field must have a name.");
         }
     }

@@ -21,18 +21,19 @@ import org.javatuples.Pair;
  * @author ken
  */
 @Transactional
-public class ResumeServiceImpl implements ResumeService{
+public class ResumeServiceImpl implements ResumeService {
+
     private static final Logger log = Logger.getLogger(ResumeServiceImpl.class.getName());
     @PersistenceContext
     private EntityManager em;
-    
+
     @Override
     public List<Resume> listResumes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
-    public List<Pair<Integer, String>> listResumeNamesByCandidate(Integer candidateId){
+    public List<Pair<Integer, String>> listResumeNamesByCandidate(Integer candidateId) {
         Query query = em.createQuery("select new org.javatuples.Pair(r.id, r.name) from Resume r where r.candidateId.id = :candidateId");
         query.setParameter("candidateId", candidateId);
         return query.getResultList();
@@ -43,7 +44,7 @@ public class ResumeServiceImpl implements ResumeService{
         TypedQuery<Resume> query = em.createQuery("select r from Resume r join fetch r.positionCollection pc join fetch pc.positionPointCollection ppc where r.id = :id", Resume.class);
         query.setParameter("id", id);
         return query.getResultList().get(0);
-        
+
     }
 
     @Override
@@ -52,8 +53,12 @@ public class ResumeServiceImpl implements ResumeService{
     }
 
     @Override
-    public void addResume(Resume resume) {
-        em.persist(resume);
+    public void saveResume(Resume resume) {
+        if (resume.getId() != null) {
+            em.merge(resume);
+        } else {
+            em.persist(resume);
+        }
     }
 
     @Override
@@ -85,5 +90,4 @@ public class ResumeServiceImpl implements ResumeService{
     public void deleteRole(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }

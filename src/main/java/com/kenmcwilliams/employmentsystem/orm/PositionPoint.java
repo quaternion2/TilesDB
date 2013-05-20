@@ -106,7 +106,7 @@ public class PositionPoint implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : super.hashCode());//prevent hash code colision
         return hash;
     }
 
@@ -118,6 +118,9 @@ public class PositionPoint implements Serializable {
         }
         PositionPoint other = (PositionPoint) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        if (this.rank != other.getRank()){
             return false;
         }
         return true;

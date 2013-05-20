@@ -19,7 +19,7 @@ public interface ResumeService {
     List<Pair<Integer, String>> listResumeNamesByCandidate(Integer candidateId);
     Resume getResume(int id);
     void deleteResume(int id);
-    void addResume(Resume resume);
+    void saveResume(Resume resume);
     void updateResume(Resume resume);
     
     Position getRole(int id);

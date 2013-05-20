@@ -49,6 +49,5 @@ public class CandidateServiceImpl implements CandidateService{
         TypedQuery<CandidateLog> namedQuery = em.createNamedQuery("CandidateLog.findByCandiateId", com.kenmcwilliams.employmentsystem.orm.CandidateLog.class);
         namedQuery.setParameter("candidateId", candidateId);
         return namedQuery.getResultList();
-    }
-    
+    } 
 }

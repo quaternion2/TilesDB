@@ -57,12 +57,15 @@ TODO: Create script to expand headings to top of input fields
         </s:form>
     </div>
     <div class="framed inline-block">
+        <h1>Resumes</h1>
         <s:form namespace="/candidate" action="resume-entry">
             <s:hidden name="id" value="%{id}"/>
-            <s:submit value="%{'Add Resume for ' + fname}">Add Resume for <s:property value="fname"/></s:submit>
+            <s:submit value="%{'Add Resume for ' + fname}"></s:submit>
         </s:form>
-        
-       List of Resumes, List of Opportunities
+        <s:iterator value="resumes">
+            <div><span><s:a namespace="/candidate" action="resume-entry"><s:param name="id" value="id"/><s:param name="resumeId" value="value0"/><s:property value="value1"/></s:a></span> <span></span></div>
+        </s:iterator>
+        <h1>Opportunities</h1>
     </div>
     <s:iterator value="logs">
         <div class="log">
