@@ -9,19 +9,17 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
  * @author ken
  */
 @Entity
-@Table(name = "position")
+@Table(name = "position",
+        uniqueConstraints=@UniqueConstraint(columnNames={"resume_id", "company_id", "title", "start_date", "end_date", "currently_employed"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Position.findAll", query = "SELECT p FROM Position p"),
@@ -32,7 +30,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 public class Position implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private Integer id;
     @Size(max = 45)
@@ -48,14 +46,14 @@ public class Position implements Serializable {
     @Column(name = "currently_employed", columnDefinition = "binary", length = 1)
     private byte[] currentlyEmployed;
     @JoinColumn(name = "resume_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private Resume resumeId;
     //TODO: Need to review how companies are being digested by the system (or rather how they are not being digested!)
     @JoinColumn(name = "company_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL) //TODO: Review if this is safe
+    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}) //TODO: Review if this is safe
     private Company companyId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    //@LazyCollection(LazyCollectionOption.FALSE)
     private Set<PositionPoint> positionPointCollection;
 
     public Position() {
@@ -122,7 +120,7 @@ public class Position implements Serializable {
     }
 
     @XmlTransient
-    public Collection<PositionPoint> getPositionPointCollection() {
+    public Set<PositionPoint> getPositionPointCollection() {
         return positionPointCollection;
     }
 
@@ -133,20 +131,16 @@ public class Position implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : super.hashCode());//null id values must be able to persist in set, until persisted and assigned a value
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Position)) {
             return false;
         }
         Position other = (Position) object;
-        if (this.id == null){
-            return false;//all ids in DB exist, this is in a temporary state so keep it
-        }
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

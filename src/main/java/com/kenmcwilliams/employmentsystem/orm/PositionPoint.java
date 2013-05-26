@@ -5,22 +5,20 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
  * @author ken
  */
 @Entity
-@Table(name = "position_point")
+@Table(name = "position_point",
+        uniqueConstraints=@UniqueConstraint(columnNames={"role_id", "rank"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PositionPoint.findAll", query = "SELECT p FROM PositionPoint p"),
@@ -29,7 +27,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 public class PositionPoint implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -43,10 +41,9 @@ public class PositionPoint implements Serializable {
     @Column(name = "rank")
     private int rank;
     @ManyToMany(mappedBy = "positionPointCollection")
-    @LazyCollection(LazyCollectionOption.FALSE) //TODO: This is probably not a good idea
     private Set<QualLine> qualLineCollection;
     @JoinColumn(name = "role_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Position roleId;
 
     public PositionPoint() {
@@ -87,7 +84,7 @@ public class PositionPoint implements Serializable {
     }
 
     @XmlTransient
-    public Collection<QualLine> getQualLineCollection() {
+    public Set<QualLine> getQualLineCollection() {
         return qualLineCollection;
     }
 
@@ -106,7 +103,7 @@ public class PositionPoint implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : super.hashCode());//prevent hash code colision
+        hash += (id != null ? id.hashCode() : 0);//prevent hash code colision
         return hash;
     }
 
@@ -120,7 +117,8 @@ public class PositionPoint implements Serializable {
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
-        if (this.rank != other.getRank()){
+        //can't have the same role AND rank id
+        if (this.rank != other.getRank() && this.roleId != other.roleId){
             return false;
         }
         return true;

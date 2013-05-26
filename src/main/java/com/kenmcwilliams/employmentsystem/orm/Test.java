@@ -23,8 +23,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Test.findByName", query = "SELECT t FROM Test t WHERE t.name = :name"),
     @NamedQuery(name = "Test.findByAge", query = "SELECT t FROM Test t WHERE t.age = :age")})
 public class Test implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private Integer id;
     @Size(max = 45)
@@ -88,5 +90,4 @@ public class Test implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Test[ id=" + id + " ]";
     }
-    
 }

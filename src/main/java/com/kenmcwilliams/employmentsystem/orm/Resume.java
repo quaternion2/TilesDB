@@ -5,23 +5,20 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
  * @author ken
  */
 @Entity
-@Table(name = "resume")
+@Table(name = "resume",
+        uniqueConstraints=@UniqueConstraint(columnNames={"candidate_id", "name"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Resume.findAll", query = "SELECT r FROM Resume r"),
@@ -34,7 +31,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 public class Resume implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private Integer id;
     @Size(max = 100)
@@ -51,7 +48,6 @@ public class Resume implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "resumeId")
-    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Position> positionCollection;
     @JoinColumn(name = "opportunity_id", referencedColumnName = "id")
     @ManyToOne
@@ -119,7 +115,7 @@ public class Resume implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Position> getPositionCollection() {
+    public Set<Position> getPositionCollection() {
         return positionCollection;
     }
 
@@ -160,7 +156,6 @@ public class Resume implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Resume)) {
             return false;
         }
