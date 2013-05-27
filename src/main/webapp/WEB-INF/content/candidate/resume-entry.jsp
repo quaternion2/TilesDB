@@ -72,7 +72,23 @@
     var submissionDate;
     
     $(document).ready(function(){
-                
+        
+        var crudUrl = function(entity, operation, id){
+            //TODO: check operation is a legal type
+            //TODO: different types require different parameters (some don't take an id, some need an object)
+            //TODO: should probably require an object and take the keys as arguments as required
+            var appUrl = "<s:url includeContext="true"  forceAddSchemeHostAndPort="true" value="/crud"/>" + "/";
+            return appUrl + entity + "/" + operation + "?id=" + id;
+        }
+        
+        var crudDeleteCallback = function(entity, id){
+            if(id != null && id != undefined){
+                var deleteUrl = crudUrl(entity, "delete", id);
+                alert("deleteUrl: " + deleteUrl);  
+                $.getJSON(deleteUrl);
+            }
+        }
+        
         var appendCompany = function(){$($("#companyTemplate > .companyEntry").clone(true)).appendTo("#companies")};
         var toggleDetailVisibility = function(){
             var target = $(this).closest(".companyEntry").children(".details");
@@ -80,7 +96,7 @@
                 $(this).text("v");
                 var detailCount = $(target).children(".detail").length;
                 if(detailCount === 0){
-                    alert("no companies");
+                    //alert("no companies");
                     //no details, add a new detail
                     $($("#companyTemplate .detail").clone(true)).appendTo(target);
                 }
@@ -105,9 +121,12 @@
             //restores one entry.
             var companyContainer =  $(this).closest(".companyEntry").get(0);
             var nDetail = $(companyContainer).find(".detail").length;
-            alert("nDetail: " + nDetail);
+            var id = $(this).closest(".detail").first().find(".line").attr("data-id");
+            alert("id: " + id);
+            crudDeleteCallback("position-point", id);
             var companyDetail = $(this).closest(".detail");
             $(companyDetail).remove();
+            //TODO : following seems to be unreachable
             if (nDetail === 1){
                 var expandButton = $(companyContainer).find(".expand");
                 alert(expandButton.tagName);
@@ -391,7 +410,11 @@
 
         var deleteCompany = function(){
             console.log("deleteCompany");
-            $(this).parent().parent().remove();
+            var companyHeader = $(this).parent();
+            var id = $(companyHeader).find(".companyId").first().val();
+            alert("id " + id);
+            crudDeleteCallback("position", id);
+            $(companyHeader).parent().remove();
             doSumTime();
         }   
         
@@ -471,7 +494,7 @@
         var saveWorkHistoryButton = function(){
             toServer = []; //used to wipe out array
             $("#resume .companyEntry").each(magicalParsing);
-            var header = prepareHeaderToServer();
+            var header = prepareHeaderToServer(); //example of data returned by f(): {"candidateId":"1","resumeId":"17","name":"res1:32"}
             var temp = {};
             temp["header"] = header;
             temp["roles"] = toServer;
@@ -480,7 +503,7 @@
             var roles = [];
             //puch role objects onto roles array
             var enbalm = {"header.candidateId": header.candidateId,
-                "header.resumeId" : "",
+                "header.resumeId" : header.resumeId,
                 "header.name" : header.name,
                 "header.description" : header.description
             };
@@ -489,16 +512,20 @@
             $.each(toServer, function(index, obj){
                 doOnce = true;
                 $.each(obj, function(key, value){
-                    if (key == 'companyName'){
+                    if (key == "id"){
+                        enbalm["roles[" + index + "].id"] = value;
+                    }else if (key == 'companyName'){
                         enbalm["roles[" + index + "].companyName"] = value;
                     }else if (key == 'role'){
                         enbalm["roles[" + index + "].role"] = value;
                     }else if(key == 'dateWorked'){
                         enbalm["roles[" + index + "].dateWorked"] = value;
                     }else if(key == 'details'){
-                        if (doOnce == true){
-                            $.each(value, function(index2, value2){
-                                enbalm["roles[" + index + "].details[" + index2 + "]"] = value2;
+                        if (doOnce == true){ //this is strange there should be a better way?
+                            $.each(value, function(index2, positionPoint){
+                                enbalm["roles[" + index + "].details[" + index2 + "].id"] = positionPoint.id;
+                                enbalm["roles[" + index + "].details[" + index2 + "].description"] = positionPoint.description; 
+                                enbalm["roles[" + index + "].details[" + index2 + "].rank"] = positionPoint.rank;
                             });
                             doOnce = false;
                         }
@@ -518,28 +545,44 @@
         
         var prepareHeaderToServer = function(){
             var myobject = $("#headerInfo").serializeForm();
+            console.log("prepareHeaderToServer:" + JSON.stringify(myobject));
             return myobject;
         }
+        
+        var PositionPoint = function(){
+            id: "";
+            description: "";
+            rank: "";
+            positionId: "";
+        };
     
         
         var magicalParsing = function(index, elem){
             //alert($($(elem).find(".companyName").get(0)).val());
             var who = new WorkHistoryObject();
+            who.id = $($(elem).find(".companyId").get(0)).val();
             who.companyName = $($(elem).find(".companyName").get(0)).val();
             who.role = $($(elem).find(".companyRole").get(0)).val();
             who.dateWorked = $($(elem).find(".companyDate").get(0)).val();
-            console.log($(elem).find(".detail .line").size());
+            console.log("#detail lines:" + $(elem).find(".detail .line").size());
             var tempArray = [];
             $(elem).find(".detail .line").each(
             function(index, elem){
-                tempArray.push($(elem).val());
+                var pp = new PositionPoint();
+                pp.description = $(elem).val();
+                pp.id = $(elem).attr("data-id");
+                //pp.positionId //inferable...
+                pp.rank = index;
+                tempArray.push(pp);
             }          
         );
             who.details = tempArray;
             toServer.push(who);           
         } 
     
+        //TODO: need to add another object to represent details
         var WorkHistoryObject = function(){
+            id:"";
             companyName: "";
             role: "";
             dateWorked: ""; //should be something automatic if currently employed
@@ -576,7 +619,7 @@
     <div id="companyTemplate">
         <div class="companyEntry">           
             <div class="companyHeader">
-                <input class="include-line" type="checkbox" name="inlude" checked="checked"/>
+                <input class="include-line" type="checkbox" name="include" checked="checked"/>
                 <button class="expand" title="Expand/Collapse">&gt;</button>
                 <button class="deleteButton" title="Delete Company">X</button>
                 <input class="companyName" type="text" placeholder="Company Name"/>
@@ -620,7 +663,8 @@
             <s:iterator value="resume.positionCollection">
                 <div class="companyEntry">           
                     <div class="companyHeader">
-                        <input class="include-line" type="checkbox" name="inlude" checked="checked"/>
+                        <input class="companyId" type="hidden" value="<s:property value="id"/>"/>
+                        <input class="include-line" type="checkbox" name="include" checked="checked"/>
                         <button class="expand" title="Expand/Collapse">&gt;</button>
                         <button class="deleteButton" title="Delete Company">X</button>
                         <input class="companyName" type="text" value="<s:property value="companyId.name"/>" placeholder="Company Name"/>
@@ -630,23 +674,20 @@
                     </div>
                     <div class="details hidden">
                         <s:iterator value="positionPointCollection">
-                        <div class="detail">
-                            <input  class="isDetailSelected" type="checkbox" checked="checked"/>
-                            <button class="deleteDetail">Del</button>
-                            <span class="detailNumber"></span>
-                            <span class="right">
-                                <input class="line" type="text" value="<s:property value="description"/>" placeholder="Details">
-                                <button class="addDetail">New Detail</button>
-                            </span>
-                        </div>
+                            <div class="detail">
+                                <input  class="isDetailSelected" type="checkbox" checked="checked"/>
+                                <button class="deleteDetail">Del</button>
+                                <span class="detailNumber"></span>
+                                <span class="right">
+                                    <input class="line" data-id="<s:property value="id"/>" data-rank="<s:property value="rank"/>" type="text" value="<s:property value="description"/>" placeholder="Details">
+                                    <button class="addDetail">New Detail</button>
+                                </span>
+                            </div>
                         </s:iterator>
                     </div>
                 </div>
             </s:iterator>
         </s:if>
-        <s:else>
-            FALSE - +++++++++++++++++++++++++++++++++++++++++++++
-        </s:else>
     </div>
     <div class="companyHeader">
         <button id="addCompanyButton">New Company</button>
