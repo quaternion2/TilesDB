@@ -41,8 +41,10 @@
         </result-types>
         <interceptors>
             <interceptor name="authenticationInterceptor" class="com.kenmcwilliams.s2.interceptor.BasicAuthentication"/>
+            <interceptor name="osiv" class="com.kenmcwilliams.s2.interceptor.OSIV"/>
             <interceptor-stack name="jsonSecureStack">
                 <interceptor-ref name="authenticationInterceptor"/>
+                <interceptor-ref name="osiv"/>
                 <interceptor-ref name="jsonValidationWorkflowStack"/>
             </interceptor-stack>
         </interceptors>
@@ -95,5 +97,24 @@
             <result-type default="true" name="tiles" class="com.kenmcwilliams.tiles.result.TilesResult"/>
             <result-type name="tiles-definition" class="com.kenmcwilliams.tiles.result.TilesDefinitionResult"/>
         </result-types>
-    </package>   
+    </package> 
+    
+    <package  name="secure-tiles-package" extends="tiles-package">
+        <interceptors>
+            <interceptor name="authenticationInterceptor" class="com.kenmcwilliams.s2.interceptor.BasicAuthentication"/>
+            <interceptor name="osiv" class="com.kenmcwilliams.s2.interceptor.OSIV"/>
+            <interceptor-stack name="secure-tiles-stack">
+                <interceptor-ref name="authenticationInterceptor"/>
+                <interceptor-ref name="osiv"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="secure-tiles-stack"/>
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="namespace">/login</param>
+                <param name="actionName">login-input</param>
+            </result>
+        </global-results> 
+    </package>     
 </struts>

@@ -150,7 +150,12 @@ public class Resume implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if(id != null){
+            hash = id.hashCode();
+        }else{
+            hash =  System.identityHashCode(this); //used to avoid collision on id's with nulls
+        }
+        //hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -160,6 +165,9 @@ public class Resume implements Serializable {
             return false;
         }
         Resume other = (Resume) object;
+        if (this.candidateId.getId() == other.candidateId.getId() && this.name.equalsIgnoreCase(other.name)){
+            return true;
+        }
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

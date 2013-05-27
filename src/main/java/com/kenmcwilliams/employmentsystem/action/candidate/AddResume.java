@@ -11,7 +11,6 @@ import com.kenmcwilliams.s2.interceptor.UserAware;
 import com.opensymphony.xwork2.ActionSupport;
 import flexjson.JSONSerializer;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -33,54 +32,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 //TODO: Does not return proper error messages on error (input actually).
 public class AddResume extends ActionSupport implements UserAware {
 
+    private static final Logger log = Logger.getLogger(AddResume.class.getName());
     @Autowired
     ResumeService resumeService;
     User user;
-    private static final Logger log = Logger.getLogger(AddResume.class.getName());
+    //private Resume resume = new Resume();
     private Header header = new Header();
     private ArrayList<Role> roles = new ArrayList();
     //private Object jsonModel; //used for output
 
     private Resume assembleResume() {
-        Resume resume = new Resume();
+        Resume res = new Resume();
         if (header.resumeId != null) {//TODO: Should do proper valididation
-            resume.setId(header.resumeId);
+            res.setId(header.resumeId);
         }
         //resume.setCandidateId(null);
         Candidate candidate = new Candidate();
         candidate.setId(header.candidateId);
-        resume.setCandidateId(candidate);
+        res.setCandidateId(candidate);
         //resume.setCreatedBy();
-        resume.setCreatedDate(new Date()); //TODO: Set by pre-persist?
+        res.setCreatedDate(new Date()); //TODO: Set by pre-persist?
         ////resume.setId(Integer.SIZE); //auto set
-        resume.setName(header.name);
+        res.setName(header.name);
         //TODO: add description field to resume
-        resume.setOpportunityId(null);
-        java.util.Set<Position> positions = new HashSet();
+        res.setOpportunityId(null);
+        java.util.Set<Position> positions = new HashSet<>();
         for (Role r : roles) {
-            //r;
+            //log.info("Adding");
             Position p = new Position();
-            p.setResumeId(resume);
+            p.setId(r.getId());
+            p.setResumeId(res);
             Company company = new Company(); //TODO: Company and Location are entwined, need to normalize out locationl
             company.setName(r.getCompanyName());
             p.setCompanyId(company);
             //p.setCurrentlyEmployed(currentlyEmployed); //TODO: Why takes byte[] ?
             p.setEndDate(r.getEndDate());
             p.setStartDate(r.getStartDate());
-            java.util.Set<PositionPoint> points = new HashSet<>();
+            java.util.Set<PositionPoint> points = new java.util.HashSet<>();
             Integer rank = 0;
-            for (String detail : r.getDetails()) {
-                PositionPoint pp = new PositionPoint();
-                pp.setDescription(detail);
-                pp.setRank(rank);
-                pp.setRoleId(p);
-                points.add(pp);
+            for (PositionPoint detail : r.getDetails()) {
+                //PositionPoint pp = new PositionPoint();
+                //pp.setDescription(detail);
+                detail.setRank(rank++);
+                //detail.setId(null); //THIS IS CRITICAL, if the rank is forced to be null then a position will be created to house it. 
+                detail.setRoleId(p);
+                log.info("Adding PP with rank:" + rank + " and id: " + detail.getId());
+                points.add(detail);
             }
-            p.setPositionPointCollection(points);//Takes Colection<PositionPoint>
+            p.setPositionPointCollection(points);
+            //p.setPositionPointCollection(points);//Takes Colection<PositionPoint>
             p.setTitle(r.getRole());//takes string
             positions.add(p);
         }
-        resume.setPositionCollection(positions);
+        res.setPositionCollection(positions);
         ////resume.setQualId(null);
         ////resume.setUpdatedBy(Integer.MIN_VALUE);
         ////resume.setUpdatedDate(null);
@@ -88,8 +92,8 @@ public class AddResume extends ActionSupport implements UserAware {
         //save the positions (because they need reference to the resume header id
         //then save the position points (because they need reference to the position id
         //then again maybe JPA is smart enough to avoid this
-        resumeService.saveResume(resume);
-        return resume;
+        resumeService.saveResume(res);
+        return res;
     }
 
     @Override
@@ -168,9 +172,9 @@ public class AddResume extends ActionSupport implements UserAware {
         for (Role r : roles) {
             log.log(Level.INFO, "Received Details[]: {0}", (new JSONSerializer().serialize(r.getDetails())));
         }
-        Resume assembleResume = this.assembleResume();
 
-        resumeService.saveResume(assembleResume);
+
+        Resume assembleResume = this.assembleResume();
         return SUCCESS;
     }
 

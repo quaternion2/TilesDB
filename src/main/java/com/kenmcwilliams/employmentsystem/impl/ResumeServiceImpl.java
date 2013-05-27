@@ -41,10 +41,16 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume getResume(int id) {
-        TypedQuery<Resume> query = em.createQuery("select r from Resume r join fetch r.positionCollection pc join fetch pc.positionPointCollection ppc where r.id = :id", Resume.class);
-        query.setParameter("id", id);
-        return query.getResultList().get(0);
-
+        //TypedQuery<Resume> query = em.createQuery("select r from Resume r join fetch r.positionCollection pc join fetch pc.positionPointCollection ppc where r.id = :id", Resume.class);
+        //query.setParameter("id", id);
+        //List<Resume> resultList = query.getResultList();
+        //Resume resume = null;
+        //if (resultList.size() > 0){
+        //    resume = resultList.get(0);
+        //}
+        //return null;
+        Resume found = em.find(Resume.class, id);
+        return found;
     }
 
     @Override
@@ -55,8 +61,10 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public void saveResume(Resume resume) {
         if (resume.getId() != null) {
+            log.info("Merging resume...");
             em.merge(resume);
         } else {
+            log.info("Persisting resume...");
             em.persist(resume);
         }
     }

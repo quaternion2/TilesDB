@@ -4,6 +4,7 @@
  */
 package com.kenmcwilliams.employmentsystem.action.candidate;
 
+import com.kenmcwilliams.employmentsystem.orm.PositionPoint;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,13 +17,22 @@ import java.util.Date;
  */
 public class Role {
 
+    private Integer id;
     private String companyName;
     private String role;
     private String dateWorked;
     private Date startDate;
     private Date endDate;
-    private ArrayList<String> details = new ArrayList();
+    private ArrayList<PositionPoint> details = new ArrayList<>();
 
+    public Integer getId(){
+        return this.id;
+    }
+    
+    public void setId(Integer id){
+        this.id = id;
+    }
+    
     /**
      * @return the companyName
      */
@@ -66,10 +76,10 @@ public class Role {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM yyyy");
         this.dateWorked = dateWorked;
         String[] split = dateWorked.split("-");
-        if (split.length != 2){
+        if (split.length != 2) {
             throw new IllegalArgumentException("Date String not in correct format: " + dateWorked + " a working example would be: Example: Jan 2001 - Dec 2001");
         }
-        
+
         Calendar cal = Calendar.getInstance();
         try {
             this.startDate = formatter.parse(split[0].trim());
@@ -82,14 +92,14 @@ public class Role {
     /**
      * @return the details
      */
-    public ArrayList<String> getDetails() {
+    public ArrayList<PositionPoint> getDetails() {
         return details;
     }
 
     /**
      * @param details the details to set
      */
-    public void setDetails(ArrayList<String> details) {
+    public void setDetails(ArrayList<PositionPoint> details) {
         this.details = details;
     }
 

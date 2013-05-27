@@ -5,7 +5,6 @@
 package com.kenmcwilliams.employmentsystem.orm;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.*;
@@ -54,6 +53,7 @@ public class Position implements Serializable {
     private Company companyId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleId")
     //@LazyCollection(LazyCollectionOption.FALSE)
+    @OrderBy("rank ASC")
     private Set<PositionPoint> positionPointCollection;
 
     public Position() {
@@ -131,20 +131,41 @@ public class Position implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if(id != null){
+            hash = id.hashCode();
+        }else{
+            hash =  System.identityHashCode(this); //used to avoid collision on id's with nulls
+        }
+        //hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
+        //check type
         if (!(object instanceof Position)) {
             return false;
         }
         Position other = (Position) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
+        //check primary id
+        if (this.id != null && other.id != null && this.id == other.id){
+            return true;
         }
-        return true;
+        //check UNIQUE Constraint {"resume_id", "company_id", "title", "start_date", "end_date", "currently_employed"}
+        if (other != null && this.resumeId != null && this.companyId != null &&  
+                this.resumeId.getId() == other.resumeId.getId() && 
+                this.companyId.getId() == other.companyId.getId() && 
+                this.title.equals(other.title) && 
+                this.startDate.equals(other.startDate) &&
+                this.endDate.equals(other.endDate) &&
+                this.currentlyEmployed == other.currentlyEmployed){
+            return true;
+        }
+        
+        //if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        //    return false;
+        //}
+        return false;
     }
 
     @Override

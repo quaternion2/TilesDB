@@ -22,9 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @ParentPackage(value = "secure-tiles-package")
 @Result(type = "tiles")
-public class ResumeEntry extends ActionSupport {
+public class ResumeEntry2 extends ActionSupport {
 
-    private static final Logger log = Logger.getLogger(ResumeEntry.class.getName());
+    private static final Logger log = Logger.getLogger(ResumeEntry2.class.getName());
     @Autowired
     private CrudService crudService;
     @Autowired

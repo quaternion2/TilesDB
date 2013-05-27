@@ -103,7 +103,12 @@ public class PositionPoint implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);//prevent hash code colision
+        if(id != null){
+            hash = id.hashCode();
+        }else{
+            hash =  System.identityHashCode(this); //used to avoid collision on id's with nulls
+        }
+        //hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -114,6 +119,10 @@ public class PositionPoint implements Serializable {
             return false;
         }
         PositionPoint other = (PositionPoint) object;
+        //UNIQUE Constraint
+        if(this.roleId.getId() != other.roleId.getId() && this.rank != other.rank){
+            return false;
+        }
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

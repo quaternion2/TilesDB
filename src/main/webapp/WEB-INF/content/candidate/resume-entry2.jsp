@@ -1,5 +1,8 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
 <style>
+    .hidden-resume{
+        display: none;
+    }
     .hidden{
         display: none;
     }
@@ -90,6 +93,7 @@
         }
         
         var appendCompany = function(){$($("#companyTemplate > .companyEntry").clone(true)).appendTo("#companies")};
+        
         var toggleDetailVisibility = function(){
             var target = $(this).closest(".companyEntry").children(".details");
             if ($(target).hasClass("hidden")){
@@ -115,6 +119,7 @@
             var companyDetails = $(this).closest(".details");
             $(genericDetailCopy).appendTo(companyDetails);
         };
+        
         var delDetail = function(){
             //check if this is the last one, if so only clear the line?
             //or possibly colapse the company, and opening the colapse
@@ -147,9 +152,6 @@
                 
         var processDateRange = function(strDateRange){  
             var match = dateRangeRegex.exec(strDateRange);
-            if (match.length < 4){
-                return;
-            }
             //if 2 digit date change to 4 digit
             var y1 = parseInt(match[2], 10);
             var y2 = parseInt(match[4], 10);
@@ -169,9 +171,6 @@
                 
         var dateRangeToInt = function(strDateRange){
             var match = dateRangeRegex.exec(strDateRange);
-            if (match.length < 4){
-                return;
-            }
             var m1 = monthToInt(match[1]);
             var d1 = parseInt(match[2], 10)*100 + m1;
             var m2 = monthToInt(match[3]);
@@ -257,14 +256,7 @@
         }
            
         var calcMonthsInRange = function(dateString){
-            if (dateString){
-                var match = dateRangeRegex.exec(dateString);
-            }else{
-                return;
-            }
-            if (match.length < 4){
-                return;
-            }
+            var match = dateRangeRegex.exec(dateString);
             //TODO: no validation done to make sure date is over 1900
             var m1 = monthToInt(match[1]) - 1; //make jan 0
             var d1 = (parseInt(match[2]) - 1900) * 12; //months since 1900
@@ -276,7 +268,8 @@
         }
            
         var doAddCompanyButton = function(){
-            appendCompany.apply(this,null);
+            //appendCompany.apply(this,null);
+            appendCompany();
             $(".companyName").last().focus();
         }
                 
@@ -412,8 +405,7 @@
         
         var checkAllCompanies = function(){
             $(".include-line").each(function(){ this.checked = true; });
-            doSumTime();
-            
+            doSumTime();            
         }
         
         var unCheckAllCompanies = function(){
@@ -478,38 +470,8 @@
             console.log("setting submission date to: " + submissionDate);
             $("#submissionDate").val(mmm + " " + yyyy);
         }    
-    
-        //TODO: Check if this is being used.
-        //var saveResumeButton = function(){
-        //    alert("beam me up");  
-        //    ContactInfo.firstName = $('#firstName').val();
-        //    ContactInfo.lastName = $('#lastName').val();
-        //    ContactInfo.streetAddress = $('#streetAddress').val();
-        //    ContactInfo.city = $('#city').val();
-        //    ContactInfo.province = $('#province').val();
-        //    ContactInfo.postalCode = $('#postalCode').val();
-        //    ContactInfo.phone = $('#phone').val();
-        //    ContactInfo.email = $('#email').val();
-        //    alert(JSON.stringify(ContactInfo));         
-        //}          
-    
-        var ContactInfo = {
-            firstName: "",
-            lastName: "",
-            streetAddress: "",
-            city: "",
-            province: "",
-            postalCode: "",
-            phone: "",
-            email: ""//should add extra comma for cut and paste ie doesn't support it,
-        };
         
         var saveWorkHistoryButton = function(){
-            if(!$("#resume_name").val()){
-                alert($("#resume_name").val());
-                alert("Resume must be named");
-                return;
-            }
             toServer = []; //used to wipe out array
             $("#resume .companyEntry").each(magicalParsing);
             var header = prepareHeaderToServer(); //example of data returned by f(): {"candidateId":"1","resumeId":"17","name":"res1:32"}
@@ -607,7 +569,7 @@
             details: "";                     
         };
 
-        appendCompany();
+        //appendCompany();
         //company actions
         $("#addCompanyButton").click(doAddCompanyButton);
         $(".deleteButton").click(deleteCompany);
@@ -628,8 +590,7 @@
         var mm = today.getMonth();
         setSubmissionDate(mm, yyyy);
         $("#saveWorkHistoryButton").click(saveWorkHistoryButton);
-        <!-- $("#saveResumeButton").click(saveResumeButton);-->
-        $(".companyDate").trigger("blur");
+        //<!-- $("#saveResumeButton").click(saveResumeButton);-->
     });   
 </script>
 <%--  website main page --%>
@@ -638,21 +599,21 @@
     <div id="companyTemplate">
         <div class="companyEntry">           
             <div class="companyHeader">
-                <input autocomplete="off" class="include-line" type="checkbox" name="include" checked="checked"/>
+                <input class="include-line" type="checkbox" name="include" checked="checked"/>
                 <button class="expand" title="Expand/Collapse">&gt;</button>
                 <button class="deleteButton" title="Delete Company">X</button>
-                <input autocomplete="off" class="companyName" type="text" placeholder="Company Name"/>
-                <input autocomplete="off" class="companyRole" type="text" placeholder="Roles">
-                <input autocomplete="off" class="companyDate" type="text" placeholder="MMM YY - MMM YY"/>
-                <input autocomplete="off" class="line-months" disabled="disabled" type="text" placeholder=""/>
+                <input class="companyName" type="text" placeholder="Company Name"/>
+                <input class="companyRole" type="text" placeholder="Roles">
+                <input class="companyDate" type="text" placeholder="MMM YY - MMM YY"/>
+                <input class="line-months" disabled="disabled" type="text" placeholder=""/>
             </div>
             <div class="details hidden">
                 <div class="detail">
-                    <input autocomplete="off"  class="isDetailSelected" type="checkbox" checked="checked"/>
+                    <input  class="isDetailSelected" type="checkbox" checked="checked"/>
                     <button class="deleteDetail">Del</button>
                     <span class="detailNumber"></span>
                     <span class="right">
-                        <input autocomplete="off" class="line" type="text" placeholder="Details">
+                        <input class="line" type="text" placeholder="Details">
                         <button class="addDetail">New Detail</button>
                     </span>
                 </div>
@@ -663,15 +624,14 @@
 <form id="headerInfo">
     <s:hidden name="candidateId" value="%{candidate.id}"/>
     <s:hidden name="resumeId" value="%{resume.id}"/>
-    Name: <input autocomplete="off" id="resume_name" name="name" type="text" value="<s:property value="resume.name"/>"/>
-    (TODO assign to opportunity)
+    Name: <input name="name" type="text" value="<s:property value="resume.name"/>"/>
 </form>
 <br/>
 <div id="resume" class="">
-    <div id="options">
+    <div id="options" class="hidden-resume">
         <button id="select-all" type="button">All</button> 
         <button id="select-none" type="button">None</button> 
-        <input autocomplete="off" id="yrsMosFrmtButton" type="checkbox" name="selectAll"  checked="checked"/>Yrs, Mos format
+        <input id="yrsMosFrmtButton" type="checkbox" name="selectAll"  checked="checked"/>Yrs, Mos format
         <span style="float: right;"> 
             Restrict to x months: <input id="limitByMonths" type="text" name="selectAll"/>
             to date: <input id="submissionDate" type="text" name="selectAll" placeholder="MMM YY"/>
@@ -682,14 +642,14 @@
             <s:iterator value="resume.positionCollection">
                 <div class="companyEntry">           
                     <div class="companyHeader">
-                        <input autocomplete="off" class="companyId" type="hidden" value="<s:property value="id"/>"/>
-                        <input autocomplete="off" class="include-line" type="checkbox" name="include" checked="checked"/>
+                        <input class="companyId" type="hidden" value="<s:property value="id"/>"/>
+                        <input class="include-line" type="checkbox" name="include" checked="checked"/>
                         <button class="expand" title="Expand/Collapse">&gt;</button>
                         <button class="deleteButton" title="Delete Company">X</button>
-                        <input autocomplete="off" class="companyName" type="text" value="<s:property value="companyId.name"/>" placeholder="Company Name"/>
-                        <input autocomplete="off" class="companyRole" type="text" value="<s:property value="title"/>" placeholder="Roles">
-                        <input autocomplete="off" class="companyDate" type="text" value="<s:property value="formatDate(startDate) + ' - ' + formatDate(endDate)"/>" placeholder="MMM YY - MMM YY"/>
-                        <input autocomplete="off" class="line-months" disabled="disabled" type="text" placeholder=""/>
+                        <input class="companyName" type="text" value="<s:property value="companyId.name"/>" placeholder="Company Name"/>
+                        <input class="companyRole" type="text" value="<s:property value="title"/>" placeholder="Roles">
+                        <input class="companyDate" type="text" value="<s:property value="formatDate(startDate) + ' - ' + formatDate(endDate)"/>" placeholder="MMM YY - MMM YY"/>
+                        <input class="line-months" disabled="disabled" type="text" placeholder=""/>
                     </div>
                     <div class="details hidden">
                         <s:iterator value="positionPointCollection">
@@ -708,9 +668,11 @@
             </s:iterator>
         </s:if>
     </div>
-    <div class="companyHeader">
-        <button id="addCompanyButton">New Company</button>
-        <input contenteditable="false" id="total" class="right" type="text" value="" readonly="readonly" placeholder="Total Time">
+    <div class="hidden-resume">
+        <div class="companyHeader">
+            <button id="addCompanyButton">New Company</button>
+            <input contenteditable="false" id="total" class="right" type="text" value="" readonly="readonly" placeholder="Total Time">
+        </div>
+        <br><button id="saveWorkHistoryButton" type="button">Save Resume</button>
     </div>
-    <br><button id="saveWorkHistoryButton" type="button">Save Resume</button>
 </div>
