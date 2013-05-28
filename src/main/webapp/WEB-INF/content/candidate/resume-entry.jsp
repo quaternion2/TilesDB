@@ -425,8 +425,10 @@
             console.log("deleteCompany");
             var companyHeader = $(this).parent();
             var id = $(companyHeader).find(".companyId").first().val();
-            alert("id " + id);
-            crudDeleteCallback("position", id);
+            if (id != undefined){ 
+                alert("id " + id);
+                crudDeleteCallback("position", id);
+            }
             $(companyHeader).parent().remove();
             doSumTime();
         }   
@@ -540,10 +542,14 @@
                         enbalm["roles[" + index + "].dateWorked"] = value;
                     }else if(key == 'details'){
                         if (doOnce == true){ //this is strange there should be a better way?
-                            $.each(value, function(index2, positionPoint){
-                                enbalm["roles[" + index + "].details[" + index2 + "].id"] = positionPoint.id;
-                                enbalm["roles[" + index + "].details[" + index2 + "].description"] = positionPoint.description; 
-                                enbalm["roles[" + index + "].details[" + index2 + "].rank"] = positionPoint.rank;
+                            var nRank = 0;
+                            $.each(value, function(index2, positionPoint){                  
+                                if (!positionPoint.description){return true;}; //continue, don't save empty descriptions
+                                //can't count on index2 being continous due to continue on above line
+                                enbalm["roles[" + index + "].details[" + nRank + "].id"] = positionPoint.id;
+                                enbalm["roles[" + index + "].details[" + nRank + "].description"] = positionPoint.description; 
+                                enbalm["roles[" + index + "].details[" + nRank + "].rank"] = nRank;
+                                nRank += 1;
                             });
                             doOnce = false;
                         }
