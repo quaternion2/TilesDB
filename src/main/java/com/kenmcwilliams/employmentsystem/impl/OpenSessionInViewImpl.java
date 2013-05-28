@@ -39,7 +39,8 @@ public class OpenSessionInViewImpl implements OpenSessionInViewService {
     public String execute(ActionInvocation ai) throws Exception {
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         // explicitly setting the transaction name is something that can only be done programmatically
-        def.setName("OSIVTxName");
+        Object object = new Object();
+        def.setName("" + object.hashCode());
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus status = platformTransactionManager.getTransaction(def);
         String invoke = "error";
