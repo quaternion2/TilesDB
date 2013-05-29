@@ -529,9 +529,20 @@
             };
             
             var doOnce = true;
+            var i = 0;
             $.each(toServer, function(index, obj){
                 doOnce = true;
+                console.log("obj.id[" + index + "]: " + !obj.id);
+                console.log("obj.companyName[" + index + "]: " + !obj.companyName);
+                console.log("obj.role[" + index + "]: " + !obj.role);
+                console.log("obj.dateWorked[" + index + "]: " + !obj.dateWorked);
+                console.log("obj.details.lenght[" + index + "]: " + obj.details.lenght);
+                if (!obj.id && !obj.companyName && !obj.role && !obj.dateWorked && ((obj.details.lenght == undefined) || (obj.details.lenght == 0))){
+                    alert("company index: " + index + " is empty");
+                    return true;//continue if company is null
+                }
                 $.each(obj, function(key, value){
+                    //if (){}
                     if (key == "id"){
                         enbalm["roles[" + index + "].id"] = value;
                     }else if (key == 'companyName'){
@@ -542,18 +553,19 @@
                         enbalm["roles[" + index + "].dateWorked"] = value;
                     }else if(key == 'details'){
                         if (doOnce == true){ //this is strange there should be a better way?
-                            var nRank = 0;
+                            var j = 0;
                             $.each(value, function(index2, positionPoint){                  
                                 if (!positionPoint.description){return true;}; //continue, don't save empty descriptions
                                 //can't count on index2 being continous due to continue on above line
-                                enbalm["roles[" + index + "].details[" + nRank + "].id"] = positionPoint.id;
-                                enbalm["roles[" + index + "].details[" + nRank + "].description"] = positionPoint.description; 
-                                enbalm["roles[" + index + "].details[" + nRank + "].rank"] = nRank;
-                                nRank += 1;
+                                enbalm["roles[" + index + "].details[" + j + "].id"] = positionPoint.id;
+                                enbalm["roles[" + index + "].details[" + j + "].description"] = positionPoint.description; 
+                                enbalm["roles[" + index + "].details[" + j + "].rank"] = j;
+                                j += 1;
                             });
                             doOnce = false;
                         }
                     }
+                    i++;
                 });
             });
             
