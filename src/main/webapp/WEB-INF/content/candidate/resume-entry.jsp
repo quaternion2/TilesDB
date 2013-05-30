@@ -59,11 +59,13 @@
         width: 15em;    
         display: inline-block;
     }
+    
+    #modalAddBulkDetails{
+        background-color:rgba(255,255,255,1);
+        
+    }
 </style>
 <script> 
-    //TODO: 2) Provide switch between months and (yrs, mos).
-    //TODO: 4) Save the data to the DB for the particular use (select from drop down at this time)
-    //TODO: 10) On blur recalculate " Restrict to x months:" and "from date:"
     //TODO: 11) Shift back based on "end date" (just like the way "restrict to x months" works) 
     var dateRangeRegex = /\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W+\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W*/i;
     var dateRegex = /\W*([A-Za-z]{3})[A-Za-z]*\W+(\d+)\W*/i;
@@ -114,6 +116,8 @@
             var genericDetailCopy = $(genericDetail).clone(true);
             var companyDetails = $(this).closest(".details");
             $(genericDetailCopy).appendTo(companyDetails);
+            var lastDetail = $(companyDetails).find(".line:last").get(0);
+            $(lastDetail).focus();
         };
         var delDetail = function(){
             //check if this is the last one, if so only clear the line?
@@ -379,6 +383,7 @@
         //Takes: Start THEN End dates.
         var dateDifference = function(start, end){
             var restrictByNMos = parseInt($("#limitByMonths").val()) - 1; //Should this be here?
+            console.log("#restrictByNMos: " + restrictByNMos);
             var restrictionDifference = submissionDate - restrictByNMos;
             var difference;
             if (isNumber(restrictByNMos) === true){
@@ -624,6 +629,13 @@
             dateWorked: ""; //should be something automatic if currently employed
             details: "";                     
         };
+        
+        var doAddBulk = function (){
+            //see: /test/js-bulk-add
+            //already solved is how to parse lines...
+            //now need a means of input...
+            //A pop up would be best 
+        };
 
         appendCompany();
         //company actions
@@ -648,6 +660,56 @@
         $("#saveWorkHistoryButton").click(saveWorkHistoryButton);
         <!-- $("#saveResumeButton").click(saveResumeButton);-->
         $(".companyDate").trigger("blur");
+        
+        //bulk add functionality***************************
+
+        
+        $(".addBulk").click(function(){
+            var genericDetail = $(".templates .detail").get(0);
+            //var genericDetailCopy = $(genericDetail).clone(true);
+            var companyDetails = $(this).closest(".details");
+            //$(genericDetailCopy).appendTo(companyDetails);
+            
+            
+            $("#modalAddBulkDetails").dialog({
+                autoOpen: false,
+                height: 500,
+                width: 750,
+                modal: true,
+                buttons: {
+                    "Add Lines": function(){
+                        //get content of bulk lines
+                        var content = $("#bulkdetails").val();
+                        //alert(content);
+                        //split content on new lines
+                        var allLines = content.split(/\r\n|[\n\v\f\r\x85\u2028\u2029]/);//this should get all lines including empty lines
+                        //remove empty, null, undefined values from array (copy to new array)
+                        var cleanedLines = [];
+                        allLines.forEach(function(entry){
+                            if (entry){
+                                cleanedLines.push(entry);
+                            }
+                        });
+                        //create new entries
+                        cleanedLines.forEach(function(entry){
+                            //var div = $("<div>").text(entry);
+                            var genericDetailCopy = $(genericDetail).clone(true);
+                            $(genericDetailCopy).find(".line:last").val(entry.trim());
+                            $(genericDetailCopy).appendTo(companyDetails);
+                            //$("#target1").append(div);
+                        });
+                        var lastDetail = $(companyDetails).find(".line:last").get(0);
+                        $(lastDetail).focus();
+                    },
+                    Cancel: function(){
+                        $(this).dialog("close");
+                    }
+                },
+                close: function(){}
+            });
+            $("#modalAddBulkDetails").dialog("open");
+        });
+        
     });   
 </script>
 <%--  website main page --%>
@@ -661,6 +723,7 @@
                 <button class="deleteButton" title="Delete Company">X</button>
                 <input autocomplete="off" class="companyName" type="text" placeholder="Company Name"/>
                 <input autocomplete="off" class="companyRole" type="text" placeholder="Roles">
+                <input autocomplete="off" class="companyLocation" type="text" placeholder="Country, Province, City">
                 <input autocomplete="off" class="companyDate" type="text" placeholder="MMM YY - MMM YY"/>
                 <input autocomplete="off" class="line-months" disabled="disabled" type="text" placeholder=""/>
             </div>
@@ -671,7 +734,8 @@
                     <span class="detailNumber"></span>
                     <span class="right">
                         <input autocomplete="off" class="line" type="text" placeholder="Details">
-                        <button class="addDetail">New Detail</button>
+                        <button class="addDetail">New</button>
+                        <button class="addBulk">Bulk</button>
                     </span>
                 </div>
             </div>
@@ -706,6 +770,7 @@
                         <button class="deleteButton" title="Delete Company">X</button>
                         <input autocomplete="off" class="companyName" type="text" value="<s:property value="companyId.name"/>" placeholder="Company Name"/>
                         <input autocomplete="off" class="companyRole" type="text" value="<s:property value="title"/>" placeholder="Roles">
+                        <input autocomplete="off" class="companyLocation" type="text" placeholder="Country, Province, City">
                         <input autocomplete="off" class="companyDate" type="text" value="<s:property value="formatDate(startDate) + ' - ' + formatDate(endDate)"/>" placeholder="MMM YY - MMM YY"/>
                         <input autocomplete="off" class="line-months" disabled="disabled" type="text" placeholder=""/>
                     </div>
@@ -717,7 +782,8 @@
                                 <span class="detailNumber"></span>
                                 <span class="right">
                                     <input class="line" data-id="<s:property value="id"/>" data-rank="<s:property value="rank"/>" type="text" value="<s:property value="description"/>" placeholder="Details">
-                                    <button class="addDetail">New Detail</button>
+                                    <button class="addDetail">New</button>
+                                    <button class="addBulk">Bulk</button>
                                 </span>
                             </div>
                         </s:iterator>
@@ -731,4 +797,13 @@
         <input contenteditable="false" id="total" class="right" type="text" value="" readonly="readonly" placeholder="Total Time">
     </div>
     <br><button id="saveWorkHistoryButton" type="button">Save Resume</button>
+    <div id="modalAddBulkDetails"  class="ui-widget hidden">
+        <p class="validateTips">Add resume details, each line will be a separate detail.</p>
+        <form>
+            <fieldset>
+                <lable for="bulkdetails">Details:</lable>
+                <textarea cols="30" rows="15" name="bulkdetails" id="bulkdetails" class="text ui-widget-content ui-corner-all"></textarea>
+            </fieldset>
+        </form>
+    </div>
 </div>
