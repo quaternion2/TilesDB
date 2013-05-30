@@ -15,8 +15,8 @@
         <h1>Login</h1>
         <s:actionerror/>
         <s:form namespace="/login" action="login">
-            <s:textfield name="userName"/>
-            <s:password name="password"/>
+            <s:textfield name="userName" placeholder="User Name"/>
+            <s:password name="password" placeholder="Password"/>
             <s:submit/>
         </s:form>
     </body>
