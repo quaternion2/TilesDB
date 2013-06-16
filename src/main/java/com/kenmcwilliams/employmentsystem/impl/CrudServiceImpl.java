@@ -7,7 +7,12 @@ package com.kenmcwilliams.employmentsystem.impl;
 import com.kenmcwilliams.employmentsystem.service.CriteriaConstraints;
 import com.kenmcwilliams.employmentsystem.service.CrudService;
 import flexjson.JSONSerializer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -17,6 +22,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -32,7 +39,7 @@ public class CrudServiceImpl implements CrudService {
     private int start;
 
     @Override
-    public Object create(Class clazz, Object entity) {
+    public Object create(Object entity) {
         //TODO: consider use of clazz which is not being used at all
         //TODO: add check to test that entity is a clazz or derived from clazz
         return em.merge(entity);
@@ -154,5 +161,71 @@ public class CrudServiceImpl implements CrudService {
         List resultList = query.getResultList();
         //em.detach(resultList);
         return resultList;
+    }
+
+    /**
+     * TODO: Should add list of attributes to filter out
+     *
+     * @param entity
+     * @return
+     */
+    @Override
+    public Map describe(Class clazz) {
+        Object entity = null;
+        try {
+            entity = clazz.newInstance();
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(CrudServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Map describe = null;
+
+        
+        //TODO: This block works correctly but the results need to be merged into the value of the describe keys in the next section
+        //TODO: This looks process intensive, should probably just move into the initial class scaning
+        Method[] declaredMethods = clazz.getDeclaredMethods();
+        for (Method m : declaredMethods) {
+            Type genericReturnType = m.getGenericReturnType();
+            if (genericReturnType instanceof ParameterizedType) {
+                ParameterizedType parameterizedReturnType = (ParameterizedType) genericReturnType;
+
+                Class<?> stringListClass = (Class<?>) parameterizedReturnType.getActualTypeArguments()[0];
+                String canonicalName = stringListClass.getCanonicalName();
+                //String fullType = parameterizedReturnType + "<" + canonicalName + ">";
+                //TODO: Need to split
+                String[] split = parameterizedReturnType.toString().split("\\s+");
+                if (split.length > 1) {
+                    log.log(Level.INFO, "parameterizedReturnType: {0}", split[1]);
+                } else {
+                    log.log(Level.INFO, "parameterizedReturnType: {0}", split[0]);
+                }
+            } else {
+                String[] split = genericReturnType.toString().split("\\s+");
+                if (split.length > 1) {
+                    log.log(Level.INFO, "genericReturnType: {0}", split[1]);
+                } else {
+                    log.log(Level.INFO, "genericReturnType: {0}", split[0]);
+                }
+                //log.log(Level.INFO, "genericReturnType: {0}", );
+            }
+        }
+
+        log.info("in describe");
+
+        try {
+            BeanUtilsBean beanUtilsBean = new BeanUtilsBean();
+            describe = beanUtilsBean.describe(entity);
+
+            for (Iterator it = describe.keySet().iterator(); it.hasNext();) {
+                String key = (String) it.next();
+                Class propertyType = PropertyUtils.getPropertyType(entity, key);
+                describe.put(key, propertyType);
+            }
+            log.log(Level.INFO, "value of describe: {0}", describe);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+            log.log(Level.SEVERE, "{0}", ex);
+            //log.l
+        }
+        return describe;
     }
 }

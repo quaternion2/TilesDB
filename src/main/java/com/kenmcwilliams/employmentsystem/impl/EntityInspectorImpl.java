@@ -9,7 +9,6 @@ import com.kenmcwilliams.employmentsystem.util.MethodOrderDeterminer;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javassist.NotFoundException;
 import javax.persistence.Entity;
 import org.reflections.Reflections;
 
