@@ -59,10 +59,10 @@
         width: 15em;    
         display: inline-block;
     }
-    
+
     #modalAddBulkDetails{
         background-color:rgba(255,255,255,1);
-        
+
     }
 </style>
 <script> 
@@ -590,12 +590,6 @@
             return myobject;
         }
         
-        var PositionPoint = function(){
-            id: "";
-            description: "";
-            rank: "";
-            positionId: "";
-        };
     
         
         var magicalParsing = function(index, elem){
@@ -628,6 +622,13 @@
             role: "";
             dateWorked: ""; //should be something automatic if currently employed
             details: "";                     
+        };
+        
+        var PositionPoint = function(){
+            id: "";
+            description: "";
+            rank: "";
+            positionId: "";
         };
         
         var doAddBulk = function (){
