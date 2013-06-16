@@ -37,7 +37,7 @@ public class Add extends ActionSupport implements ModelDriven<Candidate>{
 */
     @Override
     public String execute() {
-        crudService.create(Candidate.class, model);
+        crudService.create(model);
         return SUCCESS;
     }
 
