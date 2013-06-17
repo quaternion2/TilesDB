@@ -40,17 +40,43 @@
     <bean id="candidateService" class="com.kenmcwilliams.employmentsystem.impl.CandidateServiceImpl"/>
     <bean id="authenticationService" class="com.kenmcwilliams.employmentsystem.impl.AuthenticationServiceImpl"/>
     <bean id="resumeService" class="com.kenmcwilliams.employmentsystem.impl.ResumeServiceImpl"/>
+    <bean id="checkAPCService" class="com.kenmcwilliams.employmentsystem.impl.CheckAPCServiceImpl"/>
     <bean id="osivService" class="com.kenmcwilliams.employmentsystem.impl.OpenSessionInViewImpl">
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
     <tx:annotation-driven  transaction-manager="transactionManager"/>
-    
-   <!-- <aop:config>
+    <!-- <aop:config>
         <aop:aspect ref="dao">
             <aop:after-throwing method="">
             </aop:after-throwing>
         </aop:aspect>
     </aop:config>
     -->
+    
+    <!-- Schedule stuff -->
+    <!--
+    <bean name="checkAPCJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.kenmcwilliams.employmentsystem.batch.CheckAPCJob" />
+    </bean>
+    -->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="checkAPCService" />
+        <property name="targetMethod" value="checkAPC" />
+        <property name="concurrent" value="false" />
+    </bean>
+    
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail"/>
+        <property name="repeatInterval" value="600000" /> <!--every 10 min-->
+        <property name="startDelay" value="1000" />
+    </bean>
+        
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="simpleTrigger" />
+            </list>
+        </property>
+    </bean>   
 </beans>
 
