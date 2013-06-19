@@ -8,11 +8,21 @@ import com.kenmcwilliams.employmentsystem.orm.Apc;
 import com.kenmcwilliams.employmentsystem.service.CheckAPCService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,6 +44,7 @@ public class CheckAPCServiceImpl implements CheckAPCService {
     private static final Logger log = Logger.getLogger(CheckAPCService.class.getName());
     @PersistenceContext
     private EntityManager em;
+    private ArrayList<Apc> newOpportunities = new ArrayList();
 
     @Override
     public void checkAPC() {
@@ -42,6 +53,7 @@ public class CheckAPCServiceImpl implements CheckAPCService {
     }
 
     public void openAPCPage() {
+        newOpportunities.clear();
         WebDriver driver = new FirefoxDriver();
         driver.get("http://vendor.purchasingconnection.ca/search.aspx");
         WebElement foundDropDown = driver.findElement(By.id("Content_Search_ctl00_searchCriteria_ResultsPerPage"));
@@ -61,8 +73,18 @@ public class CheckAPCServiceImpl implements CheckAPCService {
         int end = rows.size();
         System.out.println("nRows: " + end);
         SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
-
-        for (; start < end - 1; start++) {//don't process last row
+        Apc latestOpportunity = getLatestOpportuntiy();
+        if (latestOpportunity == null) {
+            log.info("latest opportunity not found setting dummy data");
+            latestOpportunity = new Apc();
+            Calendar cal = Calendar.getInstance();
+            cal.set(1900, 1, 1); //set a time earlier than we could possibly use
+            Date date = cal.getTime();
+            latestOpportunity.setPosting(date);
+        }else{
+            log.info("latest opportunity has posting date of " + latestOpportunity.getPosting());
+        }
+        for (; start < end - 1; start++) {//don't process first OR last row
             Element row = rows.get(start);
             String oppNumber = row.select(".browserowLeftCell").text();
             String oppStatus = row.select("td:eq(1)").text();
@@ -86,41 +108,32 @@ public class CheckAPCServiceImpl implements CheckAPCService {
             //        + "\ntitle: " + oppTitle
             //        + "\ndescription: " + oppDescription
             //        + "\nclosing: " + oppClosing + "\tposting: " + oppPosting + "\n");
-
             Date closing, posting;
-            log.log(Level.INFO, "Testing guid: {0}", oppGuid);
-            if (isOpportunityAlreadySaved(oppGuid) == false) {
-                log.info("new opportunity");
-
-                //Apc apc = new Apc();
-                //apc.setGuid(oppGuid);
-                //apc.setStatus(oppStatus);
-                //apc.setTitle(oppTitle);
-                //apc.setPageRankingNumber(Integer.parseInt(oppNumber));
-                //apc.setDescription(oppDescription);
-                try {
-                    closing = df.parse(oppClosing);
-                    posting = df.parse(oppPosting);
-                    //apc.setPosting(posting);
-                    //apc.setClosing(closing);
+            try {
+                closing = df.parse(oppClosing);
+                posting = df.parse(oppPosting);
+                if (latestOpportunity.getPosting().before(posting)) {
+                    log.info("new opportunity");
                     Apc apc = new Apc(oppGuid, oppStatus, oppTitle, Integer.parseInt(oppNumber), oppDescription, closing, posting);
+                    newOpportunities.add(apc);
                     em.persist(apc);
                     log.info("Saved new Apc");
-                } catch (ParseException ex) {
-                    Logger.getLogger(CheckAPCServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    log.info("old opportunity");
                 }
-
-
-            } else {
-                log.info("old opportunity");
+            } catch (ParseException ex) {
+                Logger.getLogger(CheckAPCServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            //Send email       
         }
         //following is better form but better get the form right before doing this
         //new Apc(oppGuid, oppStatus, oppTitle, Integer.parseInt(oppNumber), oppDescription, Date closing, Date posting)
-
+        sendEmail();
     }
 
+    //TODO: Remove following method after review
+    //don't need this with getLatestOpportunity
+    //will leave just in case
     boolean isOpportunityAlreadySaved(String guid) {
         boolean saved = false;
         Apc reference = em.find(Apc.class, guid);
@@ -128,5 +141,62 @@ public class CheckAPCServiceImpl implements CheckAPCService {
             saved = true;
         }
         return saved;
+    }
+
+    @Override
+    public Apc getLatestOpportuntiy() {
+        TypedQuery<Apc> query = em.createQuery("select a from Apc a order by posting desc", Apc.class);
+        return query.setMaxResults(1).getSingleResult();
+    }
+
+    private void sendEmail() {
+
+        String text;
+        String subject;
+        if (newOpportunities.size() > 0) {
+            subject = "New on APC: " + newOpportunities.size() + " opportunities at " + new Date();
+            StringBuilder sb = new StringBuilder();
+            for (Apc apc : newOpportunities) {
+                sb.append(" Title: ")
+                        .append(apc.getTitle())
+                        .append("<br><strong>Description<strong>: ")
+                        .append(apc.getDescription())
+                        .append("<br/><strong>Posting Date</strong>: ")
+                        .append(apc.getPosting())
+                        .append("<br/><strong>Closing Date</strong>: ")
+                        .append(apc.getClosing())
+                        .append("<br/><a href='http://vendor.purchasingconnection.ca/Opportunity.aspx?Guid=")
+                        .append(apc.getGuid())
+                        .append("'>Opportunity details</a>"
+                        + "<br/><br/>");
+            }
+            text = sb.toString();
+        } else {
+            subject = "Nothing new on APC at " + new Date();
+            text = "no new opportunites";
+        }
+
+        String to = "ken.mcwilliams@intellexsystems.com";
+        String from = "ken.mcwilliams@shaw.ca";
+        String host = "mail.shaw.ca";
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.smtp.host", host);
+        //properties.setProperty("mail.user", "myuser");
+        //properties.setProperty("mail.password", "mypwd");
+        Session session = Session.getDefaultInstance(properties);
+        MimeMessage message = new MimeMessage(session);
+        try {
+
+            message.setFrom(new InternetAddress(from));
+            message.addRecipient(Message.RecipientType.TO,
+                    new InternetAddress(to));
+            message.setSubject(subject);
+            message.setContent(text, "text/html; charset=utf-8");
+            Transport.send(message);
+            log.info("Sent message successfully....");
+        } catch (MessagingException ex) {
+            Logger.getLogger(CheckAPCServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
