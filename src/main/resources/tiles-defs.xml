@@ -8,6 +8,7 @@
             <add-attribute value="/style/cssbase-min.css" />  
             <add-attribute value="/style/grids-min.css" />
             <add-attribute value="/script/jquery-ui-1.8.24.custom/css/ui-lightness/jquery-ui-1.8.24.custom.css" />
+            <add-attribute value="/script/select2/select2.css"/>
             <add-attribute value="/style/style.css" />
         </put-list-attribute>    
         <put-list-attribute name="jsList" cascade="true">
@@ -15,6 +16,7 @@
             <add-attribute value="/script/jquery-ui-1.8.24.custom/js/jquery-ui-1.8.24.custom.min.js" />
             <add-attribute value="/script/jquery.sort.js" />
             <add-attribute value="/script/custom/jquery-serialize.js" />
+            <add-attribute value="/script/select2/select2.min.js"/>
         </put-list-attribute>   
         <put-attribute name="title" value="defaults-name" cascade="true"  type="string"/>
         <put-attribute name="head" value="/WEB-INF/template/head.jsp"/>

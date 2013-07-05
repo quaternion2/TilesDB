@@ -178,4 +178,4 @@ public class Resume implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Resume[ id=" + id + " ]";
     }
-}
+    }

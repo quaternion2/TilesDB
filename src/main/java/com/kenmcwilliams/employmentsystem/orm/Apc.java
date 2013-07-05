@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Apc.findByClosing", query = "SELECT a FROM Apc a WHERE a.closing = :closing"),
     @NamedQuery(name = "Apc.findByPosting", query = "SELECT a FROM Apc a WHERE a.posting = :posting")})
 public class Apc implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -60,6 +61,7 @@ public class Apc implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date closing;
     @Basic(optional = false)
+    @OrderBy
     @NotNull
     @Column(name = "posting")
     @Temporal(TemporalType.TIMESTAMP)
@@ -162,5 +164,4 @@ public class Apc implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Apc[ guid=" + guid + " ]";
     }
-    
 }

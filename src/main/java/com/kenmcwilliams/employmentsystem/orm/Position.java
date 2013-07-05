@@ -18,7 +18,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "position",
-        uniqueConstraints=@UniqueConstraint(columnNames={"resume_id", "company_id", "title", "start_date", "end_date", "currently_employed"}))
+uniqueConstraints =
+@UniqueConstraint(columnNames = {"resume_id", "company_id", "title", "start_date", "end_date", "currently_employed"}))
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Position.findAll", query = "SELECT p FROM Position p"),
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Position.findByStartDate", query = "SELECT p FROM Position p WHERE p.startDate = :startDate"),
     @NamedQuery(name = "Position.findByEndDate", query = "SELECT p FROM Position p WHERE p.endDate = :endDate")})
 public class Position implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -55,6 +57,11 @@ public class Position implements Serializable {
     //@LazyCollection(LazyCollectionOption.FALSE)
     @OrderBy("rank ASC")
     private Set<PositionPoint> positionPointCollection;
+    @JoinTable(name = "position_job_tags", joinColumns = {
+        @JoinColumn(name = "position_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "job_tags_id", referencedColumnName = "id")})
+    @ManyToMany
+    private Set<JobTags> jobTagsSet;
 
     public Position() {
     }
@@ -128,13 +135,22 @@ public class Position implements Serializable {
         this.positionPointCollection = positionPointCollection;
     }
 
+    @XmlTransient
+    public Set<JobTags> getJobTagsSet() {
+        return jobTagsSet;
+    }
+
+    public void setJobTagsSet(Set<JobTags> jobTagsSet) {
+        this.jobTagsSet = jobTagsSet;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        if(id != null){
+        int hash;
+        if (id != null) {
             hash = id.hashCode();
-        }else{
-            hash =  System.identityHashCode(this); //used to avoid collision on id's with nulls
+        } else {
+            hash = System.identityHashCode(this); //used to avoid collision on id's with nulls
         }
         //hash += (id != null ? id.hashCode() : 0);
         return hash;
@@ -148,20 +164,20 @@ public class Position implements Serializable {
         }
         Position other = (Position) object;
         //check primary id
-        if (this.id != null && other.id != null && this.id == other.id){
+        if (this.id != null && other.id != null && this.id == other.id) {
             return true;
         }
         //check UNIQUE Constraint {"resume_id", "company_id", "title", "start_date", "end_date", "currently_employed"}
-        if (other != null && this.resumeId != null && this.companyId != null &&  
-                this.resumeId.getId() == other.resumeId.getId() && 
-                this.companyId.getId() == other.companyId.getId() && 
-                this.title.equals(other.title) && 
-                this.startDate.equals(other.startDate) &&
-                this.endDate.equals(other.endDate) &&
-                this.currentlyEmployed == other.currentlyEmployed){
+        if (other != null && this.resumeId != null && this.companyId != null
+                && this.resumeId.getId() == other.resumeId.getId()
+                && this.companyId.getId() == other.companyId.getId()
+                && this.title.equals(other.title)
+                && this.startDate.equals(other.startDate)
+                && this.endDate.equals(other.endDate)
+                && this.currentlyEmployed == other.currentlyEmployed) {
             return true;
         }
-        
+
         //if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
         //    return false;
         //}
@@ -172,5 +188,4 @@ public class Position implements Serializable {
     public String toString() {
         return "com.kenmcwilliams.employmentsystem.orm.Position[ id=" + id + " ]";
     }
-    
 }

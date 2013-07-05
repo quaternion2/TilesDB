@@ -23,8 +23,8 @@ public class PageAction extends ActionSupport {
 
     @Autowired
     private CrudService crudService;
-    private Integer count;
-    private Integer start;
+    private Integer count = 20;
+    private Integer start = 0;
     private Object jsonModel;
     private String entityName;
     private Class clazz;

@@ -6,6 +6,7 @@ package com.kenmcwilliams.s2.interceptor;
 
 import com.kenmcwilliams.employmentsystem.orm.Person;
 import com.kenmcwilliams.employmentsystem.orm.Roles;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author ken
  */
-public class User {
+public class User implements Serializable{
     private static final Logger log = Logger.getLogger(User.class.getName());
     
     private String name;

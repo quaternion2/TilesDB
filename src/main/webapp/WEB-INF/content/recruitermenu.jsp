@@ -6,6 +6,7 @@
         <ul>
             <li><s:a cssClass="group" namespace="/candidate" action="search-input">Candidate - Management</s:a></li>
             <li><s:a cssClass="group" namespace="/opportunity" action="search-input">Opportunity - Management</s:a></li>
+            <li><s:a cssClass="group" namespace="/qual" action="search-input">Qualification - Management</s:a></li>
             <li><s:a cssClass="group" namespace="/client" action="search-input">Client - Management</s:a></li> 
         </ul>
     </div>   

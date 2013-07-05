@@ -56,12 +56,15 @@ public class CheckAPCServiceImpl implements CheckAPCService {
         newOpportunities.clear();
         WebDriver driver = new FirefoxDriver();
         driver.get("http://vendor.purchasingconnection.ca/search.aspx");
+        WebElement categoryDropDown = driver.findElement(By.id("Content_Search_ctl00_searchCriteria_Category"));
+        Select categorySelectBox = new Select(categoryDropDown);
+        categorySelectBox.selectByVisibleText("Services");
         WebElement foundDropDown = driver.findElement(By.id("Content_Search_ctl00_searchCriteria_ResultsPerPage"));
         Select resultsPerPage = new Select(foundDropDown);
         resultsPerPage.selectByVisibleText("50");
         WebElement foundButton = driver.findElement(By.id("Content_Search_ctl00_StartBrowsing"));
         foundButton.click();
-        //need to click on
+        //need to click on table header to sort by posting date
         WebElement labelback = driver.findElement(By.cssSelector(".labelback td:nth-of-type(6) a"));
         labelback.click();
         String pageSource = driver.getPageSource();
@@ -81,7 +84,7 @@ public class CheckAPCServiceImpl implements CheckAPCService {
             cal.set(1900, 1, 1); //set a time earlier than we could possibly use
             Date date = cal.getTime();
             latestOpportunity.setPosting(date);
-        }else{
+        } else {
             log.info("latest opportunity has posting date of " + latestOpportunity.getPosting());
         }
         for (; start < end - 1; start++) {//don't process first OR last row
@@ -145,8 +148,15 @@ public class CheckAPCServiceImpl implements CheckAPCService {
 
     @Override
     public Apc getLatestOpportuntiy() {
+        Apc apc = null;
+    
+        try{
         TypedQuery<Apc> query = em.createQuery("select a from Apc a order by posting desc", Apc.class);
-        return query.setMaxResults(1).getSingleResult();
+            apc = query.setMaxResults(1).getSingleResult();
+        }catch(javax.persistence.NoResultException ex){
+            log.info("No apc entries were in the database...");
+        }
+        return apc;
     }
 
     private void sendEmail() {
@@ -157,18 +167,10 @@ public class CheckAPCServiceImpl implements CheckAPCService {
             subject = "New on APC: " + newOpportunities.size() + " opportunities at " + new Date();
             StringBuilder sb = new StringBuilder();
             for (Apc apc : newOpportunities) {
-                sb.append(" Title: ")
-                        .append(apc.getTitle())
-                        .append("<br><strong>Description<strong>: ")
-                        .append(apc.getDescription())
-                        .append("<br/><strong>Posting Date</strong>: ")
-                        .append(apc.getPosting())
-                        .append("<br/><strong>Closing Date</strong>: ")
-                        .append(apc.getClosing())
-                        .append("<br/><a href='http://vendor.purchasingconnection.ca/Opportunity.aspx?Guid=")
-                        .append(apc.getGuid())
-                        .append("'>Opportunity details</a>"
+                sb.append("<html><head></head><body>");
+                sb.append("<strong>Title</strong>: ").append(apc.getTitle()).append("<br><strong>Description</strong>: ").append(apc.getDescription()).append("<br/><strong>Posting Date</strong>: ").append(apc.getPosting()).append("<br/><strong>Closing Date</strong>: ").append(apc.getClosing()).append("<br/><a href='http://vendor.purchasingconnection.ca/Opportunity.aspx?Guid=").append(apc.getGuid()).append("'>Opportunity details</a>"
                         + "<br/><br/>");
+                sb.append("</body></html>");
             }
             text = sb.toString();
         } else {
@@ -176,7 +178,7 @@ public class CheckAPCServiceImpl implements CheckAPCService {
             text = "no new opportunites";
         }
 
-        String to = "ken.mcwilliams@intellexsystems.com";
+        String to = "ken.mcwilliams@intellexsystems.com";//intellexsystems
         String from = "ken.mcwilliams@shaw.ca";
         String host = "mail.shaw.ca";
         Properties properties = System.getProperties();

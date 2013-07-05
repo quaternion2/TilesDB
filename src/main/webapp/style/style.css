@@ -7,6 +7,15 @@
 li {list-style:none;}
 h1 small{ font-size: 24px; display: block; color: #636363; }
 
+fieldset{
+    border-color: black;
+    border-style: double;
+    border-width: medium;
+}
+
+legend{
+    font-weight: bold;
+}
 /* COMMON CLASSES */
 .break { clear:both; }
 

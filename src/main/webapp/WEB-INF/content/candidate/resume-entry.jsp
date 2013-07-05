@@ -1,5 +1,11 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
 <style>
+    #total{
+        position: fixed;
+        right: 10px;
+        top: 275px;
+    }
+
     .hidden{
         display: none;
     }
@@ -23,7 +29,7 @@
 
     }
     .companyDate{
-        float: right;
+        /*float: right;*/
     }
 
     input[type="text"].line-months{
@@ -34,14 +40,21 @@
     .details{
 
     }
+
     .detail{
         width: 950px;
         overflow:hidden;
         background-color: beige;
+        margin-bottom:0.5em;
     }
     .detail input{
         width: 650px;
     }
+
+    .select2-container {
+        width: 260px;
+    }
+
     .right{
         float: right;
     }
@@ -55,6 +68,11 @@
     .field input{
         width: 15em;                
     }
+
+    .field select{
+        width: 15em;  
+    }
+
     .label {
         width: 15em;    
         display: inline-block;
@@ -92,6 +110,7 @@
         }
         
         var appendCompany = function(){$($("#companyTemplate > .companyEntry").clone(true)).appendTo("#companies")};
+         
         var toggleDetailVisibility = function(){
             var target = $(this).closest(".companyEntry").children(".details");
             if ($(target).hasClass("hidden")){
@@ -630,13 +649,6 @@
             rank: "";
             positionId: "";
         };
-        
-        var doAddBulk = function (){
-            //see: /test/js-bulk-add
-            //already solved is how to parse lines...
-            //now need a means of input...
-            //A pop up would be best 
-        };
 
         appendCompany();
         //company actions
@@ -711,6 +723,159 @@
             $("#modalAddBulkDetails").dialog("open");
         });
         
+        $(function() {
+            $( ".details").sortable({
+                connectWith: ".details"
+            });
+        });
+        
+        //$("#resume .include-line-span:first").height($(".companyHeader:first").height());
+        /*
+        $( "#tab1" ).position({
+            my: "center bottom",     
+            at: "center top",  
+            of: "#resume .include-line",
+            collision: "none"
+        });
+         */
+        $("#tab_include").click(function(){
+            if($(this).attr("checked") == "checked"){
+                $(".include-line").removeAttr('disabled');
+                $(".include-line").removeAttr('disabled');
+            }else{
+                $(".include-line").attr('disabled', 'disabled');
+            }
+        });
+        /*
+        $( "#tab2" ).position({
+            my: "center bottom",
+            at: "center top",
+            of: "#resume .expand",
+            collision: "none"
+        });
+         */
+        $("#tab_expand").click(function(){
+            if($(this).attr("checked") == "checked"){
+                $(".expand").removeAttr('disabled');
+            }else{
+                $(".expand").attr('disabled', 'disabled');
+            }
+        });
+        /*  
+        $( "#tab3" ).position({
+            my: "center bottom",
+            at: "center top",
+            of: "#resume .deleteButton",
+            collision: "none"
+        });
+         */
+        $("#tab_delete").click(function(){
+            if($(this).attr("checked") == "checked"){
+                $(".deleteButton").removeAttr('disabled');
+            }else{
+                $(".deleteButton").attr('disabled', 'disabled');
+            }
+        });
+        /*
+        $( "#tab4" ).position({
+            my: "center bottom",
+            at: "center top",
+            of: "#resume .companyName",
+            collision: "none"
+        });
+         */
+        $("#tab_name").click(function(){
+            if($(this).attr("checked") == "checked"){
+                $(".companyName").removeAttr('disabled');
+            }else{
+                $(".companyName").attr('disabled', 'disabled');
+            }
+        });
+        /*
+        $( "#tab5" ).position({
+            my: "center bottom",
+            at: "center top",
+            of: "#resume .companyRole",
+            collision: "none"
+        });
+         */
+        $("#tab_roles").click(function(){
+            if($(this).attr("checked") == "checked"){
+                $(".companyRole").removeAttr('disabled');
+                $(".companyRole").parent().removeClass("hidden");
+            }else{
+                $(".companyRole").attr('disabled', 'disabled');
+                $(".companyRole").parent().addClass("hidden");
+            }
+        });
+        /* 
+        $( "#tab6" ).position({
+            my: "center bottom",
+            at: "center top",
+            of: "#resume .companyLocation",
+            collision: "none"
+        });
+         */
+        $("#tab_location").click(function(){
+            if($(this).attr("checked") == "checked"){
+                $(".companyLocation").removeAttr('disabled');
+                $(".companyLocation").parent().removeClass("hidden");
+            }else{
+                $(".companyLocation").attr('disabled', 'disabled');
+                $(".companyLocation").parent().addClass("hidden");
+            }
+        });
+        /*
+        $( "#tab7" ).position({
+            my: "center bottom",
+            at: "center top",
+            of: "#resume .companyDate",
+            collision: "none"
+        });
+         */
+        $("#tab_date").click(function(){
+            if($(this).attr("checked") == "checked"){
+                $(".companyDate").removeAttr('disabled');
+            }else{
+                $(".companyDate").attr('disabled', 'disabled');
+            }
+        });
+        
+        
+        $(".companyRole").select2({
+            multiple: true,
+            width: 'off',
+            dropdownAutoWidth: false,
+            placeholder: "Job Roles",
+            minimumInputLength: 1,
+            ajax:{
+                url: "http://localhost:8080/EmplymentSystem/crud/job-tags/page",
+                dataType: 'json',
+                data: function (term, page) {
+                    return {
+                        start: 0, // search term
+                        count: 20
+                    };
+                },
+                results: function (data, page) { // parse the results into the format expected by Select2.
+                    return {results: data};
+                }
+            },
+            formatResult: function (data) {
+                return "<div class='select2-user-result'>" + data.name + "</div>";
+            },
+            formatSelection: function(data, container){
+              return "<div class='select2-user-selection' data-id='" +  data.id + "'>" + data.name + "</div>";  
+            },
+            id: function (data) {
+                return data.name;
+            }
+        });
+        
+        $( "#tabs" ).accordion({
+            collapsible: true,
+            active: false
+        });
     });   
 </script>
 <%--  website main page --%>
@@ -719,17 +884,17 @@
     <div id="companyTemplate">
         <div class="companyEntry">           
             <div class="companyHeader">
-                <input autocomplete="off" class="include-line" type="checkbox" name="include" checked="checked"/>
+                <span class="include-line-span"><input autocomplete="off" class="include-line" type="checkbox" name="include" checked="checked"/></span>
                 <button class="expand" title="Expand/Collapse">&gt;</button>
                 <button class="deleteButton" title="Delete Company">X</button>
                 <input autocomplete="off" class="companyName" type="text" placeholder="Company Name"/>
-                <input autocomplete="off" class="companyRole" type="text" placeholder="Roles">
-                <input autocomplete="off" class="companyLocation" type="text" placeholder="Country, Province, City">
                 <input autocomplete="off" class="companyDate" type="text" placeholder="MMM YY - MMM YY"/>
                 <input autocomplete="off" class="line-months" disabled="disabled" type="text" placeholder=""/>
+                <div class="hidden"><input autocomplete="off" class="companyRole" type="hidden" placeholder="Roles" multiple="multile"/></div>
+                <div class="hidden"><input autocomplete="off" class="companyLocation" type="text" placeholder="Location"></div>
             </div>
-            <div class="details hidden">
-                <div class="detail">
+            <ul class="details hidden">
+                <li class="detail">
                     <input autocomplete="off"  class="isDetailSelected" type="checkbox" checked="checked"/>
                     <button class="deleteDetail">Del</button>
                     <span class="detailNumber"></span>
@@ -738,8 +903,8 @@
                         <button class="addDetail">New</button>
                         <button class="addBulk">Bulk</button>
                     </span>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
     </div> 
 </div>
@@ -760,6 +925,19 @@
             to date: <input id="submissionDate" type="text" name="selectAll" placeholder="MMM YY"/>
         </span>
     </div>
+
+    <div id="tabs">
+        <h3>Control Resume View</h3>
+        <div>
+            <div><span style="display: inline-block;width:10em;">line-selected:</span><input id="tab_include" type="checkbox" checked="checked"/></div>
+            <div><span style="display: inline-block;width:10em;">details:</span><input id="tab_expand" type="checkbox" checked="checked"/></div>
+            <div><span style="display: inline-block;width:10em;">delete:</span><input id="tab_delete" type="checkbox" checked="checked"/></div>
+            <div><span style="display: inline-block;width:10em;">company:</span><input id="tab_name" type="checkbox" checked="checked"/></div>
+            <div><span style="display: inline-block;width:10em;">roles:</span><input id="tab_roles" type="checkbox"/></div>
+            <div><span style="display: inline-block;width:10em;">location:</span><input id="tab_location" type="checkbox"/></div>
+            <div><span style="display: inline-block;width:10em;">date:</span><input id="tab_date" type="checkbox" checked="checked"/></div>
+        </div>
+    </div>
     <div id="companies">
         <s:if test="resume != null">
             <s:iterator value="resume.positionCollection">
@@ -770,14 +948,14 @@
                         <button class="expand" title="Expand/Collapse">&gt;</button>
                         <button class="deleteButton" title="Delete Company">X</button>
                         <input autocomplete="off" class="companyName" type="text" value="<s:property value="companyId.name"/>" placeholder="Company Name"/>
-                        <input autocomplete="off" class="companyRole" type="text" value="<s:property value="title"/>" placeholder="Roles">
-                        <input autocomplete="off" class="companyLocation" type="text" placeholder="Country, Province, City">
                         <input autocomplete="off" class="companyDate" type="text" value="<s:property value="formatDate(startDate) + ' - ' + formatDate(endDate)"/>" placeholder="MMM YY - MMM YY"/>
                         <input autocomplete="off" class="line-months" disabled="disabled" type="text" placeholder=""/>
+                        <div class="hidden"><input autocomplete="off" class="companyRole" type="hidden" placeholder="Roles" multiple="multile"/></div>
+                        <div class="hidden"><input autocomplete="off" class="companyLocation" type="text" placeholder="Location"></div>
                     </div>
-                    <div class="details hidden">
+                    <ul class="details hidden">
                         <s:iterator value="positionPointCollection">
-                            <div class="detail">
+                            <li class="detail">
                                 <input  class="isDetailSelected" type="checkbox" checked="checked"/>
                                 <button class="deleteDetail">Del</button>
                                 <span class="detailNumber"></span>
@@ -786,16 +964,18 @@
                                     <button class="addDetail">New</button>
                                     <button class="addBulk">Bulk</button>
                                 </span>
-                            </div>
+                            </li>
                         </s:iterator>
-                    </div>
+                    </ul>
                 </div>
             </s:iterator>
         </s:if>
     </div>
     <div class="companyHeader">
         <button id="addCompanyButton">New Company</button>
-        <input contenteditable="false" id="total" class="right" type="text" value="" readonly="readonly" placeholder="Total Time">
+        <div id="total">
+            <span>Total:</span><input contenteditable="false" id="" class="" type="text" value="" readonly="readonly" placeholder="Total Time">
+        </div>
     </div>
     <br><button id="saveWorkHistoryButton" type="button">Save Resume</button>
     <div id="modalAddBulkDetails"  class="ui-widget hidden">

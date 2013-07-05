@@ -29,6 +29,7 @@ public class Login extends ActionSupport implements SessionAware {
 
     @Override
     public String execute() {
+        login = new User(userName);
         this.session.put(ApplicationConstants.USER.name(), login);
         return SUCCESS;
     }
