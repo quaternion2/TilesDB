@@ -10,7 +10,7 @@
                 $.getJSON(deleteUrl, function(){
                     $(params.data.parent).remove();
                 });
-            }
+            };
             if ( action === "create") {
                 
             }else if ( action === "read" ) {

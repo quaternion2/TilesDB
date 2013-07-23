@@ -82,17 +82,17 @@
             //TODO: should probably require an object and take the keys as arguments as required
             var appUrl = "<s:url includeContext="true"  forceAddSchemeHostAndPort="true" value="/crud"/>" + "/";
             return appUrl + entity + "/" + operation + "?id=" + id;
-        }
+        };
         
         var crudDeleteCallback = function(entity, id){
-            if(id != null && id != undefined){
+            if(id !== null && id !== undefined){
                 var deleteUrl = crudUrl(entity, "delete", id);
                 alert("deleteUrl: " + deleteUrl);  
                 $.getJSON(deleteUrl);
             }
-        }
+        };
         
-        var appendCompany = function(){$($("#companyTemplate > .companyEntry").clone(true)).appendTo("#companies")};
+        var appendCompany = function(){$($("#companyTemplate > .companyEntry").clone(true)).appendTo("#companies");};
         
         var toggleDetailVisibility = function(){
             var target = $(this).closest(".companyEntry").children(".details");
@@ -148,7 +148,7 @@
             }else{
                 return year + 2000;
             }
-        }
+        };
                 
         var processDateRange = function(strDateRange){  
             var match = dateRangeRegex.exec(strDateRange);
@@ -167,7 +167,7 @@
             m2 = m2.charAt(0).toUpperCase() + m2.slice(1);
             //TODO: Make first letter caps and rest lower
             return m1 + " " + y1 + " - " + m2 + " " + y2;
-        }
+        };
                 
         var dateRangeToInt = function(strDateRange){
             var match = dateRangeRegex.exec(strDateRange);
@@ -177,7 +177,7 @@
             var d2 = parseInt(match[4], 10)*100 + m2;
             //consider if this is backwards...
             return d1 * 1000000 + d2;
-        }
+        };
                 
         var comparator = function(a,b){
             //alert(a.tagName);
@@ -195,17 +195,17 @@
             var drbv = dateRangeToInt(drb);
             //alert(drbv);
             return drav > drbv ? -1 : 1;
-        }
+        };
                 
         var getSortable = function(){
             return this.parentNode.parentNode;
-        }
+        };
                 
         //TODO: NOT WORKING!
         var doSortCompanies = function(){
             //should use the sort plugin for this
             $("#resume .companyDate").sortElements(comparator, getSortable);
-        }              
+        };              
                 
         var doSumTime = function(){
             //$(".companyDate");
@@ -226,13 +226,13 @@
             }else{
                 $("#total").val(months);
             }
-        }
+        };
         
         //WARNING: Only call this from the date blur window!        
         var doCompanyDateBlur = function(){
             var dateRangeString = $(this).val();
             //TODO: No validation or helpful warnings!
-            if(dateRangeString.length != 0){
+            if(dateRangeString.length !== 0){
                 var processedDateRangeString = processDateRange(dateRangeString);
                 $(this).val(processedDateRangeString);
             }
@@ -253,7 +253,7 @@
             console.log("doSumTime");
             doSumTime();//sum requires dates be sorted
             console.log("after");
-        }
+        };
            
         var calcMonthsInRange = function(dateString){
             var match = dateRangeRegex.exec(dateString);
@@ -265,13 +265,13 @@
             var fromDate = d1 + m1;
             var toDate = d2 + m2; 
             return toDate - fromDate + 1;
-        }
+        };
            
         var doAddCompanyButton = function(){
             //appendCompany.apply(this,null);
             appendCompany();
             $(".companyName").last().focus();
-        }
+        };
                 
         //only made to work on sorted and formated dates
         //Transform each date into an absolut value
@@ -289,7 +289,7 @@
             aTo.push(toDate);
             //alert("fromDate = " + fromDate + " toDate = " + toDate);
             return true;//TODO: return false on error
-        }
+        };
         
         
         //TODO: should pass in the company lines I want the calculation on. 
@@ -303,7 +303,7 @@
             $("#resume .companyDate").each(function(){
                 var checkBox = $(this).parent().children(".include-line")[0];
                 if($(checkBox).is(':checked')){
-                    if($(this).val().length != 0){ //skip empty values
+                    if($(this).val().length !== 0){ //skip empty values
                         if(buildArrays.apply(this, parameters) === false){
                             //TODO: did not parse date
                         };
@@ -340,7 +340,7 @@
                     console.log("case 3: ");
                     continue;
                     //NOT POSSIBLE TODO: REMOVE THIS
-                }else if (new_start == false && new_end === true){
+                }else if (new_start === false && new_end === true){
                     console.log("case 5 - assign new: " + temp_end);
                     end = temp_end; //expand the end marker
                     //sum += (end - start) + 1;

@@ -25,7 +25,7 @@
                 var row = $("<tr>");
 
                 $.each(tableColumns, function( index, columnName) {
-                    if (doOnce == true){ //generate the header only once
+                    if (doOnce === true){ //generate the header only once
                         $(headerRow).append($("<th>").html(columnName));
                     }
                     //console.log( field + ": " + value );
@@ -46,7 +46,7 @@
             });
             $("#candidate-list thead tr").replaceWith(headerRow);
             $("#candidate-list tbody").replaceWith(tbody);
-        }
+        };
         
         var searchUrl = "<s:url namespace="/crud/candidate" action="search"/>";
         $("#search-button").click(function(){      

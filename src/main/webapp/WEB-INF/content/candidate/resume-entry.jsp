@@ -97,18 +97,18 @@
             //TODO: should probably require an object and take the keys as arguments as required
             var appUrl = "<s:url includeContext="true"  forceAddSchemeHostAndPort="true" value="/crud"/>" + "/";
             return appUrl + entity + "/" + operation + "?id=" + id;
-        }
+        };
 
         var crudDeleteCallback = function(entity, id) {
-            if (id != null && id != undefined) {
+            if (id !== null && id !== undefined) {
                 var deleteUrl = crudUrl(entity, "delete", id);
                 alert("deleteUrl: " + deleteUrl);
                 $.getJSON(deleteUrl);
             }
-        }
+        };
 
         var appendCompany = function() {
-            $($("#companyTemplate > .companyEntry").clone(true)).appendTo("#companies")
+            $($("#companyTemplate > .companyEntry").clone(true)).appendTo("#companies");
         };
         var toggleDetailVisibility = function() {
             var target = $(this).closest(".companyEntry").children(".details");
@@ -163,7 +163,7 @@
             } else {
                 return year + 2000;
             }
-        }
+        };
 
         var processDateRange = function(strDateRange) {
             var match = dateRangeRegex.exec(strDateRange);
@@ -185,7 +185,7 @@
             m2 = m2.charAt(0).toUpperCase() + m2.slice(1);
             //TODO: Make first letter caps and rest lower
             return m1 + " " + y1 + " - " + m2 + " " + y2;
-        }
+        };
 
         var dateRangeToInt = function(strDateRange) {
             var match = dateRangeRegex.exec(strDateRange);
@@ -198,7 +198,7 @@
             var d2 = parseInt(match[4], 10) * 100 + m2;
             //consider if this is backwards...
             return d1 * 1000000 + d2;
-        }
+        };
 
         var comparator = function(a, b) {
             //alert(a.tagName);
@@ -216,22 +216,22 @@
             var drbv = dateRangeToInt(drb);
             //alert(drbv);
             return drav > drbv ? -1 : 1;
-        }
+        };
 
         var getSortable = function() {
             return this.parentNode.parentNode;
-        }
+        };
 
         //TODO: NOT WORKING!
         var doSortCompanies = function() {
             //should use the sort plugin for this
             $("#resume .companyDate").sortElements(comparator, getSortable);
-        }
+        };
 
         var doSumTime = function() {
             //$(".companyDate");
             var months = calculateTotalMonths();
-            if ($("#yrsMosFrmtButton").is(':checked') == true) {
+            if ($("#yrsMosFrmtButton").is(':checked') === true) {
                 console.log("yrsMosFrmtButton is checked");
                 var total = months;
                 var yrs = Math.floor(total / 12);
@@ -247,13 +247,13 @@
             } else {
                 $("#total").val(months);
             }
-        }
+        };
 
         //WARNING: Only call this from the date blur window!        
         var doCompanyDateBlur = function() {
             var dateRangeString = $(this).val();
             //TODO: No validation or helpful warnings!
-            if (dateRangeString.length != 0) {
+            if (dateRangeString.length !== 0) {
                 var processedDateRangeString = processDateRange(dateRangeString);
                 $(this).val(processedDateRangeString);
             }
@@ -274,7 +274,7 @@
             console.log("doSumTime");
             doSumTime(); //sum requires dates be sorted
             console.log("after");
-        }
+        };
 
         var calcMonthsInRange = function(dateString) {
             if (dateString) {
@@ -293,12 +293,12 @@
             var fromDate = d1 + m1;
             var toDate = d2 + m2;
             return toDate - fromDate + 1;
-        }
+        };
 
         var doAddCompanyButton = function() {
             appendCompany.apply(this, null);
             $(".companyName").last().focus();
-        }
+        };
 
         //only made to work on sorted and formated dates
         //Transform each date into an absolut value
@@ -316,7 +316,7 @@
             aTo.push(toDate);
             //alert("fromDate = " + fromDate + " toDate = " + toDate);
             return true; //TODO: return false on error
-        }
+        };
 
 
         //TODO: should pass in the company lines I want the calculation on. 
@@ -330,7 +330,7 @@
             $("#resume .companyDate").each(function() {
                 var checkBox = $(this).parent().children(".include-line")[0];
                 if ($(checkBox).is(':checked')) {
-                    if ($(this).val().length != 0) { //skip empty values
+                    if ($(this).val().length !== 0) { //skip empty values
                         if (buildArrays.apply(this, parameters) === false) {
                             //TODO: did not parse date
                         };
@@ -366,7 +366,7 @@
                     console.log("case 3: ");
                     continue;
                     //NOT POSSIBLE TODO: REMOVE THIS
-                } else if (new_start == false && new_end === true) {
+                } else if (new_start === false && new_end === true) {
                     console.log("case 5 - assign new: " + temp_end);
                     end = temp_end; //expand the end marker
                     //sum += (end - start) + 1;
@@ -379,7 +379,7 @@
                 }
             }
             //catch the last assignment if not accounted for from case 6
-            if (temp_start == 0 && temp_end == 0) {
+            if (temp_start === 0 && temp_end === 0) {
                 console.log("did not enter for loop sum single range");
                 sum = dateDifference(start, end);
             } else {
@@ -389,7 +389,7 @@
             }
             console.log("End calculateTotalMonths, returning : " + sum);
             return sum;
-        }
+        };
 
         function isNumber(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
@@ -419,7 +419,7 @@
             }
             console.log("start: " + start + " end: " + end + " diff: " + difference);
             return difference;
-        }
+        };
 
         var isInRange = function(value, start, end) {
             if (value >= start && value <= end) {
@@ -427,40 +427,40 @@
             } else {
                 return false;
             }
-        }
+        };
 
         var checkAllCompanies = function() {
             $(".include-line").each(function() {
                 this.checked = true;
             });
             doSumTime();
-        }
+        };
 
         var unCheckAllCompanies = function() {
             $(".include-line").each(function() {
                 this.checked = false;
             });
             doSumTime();
-        }
+        };
 
         var deleteCompany = function() {
             console.log("deleteCompany");
             var companyHeader = $(this).parent();
             var id = $(companyHeader).find(".companyId").first().val();
-            if (id != undefined) {
+            if (id !== undefined) {
                 alert("id " + id);
                 crudDeleteCallback("position", id);
             }
             $(companyHeader).parent().remove();
             doSumTime();
-        }
+        };
 
         var doUpdateSubmissionDate = function() {
             console.log("doUpdateSubmissionDate");
             var newDateString = processDate($("#submissionDate").val());
             $("#submissionDate").val(newDateString);
             doSumTime();
-        }
+        };
 
         var monthToInt = function(mnth) {
             switch (mnth.toLowerCase()) {
@@ -489,7 +489,7 @@
                 case "dec":
                     return 12;
             }
-        }
+        };
 
         //TODO: Highly coupled
         var processDate = function(strDate) {
@@ -506,14 +506,14 @@
             console.log("Updating submissionDate to: " + submissionDate);
             //TODO: Make first letter caps and rest lower
             return m1 + " " + y1;
-        }
+        };
 
         var setSubmissionDate = function(mm, yyyy) {
             var mmm = shortMonthNames[mm];
             submissionDate = (yyyy - 1900) * 12 + mm; //jan is 0! 
             console.log("setting submission date to: " + submissionDate);
             $("#submissionDate").val(mmm + " " + yyyy);
-        }        
+        };       
 
         var ContactInfo = {
             firstName: "",
@@ -555,22 +555,22 @@
                 console.log("obj.role[" + index + "]: " + !obj.role);
                 console.log("obj.dateWorked[" + index + "]: " + !obj.dateWorked);
                 console.log("obj.details.lenght[" + index + "]: " + obj.details.lenght);
-                if (!obj.id && !obj.companyName && !obj.role && !obj.dateWorked && ((obj.details.lenght == undefined) || (obj.details.lenght == 0))) {
+                if (!obj.id && !obj.companyName && !obj.role && !obj.dateWorked && ((obj.details.lenght === undefined) || (obj.details.lenght === 0))) {
                     alert("company index: " + index + " is empty");
                     return true; //continue if company is null
                 }
                 $.each(obj, function(key, value) {
                     //if (){}
-                    if (key == "id") {
+                    if (key === "id") {
                         enbalm["roles[" + index + "].id"] = value;
-                    } else if (key == 'companyName') {
+                    } else if (key === 'companyName') {
                         enbalm["roles[" + index + "].companyName"] = value;
-                    } else if (key == 'role') {
+                    } else if (key === 'role') {
                         enbalm["roles[" + index + "].role"] = value;
-                    } else if (key == 'dateWorked') {
+                    } else if (key === 'dateWorked') {
                         enbalm["roles[" + index + "].dateWorked"] = value;
-                    } else if (key == 'details') {
-                        if (doOnce == true) { //this is strange there should be a better way?
+                    } else if (key === 'details') {
+                        if (doOnce === true) { //this is strange there should be a better way?
                             var j = 0;
                             $.each(value, function(index2, positionPoint) {
                                 if (!positionPoint.description) {
@@ -593,16 +593,16 @@
             enbalm,
             persistResumeCallback);
             alert(JSON.stringify(toServer));
-        }
+        };
 
         var persistResumeCallback = function(data) {
             //TODO: do this
-        }
+        };
         var prepareHeaderToServer = function() {
             var myobject = $("#headerInfo").serializeForm();
             console.log("prepareHeaderToServer:" + JSON.stringify(myobject));
             return myobject;
-        }
+        };
 
         var magicalParsing = function(index, elem) {
             //alert($($(elem).find(".companyName").get(0)).val());
@@ -625,7 +625,7 @@
         );
             who.details = tempArray;
             toServer.push(who);
-        }
+        };
 
         //TODO: need to add another object to represent details
         var WorkHistoryObject = function() {
@@ -719,7 +719,7 @@
         });
 
         $("#tab_include").click(function() {
-            if ($(this).attr("checked") == "checked") {
+            if ($(this).attr("checked") === "checked") {
                 $(".include-line").removeAttr('disabled');
                 $(".include-line").removeAttr('disabled');
             } else {
@@ -728,7 +728,7 @@
         });
 
         $("#tab_expand").click(function() {
-            if ($(this).attr("checked") == "checked") {
+            if ($(this).attr("checked") === "checked") {
                 $(".expand").removeAttr('disabled');
             } else {
                 $(".expand").attr('disabled', 'disabled');
@@ -736,7 +736,7 @@
         });
 
         $("#tab_delete").click(function() {
-            if ($(this).attr("checked") == "checked") {
+            if ($(this).attr("checked") === "checked") {
                 $(".deleteButton").removeAttr('disabled');
             } else {
                 $(".deleteButton").attr('disabled', 'disabled');
@@ -744,7 +744,7 @@
         });
 
         $("#tab_name").click(function() {
-            if ($(this).attr("checked") == "checked") {
+            if ($(this).attr("checked") === "checked") {
                 $(".companyName").removeAttr('disabled');
             } else {
                 $(".companyName").attr('disabled', 'disabled');
@@ -752,7 +752,7 @@
         });
 
         $("#tab_roles").click(function() {
-            if ($(this).attr("checked") == "checked") {
+            if ($(this).attr("checked") === "checked") {
                 $(".companyRole").removeAttr('disabled');
                 $(".companyRole").parent().removeClass("hidden");
             } else {
@@ -762,7 +762,7 @@
         });
 
         $("#tab_location").click(function() {
-            if ($(this).attr("checked") == "checked") {
+            if ($(this).attr("checked") === "checked") {
                 $(".companyLocation").removeAttr('disabled');
                 $(".companyLocation").parent().removeClass("hidden");
             } else {
@@ -772,7 +772,7 @@
         });
 
         $("#tab_date").click(function() {
-            if ($(this).attr("checked") == "checked") {
+            if ($(this).attr("checked") === "checked") {
                 $(".companyDate").removeAttr('disabled');
             } else {
                 $(".companyDate").attr('disabled', 'disabled');
