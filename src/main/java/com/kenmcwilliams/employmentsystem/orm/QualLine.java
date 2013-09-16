@@ -31,7 +31,7 @@ public class QualLine implements Serializable {
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "number")
+    @Column(name = "number") //TODO: number should be refactored to ordinal
     private Integer number;
     @Lob
     @Size(max = 2147483647)
