@@ -42,7 +42,7 @@ public class Qual implements Serializable {
     private String description;
     @OneToMany(mappedBy = "qualId")
     private Collection<Resume> resumeCollection;
-    @OneToMany(mappedBy = "qualId")
+    @OneToMany(mappedBy = "qualId")//TODO: Assess if this is correct, one qual to many opps or one qual to one opp? 
     private Collection<Opportunity> opportunityCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "qualId")
     private Collection<QualLine> qualLineCollection;
