@@ -46,7 +46,7 @@
         <s:textfield name="homePhone" placeholder="Day Phone" title="Day Phone"/>
         <s:textfield name="cellPhone" placeholder="Cell Phone" title="Cell Phone"/>
         <s:textfield name="otherPhone" placeholder="Other Phone" title="Other Phone"/>
-    </div>
+    </div> 
     <div>
         <s:textfield name="street" placeholder="Address" title="Address"/>
     </div>

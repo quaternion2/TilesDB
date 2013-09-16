@@ -160,6 +160,7 @@
             <artifactId>quartz</artifactId>
             <version>2.1.7</version>
         </dependency>
+        <!-- spring-context-support for quartz -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>

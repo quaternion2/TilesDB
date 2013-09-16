@@ -232,7 +232,7 @@
             //$(".companyDate");
             var months = calculateTotalMonths();
             if ($("#yrsMosFrmtButton").is(':checked') === true) {
-                console.log("yrsMosFrmtButton is checked");
+                console.log("yrsMosFrmtButton is checked and months is: " + months);
                 var total = months;
                 var yrs = Math.floor(total / 12);
                 var mos = total % 12;
@@ -243,9 +243,10 @@
                 if (mos > 0) {
                     yrsMosStr += "" + mos + " mos";
                 }
-                $("#total").val(yrsMosStr);
+                $("#total-time").val(yrsMosStr);
             } else {
-                $("#total").val(months);
+                console.log("yrsMosFrmtButton not checked and months is: " + months);
+                $("#total-time").val(months);
             }
         };
 
@@ -941,7 +942,7 @@
     <div class="companyHeader">
         <button id="addCompanyButton">New Company</button>
         <div id="total">
-            <span>Total:</span><input contenteditable="false" id="" class="" type="text" value="" readonly="readonly" placeholder="Total Time">
+            <span>Total:</span><input contenteditable="false" id="total-time" class="" type="text" value="" readonly="readonly" placeholder="Total Time">
         </div>
     </div>
     <br><button id="saveWorkHistoryButton" type="button">Save Resume</button>

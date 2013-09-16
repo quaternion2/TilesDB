@@ -64,7 +64,17 @@ public class CrudServiceImpl implements CrudService {
 
     @Override
     public void update(Class clazz, Map map) throws Exception {
-        Integer id = Integer.decode((String) map.get("id"));//should be checked before it gets here
+        Integer id;
+        Object tempId = map.get("id");
+        if(tempId == null){//TODO: remove asserts from production!
+            log.warning("maps id is null");
+        }
+        log.log(Level.INFO, "id''s type is: {0}", tempId.getClass());
+        if (tempId instanceof Integer) {
+            id = (Integer) tempId;
+        } else {
+            id = Integer.decode((String) map.get("id"));//should be checked before it gets here
+        }
         Object found = em.find(clazz, id);
         BeanUtils.populate(found, map);
         em.persist(found);
@@ -104,9 +114,9 @@ public class CrudServiceImpl implements CrudService {
         log.log(Level.INFO,
                 "CrudServiceImpl search()\n clazz: {0} \nentity: {1}\nconstraints:{2}\n",
                 new Object[]{
-                    clazz.getCanonicalName(),
-                    new JSONSerializer().serialize(entity),
-                    new JSONSerializer().serialize(constraints)});
+            clazz.getCanonicalName(),
+            new JSONSerializer().serialize(entity),
+            new JSONSerializer().serialize(constraints)});
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(clazz);
         Root root = cq.from(clazz);
@@ -180,7 +190,7 @@ public class CrudServiceImpl implements CrudService {
 
         Map describe = null;
 
-        
+
         //TODO: This block works correctly but the results need to be merged into the value of the describe keys in the next section
         //TODO: This looks process intensive, should probably just move into the initial class scaning
         Method[] declaredMethods = clazz.getDeclaredMethods();

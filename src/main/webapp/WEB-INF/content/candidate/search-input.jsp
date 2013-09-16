@@ -112,7 +112,7 @@
     <div>
         <s:textfield name="model.city" placeholder="City" title="City"/>
         <s:textfield name="model.state" placeholder="Province" title="Province"/>
-        <s:textfield name="model.poCode" placeholder="Area Code" title="Area Code"/>
+        <s:textfield name="model.poCode" placeholder="PO Code" title="Area Code"/>
     </div>
     <div>
         <s:textfield name="model.email" placeholder="email" title="email"/>

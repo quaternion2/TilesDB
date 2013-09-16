@@ -80,8 +80,7 @@ public class QualServiceImpl implements QualService {
 
         Long count;
         //if mandatory true, get mandatory true count
-        if (qualLine.getMandatory() == true) {
-            
+        if (qualLine.getMandatory() == true) {   
             TypedQuery<Long> tq_count = em.createNamedQuery("QualLine.mandatory.count", Long.class);
             count = tq_count.getSingleResult();
         } else {
