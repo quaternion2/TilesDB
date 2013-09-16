@@ -362,3 +362,7 @@ textarea
     color: red;
     font-weight: bold;
 }
+
+.ui-dialog{
+    background-color: white;
+}
