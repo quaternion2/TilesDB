@@ -31,11 +31,15 @@ public class Kjson implements Result {
         ValueStack valueStack = invocation.getStack();
         Object jsonModel = valueStack.findValue("jsonModel");
         String[] includeParams = (String[]) valueStack.findValue("includeParams");
+        String[] excludeParams = (String[]) valueStack.findValue("excludeParams");
         //create json and put it into response stream
+        JSONSerializer serializer = new JSONSerializer();
         if (includeParams != null && includeParams.length > 0) {
-            responseStream.println(new JSONSerializer().include(includeParams).exclude("class").serialize(jsonModel));
-        } else {
-            responseStream.println(new JSONSerializer().exclude("class").serialize(jsonModel));
+            serializer = serializer.include(includeParams);
         }
+        if (excludeParams != null && excludeParams.length > 0){
+            serializer = serializer.exclude(excludeParams).exclude("excludeParams");
+        }
+        responseStream.println(serializer.exclude("class").serialize(jsonModel));
     }
 }
