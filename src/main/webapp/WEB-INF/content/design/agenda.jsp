@@ -18,7 +18,7 @@
         <ul>
             <li>Talk/Review code conventions (Folder, File, Variable naming)</li>
             <li>Talk/Establish style conventions (CSS classes/id's)</li>
-            <li>Talk about current objectives. 1) We need to get basic CRUD working for main tables. Then, 2) We then need to go after our main objective for ver 0.5 "filling out qualification form"</li>
+            <li>Talk about current objectives. 1) We need to get basic CRUD working for main tables.</li>
         </ul>
     </body>
 </html>

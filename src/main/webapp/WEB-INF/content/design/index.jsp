@@ -21,18 +21,32 @@
         <s:a namespace="/design" action="design-document">Design Document</s:a> - Requirements, How realized, Test<br/>
         <s:a namespace="/design" action="conventions">Conventions</s:a> - Conventions used in the system<br/>
         <s:a namespace="/design" action="style-guide">Style Guide</s:a> - HTML, CSS and JS notes<br/>
-        <s:a namespace="/design" action="enoch-ttd">Enoch TTD</s:a> - Enochs tasks<br/>
         <s:a namespace="/design" action="ken-ttd">Ken TTD</s:a> - Kens tasks<br/>
 
         <div style="color:#FF0000">
             <h1>RED ALERT HELP SECTION</h1>
             <ul>
-                <li>Put Database back!</li>
-                <li>Fix Resume section</li>
-                <li>Qualification section</li>
-                <li>Move our main section under a development link (which only developers should be able to access)</li>
-                <li>add candidate logging</li>
-                <li>Add user log in</li>
+                <li>Fix Resume section
+                    <ul>
+                        <li>Unsaved resume lines don't sum!</li>
+                        <li>Ask the user if they want to order by date, allow role lines to be dragged into different positions</li>
+                        <li>Allow copy of months column from resume</li>
+                        <li>Have formatting rules apply to months column as well as final value</li>
+                        <li>Add formating rule for decimal years (in addition to existing: Years,Mos and Mos)</li>
+                        <li>TAGS: for roles (as opposed to "title" which is user defined) and technology</li>
+                    </ul>
+                </li>
+                <li>Qualification section
+                    <ul>
+                        <li>Set up Qual</li>
+                        <li>Associate Qual with client (client not required)</li>
+                        <li>Associate Qual with opportunity</li>
+                        <li>Associate resumes with quals (the merge)</li>
+                        <li>Reporting and Query based on merge</li>
+                    </ul>
+                </li>
+                <li>Set up role based security</li>
+                <li>Set up DB table and field level security</li>
             </ul>
             <p></p>
         </div>
