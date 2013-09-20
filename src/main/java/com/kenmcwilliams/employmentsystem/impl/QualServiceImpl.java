@@ -87,7 +87,7 @@ public class QualServiceImpl implements QualService {
             TypedQuery<Long> tq_count = em.createNamedQuery("QualLine.desirable.count", Long.class);
             count = tq_count.getSingleResult();
         }
-        qualLine.setNumber(count.intValue() + 1);
+        qualLine.setOrdinal(count.intValue() + 1);
         qualLine.setQualId(qual);
         em.persist(qualLine);
     }

@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @ParentPackage("staticParams-prepare-parms")
 @Namespace("/crud/{entityName}")
 @Result(type = "kjson") //TODO: could rid of this line by setting the result as the default for the package
-public class AddAction extends ActionSupport implements Preparable, ModelDriven {
+public class AddAction extends ActionSupport implements Preparable, ModelDriven<Object> {
 
     private static final Logger log = Logger.getLogger(AddAction.class.getName());
     @Autowired
@@ -112,7 +112,7 @@ public class AddAction extends ActionSupport implements Preparable, ModelDriven 
     @Override
     public void validate(){
         if (entityModel instanceof ActionValidateable){
-            ((ActionValidateable)entityModel).validate(this);
+            ((ActionValidateable)entityModel).validate();
         }
     }
 }

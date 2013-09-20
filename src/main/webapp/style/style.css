@@ -366,3 +366,7 @@ textarea
 .ui-dialog{
     background-color: white;
 }
+
+input.ordinal{
+    width: 3em;
+}

@@ -4,12 +4,10 @@
  */
 package com.kenmcwilliams.employmentsystem.orm;
 
-import com.opensymphony.xwork2.ActionSupport;
-
 /**
  *
  * @author ken
  */
 public interface ActionValidateable {
-    public void validate(ActionSupport validateableAction);
+    public void validate();
 }

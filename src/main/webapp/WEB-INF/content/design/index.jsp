@@ -43,6 +43,7 @@
                         <li>Associate Qual with opportunity</li>
                         <li>Associate resumes with quals (the merge)</li>
                         <li>Reporting and Query based on merge</li>
+                        <li>In qual detail get image for: del, unsaved, and saved.</li>
                     </ul>
                 </li>
                 <li>Set up role based security</li>

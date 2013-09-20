@@ -42,7 +42,8 @@ public class CrudServiceImpl implements CrudService {
     public Object create(Object entity) {
         //TODO: consider use of clazz which is not being used at all
         //TODO: add check to test that entity is a clazz or derived from clazz
-        return em.merge(entity);
+        em.persist(entity); //was merge, but had used persist, will the class now have an id. TODO: Verify this.
+        return entity;
     }
 
     @Override
@@ -77,7 +78,7 @@ public class CrudServiceImpl implements CrudService {
         }
         Object found = em.find(clazz, id);
         BeanUtils.populate(found, map);
-        em.persist(found);
+        em.merge(found); //was perist, but update should merge?
     }
 
     @Override
