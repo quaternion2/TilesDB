@@ -91,7 +91,37 @@
         </interceptors>
         <default-interceptor-ref name="staticParamsPrepareParamsStack"/>
     </package> 
-    
+    <package name="staticParams-prepare-json" extends="json-default">
+        <result-types>
+            <result-type name="kjson" default="true" class="com.kenmcwilliams.employmentsystem.result.Kjson"/>
+        </result-types>
+        <interceptors>
+            <interceptor-stack name="staticParamsPrepareJsonStack">
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="multiselect"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="json"/>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="staticParamsPrepareJsonStack"/>
+    </package>    
     <package  name="tiles-package" extends="convention-default">
         <result-types>
             <result-type default="true" name="tiles" class="com.kenmcwilliams.tiles.result.TilesResult"/>

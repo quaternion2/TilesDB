@@ -11,7 +11,6 @@ import com.opensymphony.xwork2.ModelDriven;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,8 +30,8 @@ public class Update extends ActionSupport implements ModelDriven<Candidate> {
     public String execute() {
         Map describe;
         try {
-            describe = BeanUtils.describe(model);
-            crudService.update(Candidate.class, describe);
+            //describe = BeanUtils.describe(model);
+            crudService.update(model);
         } catch (Exception ex) {
             Logger.getLogger(Update.class.getName()).log(Level.SEVERE, null, ex);
             return ERROR;

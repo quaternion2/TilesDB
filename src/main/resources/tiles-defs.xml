@@ -17,6 +17,9 @@
             <add-attribute value="/script/jquery.sort.js" />
             <add-attribute value="/script/custom/jquery-serialize.js" />
             <add-attribute value="/script/select2/select2.min.js"/>
+            <add-attribute value="/script/angularjs/1.2.0-rc.2/angular.min.js"/>
+            <add-attribute value="/script/kscripts.js"/>
+            <add-attribute value="/script/angularjs/controllers/controllers.js"/>
         </put-list-attribute>   
         <put-attribute name="title" value="defaults-name" cascade="true"  type="string"/>
         <put-attribute name="head" value="/WEB-INF/template/head.jsp"/>

@@ -9,112 +9,66 @@ import com.kenmcwilliams.employmentsystem.util.ActionUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.beanutils.BeanMap;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.apache.struts2.interceptor.ParameterAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Algorithm: 1) {entityName} is applied to the action 2) Prepare changes the
- * {entityName} into an entity object and sets ModelDrivens model 3) Parameters
- * are passed in and type conversion does what we expect 4) The ParameterAware
- * interface has trapped the parameter list, we will iterate over that list and
- * extract that parameters from the entity class and save them in "updateParams"
- * with the parameter name as the key and the entity value as the value of the
- * hash 5) The type of the entity class and the updateParams are passed to the
- * service layer to update the entity 6) If no exception is thrown return
- * "success" otherwise return "error" indicating the update failed.
  *
  * @author ken
  */
 @ParentPackage("staticParams-prepare-parms")
-@Namespace("/crud/{entityName}")
+@Namespace("/crud/{entityName}/{id}")
 @Result(type = "kjson")
 //THIS IS WRONG I need to apply the types to the entity dirrectly to get type conversion
 //Then I extract those properties into a map and sent THAT map to the service
-public class UpdateAction extends ActionSupport implements Preparable, ParameterAware, ModelDriven<Object> {
+public class UpdateAction extends ActionSupport implements Preparable, ModelDriven<Object> {
 
     private static final Logger log = Logger.getLogger(UpdateAction.class.getName());
     @Autowired
     private CrudService crudService;
     private String entityName; //entity name
-    private Object jsonModel; //for result only
-    private Object entityModel; //temp object used to ease type conversion
+    private Map jsonModel = new HashMap(); //for result only
+    private Object model; //temp object used to ease type conversion
     private Class clazz;
     private Long id;
-    private HashMap<String, Object> updateParams = new HashMap(); //for sercice layer
-    private Map<String, String[]> parameters = new HashMap();
 
     @Override
     public String execute() throws Exception {
-        //copy properties in entityModel to updateParams
-        Collection<String> keys = parameters.keySet();
-        BeanMap beanMap = new BeanMap(getEntityModel());
-        for (String key : keys) {
-            Object value = beanMap.get(key);
-            if (key == null) {
-                log.log(Level.INFO, "key is null");
-            }
-            if (value == null) {
-                log.log(Level.INFO, "value is null for key: {0}", key);
-            } else {
-                if (value.getClass() == null) {
-                    log.log(Level.INFO, "values class is null");
-                }
-                if (getEntityModel().getClass() == null) {
-                    log.log(Level.INFO, "models class is null");
-                }
-            }
-            if (value != null && getEntityModel() != null) {
-                Object[] oArr = new Object[]{key, value, value.getClass(), getEntityModel().getClass()};
-                log.log(Level.INFO, "Key: {0}, value: {1}, value_type: {2}, entityModel_type: {3}", oArr);
-                updateParams.put(key, value);
-            }
-            
-            
+        String status = SUCCESS;
+        String message = "";
+        try{
+        log.info("Entered execute(): /crud/{entityName}/{id}/UpdateAction");
+        crudService.update(model);
+        }catch (Exception e){
+            status = ERROR; 
+            message = e.getMessage();
         }
-
-        log.log(Level.INFO,
-                "crudService.update(clazz, updateParams);");
-        log.log(Level.INFO, "updateParams contains id: {0}", updateParams.get("id"));
-        crudService.update(clazz, updateParams);
+        jsonModel.put("status", status);
+        if (status.equals(ERROR)){
+            jsonModel.put("message", message);
+        }
         return SUCCESS;
     }
 
     @Override
     public Object getModel() {
-        return getEntityModel();
+        return this.model;
     }
-
-    @Override
-    public void setParameters(Map<String, String[]> parameters) {
-        this.parameters = parameters;
-        //debug
-        /**
-         * Set<String> keySet = parameters.keySet(); //Found entityName is part
-         * of the dataset! But has not values
-         *
-         * for(String key : keySet){ Collection<String[]> values =
-         * parameters.values(); System.out.println("key: " + key); for (String[]
-         * value : values){ System.out.print(" values: "); for(String string :
-         * value){ System.out.print(string + " "); } System.out.println(); }
-         * System.out.println(); }*
-         */
-    }
-
+    
     @Override
     public void prepare() throws Exception {
         log.log(Level.INFO, "In prepare entityName is set with {0}", getEntityName());
         clazz = ActionUtils.initClazz(getEntityName());
         log.log(Level.INFO, "Setting Model with {0}", clazz.toString());
-        setEntityModel(clazz.newInstance());
+        //setEntityModel(clazz.newInstance());
+        model = crudService.read(clazz, id.intValue());
+        
     }
 
     /**
@@ -122,20 +76,6 @@ public class UpdateAction extends ActionSupport implements Preparable, Parameter
      */
     public Object getJsonModel() {
         return jsonModel;
-    }
-
-    /**
-     * @param entityModel the entityModel to set
-     */
-    public void setEntityModel(Object entityModel) {
-        this.entityModel = entityModel;
-    }
-
-    /**
-     * @return the entityModel
-     */
-    public Object getEntityModel() {
-        return entityModel;
     }
 
     /**
@@ -150,5 +90,19 @@ public class UpdateAction extends ActionSupport implements Preparable, Parameter
      */
     public void setEntityName(String entityName) {
         this.entityName = entityName;
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
 }

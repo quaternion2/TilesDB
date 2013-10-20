@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author ken
+ * @author kenl
  */
 //TODO: add unit tests!!
 public class ActionUtils {

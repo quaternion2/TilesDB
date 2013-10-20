@@ -4,10 +4,8 @@
  */
 package com.kenmcwilliams.employmentsystem.batch;
 
-import com.kenmcwilliams.employmentsystem.service.CheckAPCService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**

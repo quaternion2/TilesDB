@@ -67,19 +67,18 @@
     <!-- was org.springframework.scheduling.quartz.SimpleTriggerFactoryBean -->
     <bean id="myCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="jobDetail"/>
-        <!-- warning for cron see: http://www.quartz-scheduler.org/api/2.1.0/org/quartz/CronExpression.html -->
-        <!-- second, minute, hour, day, month, weekday. -->
         <property name="cronExpression" value="3 3/15 7-18 ? * MON-FRI"/>
-        <!--property name="repeatInterval" value="900000" /--> <!--every 15 min-->
-        <!--property name="startDelay" value="60000" /--> <!--start after 1 min -->
     </bean>
-        
+     
+    <!-- Comment this to prevent checking APC -->
+    <!--   
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="myCronTrigger" />
             </list>
         </property>
-    </bean>   
+    </bean>
+    -->   
 </beans>
 

@@ -21,7 +21,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,7 +61,13 @@ public class CrudServiceImpl implements CrudService {
         em.detach(entity);
         return entity;
     }
-
+    
+    @Override
+    public void update(Object entity){
+        em.merge(entity);
+    }
+    
+/*
     @Override
     public void update(Class clazz, Map map) throws Exception {
         Integer id;
@@ -80,6 +85,7 @@ public class CrudServiceImpl implements CrudService {
         BeanUtils.populate(found, map);
         em.merge(found); //was perist, but update should merge?
     }
+*/
 
     @Override
     public void delete(Class clazz, Integer id) {

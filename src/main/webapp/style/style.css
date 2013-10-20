@@ -370,3 +370,28 @@ textarea
 input.ordinal{
     width: 3em;
 }
+
+.del-line{
+    background-image:url("/EmplymentSystem/style/image/delete.png");
+    width: 24px;
+     height: 24px;
+     background-repeat: no-repeat;
+     border-style: none;
+}
+
+.saved-true{
+    background-image:url("/EmplymentSystem/style/image/checkmark_green_32.png");
+    width: 32px;
+     height: 32px;
+     background-repeat: no-repeat;
+     border-style: none;
+}
+
+
+.saved-false{
+    background-image:url("/EmplymentSystem/style/image/checkmark_yellow_32.png");
+    width: 32px;
+    height:32px;
+    background-repeat: no-repeat;
+    border-style: none;
+}
